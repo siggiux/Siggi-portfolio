@@ -1,93 +1,154 @@
-* {
+/* ================================
+   GLOBAL
+================================ */
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
 body {
-  font-family: 'DM Sans', sans-serif;
-  color: #1a1a1a;
-  background-color: #ffffff;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--color-text-1);
+  background-color: var(--color-bg);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
 }
 
+/* ================================
+   LAYOUT
+================================ */
+.page {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+}
+
+/* ================================
+   NAV
+================================ */
 nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem 2rem;
-  border-bottom: 0.5px solid #e0e0e0;
-}
-
-nav ul {
-  display: flex;
-  gap: 2rem;
-  list-style: none;
-}
-
-nav a {
-  text-decoration: none;
-  color: #6b6b6b;
-  font-size: 14px;
-}
-
-nav a:hover {
-  color: #1a1a1a;
-}
-
-main {
-  max-width: 860px;
-  margin: 0 auto;
-  padding: 0 2rem;
-}
-
-section {
-  padding: 5rem 0;
-  border-bottom: 0.5px solid #e0e0e0;
-}
-
-section p:first-child {
-  font-size: 12px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #a0a0a0;
-  margin-bottom: 1.5rem;
-}
-
-section h1 {
-  font-family: 'DM Serif Display', serif;
-  font-size: 64px;
-  font-weight: 400;
-  letter-spacing: -2px;
-  line-height: 1.05;
-  margin-bottom: 1.5rem;
-}
-
-section p {
-  font-size: 16px;
-  color: #6b6b6b;
-  line-height: 1.7;
-  max-width: 500px;
-  margin-bottom: 2rem;
+  padding: var(--space-lg) 0;
+  border-bottom: 0.5px solid var(--color-border);
+  margin-bottom: var(--space-xl);
 }
 
 .logo {
-  font-family: 'DM Serif Display', serif;
-  font-size: 20px;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  color: var(--color-text-1);
   text-decoration: none;
-  color: #1a1a1a;
 }
 
+.nav-links {
+  display: flex;
+  gap: var(--space-lg);
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: var(--text-sm);
+  color: var(--color-text-2);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--color-text-1); }
+
+/* ================================
+   HERO
+================================ */
+.hero {
+  padding: var(--space-xl) 0;
+  border-bottom: 0.5px solid var(--color-border);
+  margin-bottom: var(--space-xl);
+}
+
+.hero-label {
+  font-size: var(--text-xs);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-3);
+  margin-bottom: var(--space-lg);
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 400;
+  letter-spacing: -2px;
+  line-height: 1.05;
+  margin-bottom: var(--space-lg);
+  max-width: 680px;
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--color-text-2);
+}
+
+.hero p {
+  font-size: var(--text-base);
+  color: var(--color-text-2);
+  line-height: 1.8;
+  max-width: 500px;
+}
+
+/* ================================
+   SECTIONS
+================================ */
+.section {
+  padding: var(--space-xl) 0;
+  border-bottom: 0.5px solid var(--color-border);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: var(--space-lg);
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 400;
+  letter-spacing: -0.5px;
+}
+
+.section-count {
+  font-size: var(--text-sm);
+  color: var(--color-text-3);
+}
+
+/* ================================
+   BUTTONS
+================================ */
 .btn {
   display: inline-block;
-  font-size: 14px;
+  font-size: var(--text-sm);
+  font-family: var(--font-body);
   padding: 10px 22px;
-  border: 0.5px solid #1a1a1a;
-  border-radius: 100px;
-  color: #1a1a1a;
+  border: 0.5px solid var(--color-text-1);
+  border-radius: var(--radius-full);
+  color: var(--color-text-1);
   text-decoration: none;
   transition: background-color 0.2s;
 }
 
-.btn:hover {
-  background-color: #f7f7f5;
+.btn:hover { background-color: var(--color-border); }
+
+/* ================================
+   FOOTER
+================================ */
+footer {
+  padding: var(--space-lg) 0;
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--text-sm);
+  color: var(--color-text-3);
 }

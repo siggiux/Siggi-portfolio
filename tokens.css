@@ -1,0 +1,48 @@
+/* ================================
+   SIGGI — DESIGN TOKENS
+   The single source of truth for
+   all visual decisions.
+================================ */
+
+:root {
+
+  /* FONTS */
+  --font-display: 'DM Serif Display', serif;
+  --font-body: 'DM Sans', sans-serif;
+
+  /* TYPE SCALE */
+  --text-xs:   11px;
+  --text-sm:   13px;
+  --text-base: 16px;
+  --text-lg:   20px;
+  --text-xl:   32px;
+  --text-2xl:  48px;
+  --text-3xl:  64px;
+
+  /* COLORS */
+  --color-bg:        #ffffff;
+  --color-text-1:    #1a1a1a;
+  --color-text-2:    #6b6b6b;
+  --color-text-3:    #a0a0a0;
+  --color-border:    #e8e8e8;
+  --color-accent:    #1a1a1a; /* placeholder — update when decided */
+
+  /* SPACING */
+  --space-xs:  4px;
+  --space-sm:  8px;
+  --space-md:  16px;
+  --space-lg:  32px;
+  --space-xl:  64px;
+  --space-2xl: 128px;
+
+  /* BORDER RADIUS */
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-xl:   16px;
+  --radius-full: 100px;
+
+  /* LAYOUT */
+  --max-width: 860px;
+
+}

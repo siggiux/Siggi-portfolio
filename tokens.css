@@ -1,31 +1,30 @@
 /* ================================
    SIGGI — DESIGN TOKENS
-   The single source of truth for
-   all visual decisions.
 ================================ */
 
 :root {
-
   /* FONTS */
-  --font-display: 'DM Serif Display', serif;
-  --font-body: 'DM Sans', sans-serif;
+  --font-display: 'Familjen Grotesk', sans-serif;
+  --font-body:    'Familjen Grotesk', sans-serif;
 
   /* TYPE SCALE */
   --text-xs:   11px;
   --text-sm:   13px;
   --text-base: 16px;
-  --text-lg:   20px;
-  --text-xl:   32px;
+  --text-lg:   17px;
+  --text-xl:   26px;
   --text-2xl:  48px;
-  --text-3xl:  64px;
+  --text-3xl:  72px;
 
-  /* COLORS */
+  /* COLORS — light mode */
   --color-bg:        #ffffff;
+  --color-bg-2:      #f5f5f5;
   --color-text-1:    #1a1a1a;
   --color-text-2:    #6b6b6b;
   --color-text-3:    #a0a0a0;
   --color-border:    #e8e8e8;
-  --color-accent:    #1a1a1a; /* placeholder — update when decided */
+  --color-accent:    #dd2f20;
+  --color-btn-hover: #e2e1df;
 
   /* SPACING */
   --space-xs:  4px;
@@ -39,10 +38,27 @@
   --radius-sm:   4px;
   --radius-md:   8px;
   --radius-lg:   12px;
-  --radius-xl:   16px;
+  --radius-xl:   20px;
   --radius-full: 100px;
 
   /* LAYOUT */
-  --max-width: 860px;
+  --max-width:         1200px;
+  --max-width-content: 800px;
 
+  /* CARD */
+  --card-height: 520px;
+  --card-bg:     var(--color-accent);
+}
+
+/* ================================
+   DARK MODE TOKENS
+================================ */
+body.dark {
+  --color-bg:        #111110;
+  --color-bg-2:      #1a1a18;
+  --color-text-1:    #f0efea;
+  --color-text-2:    #999892;
+  --color-text-3:    #555450;
+  --color-border:    #2a2a28;
+  --color-btn-hover: #2a2a28;
 }

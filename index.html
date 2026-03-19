@@ -1,58 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="tokens.css" />
-    <link rel="stylesheet" href="style.css" />
-    <title>Siggi — UX Designer</title>
-  </head>
-  <body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Siggi — UX Designer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="tokens.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
 
-    <div class="page">
+  <!-- Custom cursor -->
+  <div class="cursor" id="cursor">
+    <div class="cursor-inner">View project</div>
+  </div>
 
-      <nav>
-        <a class="logo" href="index.html">Siggi</a>
+  <div class="page">
+
+    <nav>
+      <a class="nav-logo" href="index.html">Siggi</a>
+      <div class="nav-right">
         <ul class="nav-links">
           <li><a href="#work">Work</a></li>
           <li><a href="#about">About</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
-      </nav>
 
-      <main>
+        <!-- Dark mode toggle -->
+        <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle dark mode">
+          <!-- Moon — shown in light mode -->
+          <svg id="icon-moon" viewBox="0 0 24 24">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <!-- Sun — shown in dark mode -->
+          <svg id="icon-sun" viewBox="0 0 24 24" style="display:none;">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
 
-        <section class="hero" id="work">
-          <p class="hero-label">UX Designer</p>
-          <h1>I got into UX by building<br>something that <em>failed.</em><br>Best thing that ever happened.</h1>
-          <p>I'm Siggi — a UX designer with a background in marketing and hands-on product work from running my own startup. That combination shapes how I design: I care about the user and the business in equal measure.</p>
-        </section>
+      </div>
+    </nav>
 
-        <section class="section" id="about">
-          <div class="section-header">
-            <h2 class="section-title">About</h2>
+    <div class="hero">
+      <p class="hero-label">UX Designer</p>
+      <h1>I got into UX by building<br>something that failed.<br>Best thing that ever happened.</h1>
+      <p class="hero-sub">I'm Siggi — a UX designer with a background in marketing and hands-on product work from running my own startup. I care about the user and the business in equal measure.</p>
+    </div>
+
+    <div class="work-header" id="work">
+      <span class="work-title">Selected work</span>
+      <span class="work-count">2 case studies</span>
+    </div>
+
+    <div class="cards">
+
+      <!-- CARD 1 -->
+      <a class="card" href="case-study-1.html">
+        <div class="card-bg"></div>
+        <div class="card-img">
+          <img src="images/thumbnail-1.png" alt="Last-minute experiences startup">
+        </div>
+        <div class="card-overlay"></div>
+        <span class="card-number">01</span>
+        <div class="card-bottom">
+          <div class="card-title">Last-minute experiences — startup</div>
+          <div class="card-tags">
+            <span class="card-tag">Product design</span>
+            <span class="card-tag">Startup</span>
+            <span class="card-tag">Web app</span>
+            <span class="card-tag">2024</span>
           </div>
-          <p>I spent years in marketing understanding what makes people tick — now I apply that same curiosity to design. Hyper Island graduate, currently building my practice one project at a time.</p>
-        </section>
+        </div>
+      </a>
 
-        <section class="section" id="contact">
-          <div class="section-header">
-            <h2 class="section-title">Get in touch</h2>
+      <!-- CARD 2 -->
+      <a class="card" href="case-study-2.html">
+        <div class="card-bg"></div>
+        <div class="card-img">
+          <img src="images/thumbnail-2.png" alt="Case study 2">
+        </div>
+        <div class="card-overlay"></div>
+        <span class="card-number">02</span>
+        <div class="card-bottom">
+          <div class="card-title">Case study title goes here</div>
+          <div class="card-tags">
+            <span class="card-tag">UX Research</span>
+            <span class="card-tag">Mobile</span>
+            <span class="card-tag">2025</span>
           </div>
-          <a href="mailto:siggi@email.com">siggi@email.com</a>
-        </section>
-
-      </main>
-
-      <footer>
-        <span>Siggi — UX Designer</span>
-        <span>2026</span>
-      </footer>
+        </div>
+      </a>
 
     </div>
 
-  </body>
+    <footer>
+      <span>Siggi — UX Designer</span>
+      <span>2026</span>
+    </footer>
+
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
 </html>

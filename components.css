@@ -1,0 +1,131 @@
+/* ================================
+   COMPONENTS.CSS
+   Reusable components shared
+   across all pages.
+================================ */
+
+/* ── Nav ── */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 0;
+  border-bottom: 0.5px solid var(--color-border);
+  transition: border-color 0.3s;
+}
+
+.nav-logo {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--color-text-1);
+  text-decoration: none;
+  letter-spacing: -0.5px;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.nav-links {
+  display: flex;
+  gap: var(--space-lg);
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: var(--text-sm);
+  color: var(--color-text-2);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--color-text-1); }
+
+/* ── Theme toggle ── */
+.theme-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  border: none;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s;
+  color: var(--color-text-2);
+  flex-shrink: 0;
+}
+
+.theme-btn:hover { background: var(--color-btn-hover); }
+
+.theme-btn svg {
+  width: 22px;
+  height: 22px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  display: block;
+}
+
+/* ── Footer ── */
+footer {
+  padding: 24px 0;
+  margin-top: 48px;
+  border-top: 0.5px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--text-sm);
+  color: var(--color-text-3);
+  transition: border-color 0.3s;
+}
+
+/* ── Custom cursor ── */
+.cursor {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.2s;
+}
+
+.cursor-inner {
+  background: #ffffff;
+  color: var(--color-text-1);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 10px 18px;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+}
+
+/* ── Section label ── */
+.section-label {
+  font-size: var(--text-xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-3);
+  margin-bottom: 12px;
+}
+
+/* ── Divider ── */
+.divider {
+  border: none;
+  border-top: 0.5px solid var(--color-border);
+  margin: 0;
+  transition: border-color 0.3s;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .cursor { display: none; }
+  .nav-links { gap: var(--space-md); }
+}

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23dd2f20'/></svg>">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hot Tickets — Siggi UX</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="tokens.css" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="components.css" />
+  <link rel="stylesheet" href="case-study.css" />
+</head>
+<body>
+
+  <div class="page page--case-study">
+
+    <!-- NAV -->
+    <nav>
+      <a class="nav-logo" href="index.html">Siggi</a>
+      <div class="nav-right">
+        <ul class="nav-links">
+          <li><a href="index.html">Work</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+        <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle dark mode">
+          <svg id="icon-moon" viewBox="0 0 24 24">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <svg id="icon-sun" viewBox="0 0 24 24" style="display:none;">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- HERO — full width, no sidebar -->
+    <div class="cs-hero">
+      <p class="section-label">Case study · 2024</p>
+      <h1 class="cs-title">Operator portal for<br>discount management</h1>
+      <p class="cs-subtitle">Hot Tickets, my startup, needed a way to let tour operators manage last-minute discounts independently. This is the product I designed to solve that.</p>
+      <div class="cs-meta">
+        <div class="cs-meta-item">
+          <p class="cs-meta-label">Role</p>
+          <p class="cs-meta-value">Product Designer</p>
+        </div>
+        <div class="cs-meta-item">
+          <p class="cs-meta-label">Timeline</p>
+          <p class="cs-meta-value">January – June 2025</p>
+        </div>
+        <div class="cs-meta-item">
+          <p class="cs-meta-label">Company</p>
+          <p class="cs-meta-value">Hot Tickets</p>
+        </div>
+        <div class="cs-meta-item">
+          <p class="cs-meta-label">Skills</p>
+          <p class="cs-meta-value">UX/UI · Product strategy</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- HERO IMAGE — full width, no sidebar -->
+    <div class="cs-hero-img">
+      <img src="images/case-study-1/hero.png" alt="Discount management portal">
+    </div>
+    <p class="cs-cover-caption">Discount management portal — desktop</p>
+
+    <!-- TWO COLUMN LAYOUT — TOC + content -->
+    <div class="content-wrap">
+
+      <!-- STICKY TABLE OF CONTENTS -->
+      <aside class="toc">
+        <ul class="toc-list">
+          <li class="toc-item" data-section="overview">
+            <a href="#overview">Overview</a>
+          </li>
+          <li class="toc-item" data-section="preview">
+            <a href="#preview">Product preview</a>
+          </li>
+          <li class="toc-item" data-section="brief">
+            <a href="#brief">Product brief</a>
+          </li>
+          <li class="toc-item" data-section="research">
+            <a href="#research">Research</a>
+          </li>
+          <li class="toc-item" data-section="mapping">
+            <a href="#mapping">System mapping</a>
+          </li>
+          <li class="toc-item" data-section="process">
+            <a href="#process">Design process</a>
+          </li>
+          <li class="toc-item" data-section="designs">
+            <a href="#designs">Final designs</a>
+          </li>
+        </ul>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <div class="main-content">
+
+        <!-- SECTION 1 — OVERVIEW -->
+        <section class="cs-section" id="overview">
+          <p class="section-label">01 — Overview</p>
+          <h2 class="cs-section-title">Designing an operator portal that enables tour operators to manage last-minute discounts at scale.</h2>
+          <div class="cs-body">
+            <p>Hot Tickets, a company I co-founded, is a marketplace for bookable tourism experiences in Iceland. It connects travellers with last-minute discounted tours from local tour operators.</p>
+            <p>To sell these tours, we relied on availability data from Bókun, the industry standard platform where tour operators manage pricing and inventory. Depending on Bókun's limited discount tools became a bottleneck that slowed our growth.</p>
+            <p>To scale the business, I designed a dedicated portal where discounts could be managed. This case study walks through the process behind designing that operator portal.</p>
+          </div>
+        </section>
+
+        <!-- SECTION 2 — PRODUCT PREVIEW -->
+        <section class="cs-section" id="preview">
+          <p class="section-label">02 — Product preview</p>
+          <h2 class="cs-section-title">The final designs.</h2>
+          <p class="cs-section-intro">See the finished product before diving into the process.</p>
+          <div class="cs-preview-placeholder">Device viewer — coming soon</div>
+        </section>
+
+        <!-- SECTION 3 — PRODUCT BRIEF -->
+        <section class="cs-section" id="brief">
+          <p class="section-label">03 — Product brief</p>
+          <h2 class="cs-section-title">Replacing a fragile setup to enable Hot Tickets to scale.</h2>
+          <div class="cs-body">
+            <p>As we aimed to grow the company, relying on Bókun's built-in discount tooling became a limiting factor. Discounts, a core part of our business model, were configured inside a system we did not control, using workflows that were confusing for operators and often required hands-on, in-person support.</p>
+            <p>This setup worked initially but did not scale. Expanding into new markets made it clear that Hot Tickets needed a dedicated operator-facing web application.</p>
+          </div>
+          <div class="cs-goals">
+            <div class="cs-goals-col">
+              <p class="cs-goals-label">Goals</p>
+              <ul class="cs-goals-list">
+                <li>Increase trust in the operator onboarding process</li>
+                <li>Enable simple, self-service discount setup for non-technical operators</li>
+                <li>Give operators clear visibility into discount impact and performance</li>
+              </ul>
+            </div>
+            <div class="cs-goals-col">
+              <p class="cs-goals-label cs-goals-label--constraints">Constraints</p>
+              <ul class="cs-goals-list cs-goals-list--constraints">
+                <li>Bókun remained the system of record for inventory and bookings</li>
+                <li>Integration had to work within Bókun's API limitations</li>
+                <li>Limited development resources required pragmatic scope decisions</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 4 — RESEARCH -->
+        <section class="cs-section" id="research">
+          <p class="section-label">04 — Research</p>
+          <h2 class="cs-section-title">Using research to understand the domain and identify risk.</h2>
+          <p class="cs-section-intro">The purpose of the research phase was to ensure the operator portal would cover all essential needs, while also validating where deeper, insight-driven design was required.</p>
+          <div class="cs-accordion">
+
+            <div class="cs-accordion-item">
+              <button class="cs-accordion-btn" onclick="toggleAccordion(this)">
+                <span class="cs-accordion-num">1</span>
+                <span class="cs-accordion-title">Problem space breakdown</span>
+                <span class="cs-accordion-arrow">↓</span>
+              </button>
+              <div class="cs-accordion-body">
+                <p>To ensure that research addressed the full scope of the product I started by clustering the problem space into key topic areas. This ensured that research addressed the full scope of the product.</p>
+              </div>
+            </div>
+
+            <div class="cs-accordion-item">
+              <button class="cs-accordion-btn" onclick="toggleAccordion(this)">
+                <span class="cs-accordion-num">2</span>
+                <span class="cs-accordion-title">Knowns vs unknowns</span>
+                <span class="cs-accordion-arrow">↓</span>
+              </button>
+              <div class="cs-accordion-body">
+                <p>I then mapped out what was already known based on operating Hot Tickets and onboarding operators, and contrasted this with what still needed to be learned.</p>
+              </div>
+            </div>
+
+            <div class="cs-accordion-item">
+              <button class="cs-accordion-btn" onclick="toggleAccordion(this)">
+                <span class="cs-accordion-num">3</span>
+                <span class="cs-accordion-title">Research questions</span>
+                <span class="cs-accordion-arrow">↓</span>
+              </button>
+              <div class="cs-accordion-body">
+                <p>I then turned my "need to learn" column into research questions. These were the high-level questions my research needed to answer.</p>
+              </div>
+            </div>
+
+            <div class="cs-accordion-item">
+              <button class="cs-accordion-btn" onclick="toggleAccordion(this)">
+                <span class="cs-accordion-num">4</span>
+                <span class="cs-accordion-title">Qualitative research</span>
+                <span class="cs-accordion-arrow">↓</span>
+              </button>
+              <div class="cs-accordion-body">
+                <p>Research was conducted through three qualitative interviews with tour operators. I intentionally selected operators with different business profiles to better represent the diversity of Hot Tickets's partner base.</p>
+                <p>These interviews were complemented by ongoing observational research through real onboarding sessions, support conversations, and email exchanges with operators. In parallel, desk research and hands-on exploration of Bókun were used to understand existing workflows, system behavior, and technical constraints.</p>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- SECTION 5 — SYSTEM MAPPING -->
+        <section class="cs-section" id="mapping">
+          <p class="section-label">05 — System mapping</p>
+          <h2 class="cs-section-title">Mapping the portal as a complete system before designing any screens.</h2>
+          <div class="cs-body">
+            <p>With research in place, the next step was to map the operator portal as a complete system. The goal at this stage was to understand everything operators needed to do for the product to work end to end, before focusing on individual solutions.</p>
+            <p>This mapping exercise made it clear which parts of the product were largely conventional and could rely on established patterns, and which areas carried higher uncertainty. The discount creation flow emerged as the most complex and business-critical part of the system.</p>
+          </div>
+          <div class="cs-image-placeholder">System map — export from Figma</div>
+        </section>
+
+        <!-- SECTION 6 — DESIGN PROCESS -->
+        <section class="cs-section" id="process">
+          <p class="section-label">06 — Design process</p>
+          <h2 class="cs-section-title">From insights to wireframes.</h2>
+          <div class="cs-body">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          </div>
+          <div class="cs-image-placeholder">Process images — task flows, user flows, wireframes</div>
+        </section>
+
+        <!-- SECTION 7 — FINAL DESIGNS -->
+        <section class="cs-section" id="designs">
+          <p class="section-label">07 — Final designs</p>
+          <h2 class="cs-section-title">The finished product.</h2>
+          <p class="cs-section-intro">The discount creation and management flow — designed for both desktop and mobile.</p>
+          <div class="cs-preview-placeholder">Device viewer — desktop / mobile / light / dark</div>
+        </section>
+
+        <!-- FOOTER NAV -->
+        <div class="cs-footer-nav">
+          <a class="cs-footer-back" href="index.html">← Back to work</a>
+          <a class="cs-footer-next" href="case-study-2.html">Next case study →</a>
+        </div>
+
+      </div>
+    </div>
+
+    <footer>
+      <span>Siggi — UX Designer</span>
+      <span>2026</span>
+    </footer>
+
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+</html>

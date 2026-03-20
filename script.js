@@ -45,3 +45,43 @@ cards.forEach(function(card) {
     cursor.style.opacity = '0';
   });
 });
+
+/* ── Accordion ── */
+function toggleAccordion(btn) {
+  const body = btn.nextElementSibling;
+  const isOpen = body.classList.contains('open');
+
+  // Close all open items first
+  document.querySelectorAll('.cs-accordion-body').forEach(b => b.classList.remove('open'));
+  document.querySelectorAll('.cs-accordion-btn').forEach(b => b.classList.remove('open'));
+
+  // Open clicked item if it was closed
+  if (!isOpen) {
+    body.classList.add('open');
+    btn.classList.add('open');
+  }
+}
+
+/* ── Table of contents — Intersection Observer ── */
+const sections = document.querySelectorAll('.cs-section');
+const tocItems = document.querySelectorAll('.toc-item');
+
+if (sections.length > 0 && tocItems.length > 0) {
+  const tocObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id');
+        tocItems.forEach(function(item) {
+          item.classList.remove('active');
+          if (item.dataset.section === id) {
+            item.classList.add('active');
+          }
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  sections.forEach(function(section) {
+    tocObserver.observe(section);
+  });
+}

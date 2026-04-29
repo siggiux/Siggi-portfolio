@@ -1,0 +1,144 @@
+/* ============================================================
+   Design Viewer Component
+   All styles namespaced with .dv- and scoped under .design-viewer
+   so the component can't leak into surrounding case study styles.
+   ============================================================ */
+
+.design-viewer { width: 100%; max-width: 900px; margin: 0 auto; }
+
+/* ---------- Controls bar (above stage) ---------- */
+.design-viewer .dv-controls { display: flex; justify-content: space-between; align-items: center; padding: 0 0 12px 0; }
+
+.design-viewer .dv-group { display: flex; position: relative; border: 0.5px solid #d0d0ce; border-radius: 100px; background: #eaeae8; padding: 2px; transition: transform 0.15s cubic-bezier(0.32, 0.72, 0, 1); }
+.design-viewer .dv-group:active { transform: scale(0.97); }
+
+/* Sliding active pill */
+.design-viewer .dv-group::before {
+  content: '';
+  position: absolute;
+  top: 2px; bottom: 2px;
+  left: 2px;
+  width: calc(50% - 2px);
+  background: #1a1a1a;
+  border-radius: 100px;
+  transform: translateX(0);
+  transition: transform 0.28s cubic-bezier(0.32, 0.72, 0, 1);
+  z-index: 0;
+}
+.design-viewer .dv-group[data-active="1"]::before { transform: translateX(calc(100% + 0px)); }
+
+.design-viewer .dv-btn {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  font-family: inherit;
+  padding: 7px 16px;
+  border: none;
+  background: transparent;
+  color: #888;
+  cursor: pointer;
+  font-weight: 400;
+  white-space: nowrap;
+  flex: 1;
+  justify-content: center;
+  transition: color 0.28s cubic-bezier(0.32, 0.72, 0, 1);
+}
+/* Hover surface */
+.design-viewer .dv-btn::before {
+  content: '';
+  position: absolute;
+  top: 2px; bottom: 2px;
+  left: 4px; right: 4px;
+  border-radius: 100px;
+  background: #d8d8d4;
+  opacity: 0;
+  transition: opacity 0.2s cubic-bezier(0.32, 0.72, 0, 1);
+  z-index: -1;
+}
+.design-viewer .dv-btn:not(.is-active):hover { color: #1a1a1a; }
+.design-viewer .dv-btn:not(.is-active):hover::before { opacity: 1; }
+.design-viewer .dv-btn.is-active { color: #ffffff; }
+.design-viewer .dv-btn svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.28s cubic-bezier(0.32, 0.72, 0, 1); }
+
+/* ---------- Stage ---------- */
+.design-viewer .dv-stage { background: #2a2a28; height: min(520px, 70vh); border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 28px 40px 36px; gap: 16px; position: relative; transition: background 0.15s; }
+
+/* Light stage state (active when viewing dark designs) */
+.design-viewer .dv-stage.is-light-stage { background: #e8e8e4; }
+
+/* ---------- Desktop view ---------- */
+.design-viewer .dv-desktop-view { width: 88%; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.design-viewer .dv-desktop-screen { width: 100%; border-radius: 10px; overflow: hidden; box-shadow: 0 12px 40px rgba(0,0,0,0.5); flex-shrink: 0; transition: box-shadow 0.2s; }
+.design-viewer .dv-desktop-screen img { width: 100%; aspect-ratio: 16/10; object-fit: cover; display: block; }
+
+/* ---------- Mobile view ---------- */
+.design-viewer .dv-mobile-view { display: none; gap: 14px; justify-content: center; align-items: center; width: 100%; flex: 1; min-height: 0; padding: 8px 0; }
+.design-viewer .dv-phone { flex-shrink: 0; width: 185px; background: #111; border-radius: 28px; border: 5px solid #3a3a38; box-shadow: 0 8px 24px rgba(0,0,0,0.2); overflow: hidden; position: relative; max-height: 100%; transition: box-shadow 0.2s; }
+.design-viewer .dv-phone::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 40px; height: 9px; background: #111; border-radius: 0 0 9px 9px; z-index: 10; }
+.design-viewer .dv-phone-screen { width: 100%; aspect-ratio: 9/19.5; background: #e8e8e6; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #aaa; text-transform: uppercase; letter-spacing: 0.06em; overflow: hidden; position: relative; }
+.design-viewer .dv-phone-screen img { width: 100%; height: 100%; object-fit: cover; display: block; position: absolute; top: 0; left: 0; }
+.design-viewer .dv-phone.is-hidden { display: none; }
+
+/* Soft shadows when on light stage */
+.design-viewer .dv-stage.is-light-stage .dv-desktop-screen { box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+.design-viewer .dv-stage.is-light-stage .dv-phone { box-shadow: 0 6px 16px rgba(0,0,0,0.10); }
+
+/* ---------- Nav arrows + counter ---------- */
+.design-viewer .dv-nav { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; flex-shrink: 0; }
+.design-viewer .dv-arrow { width: 32px; height: 32px; border-radius: 50%; border: 0.5px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.08); color: #ffffff; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background 0.2s cubic-bezier(0.32, 0.72, 0, 1), border-color 0.2s cubic-bezier(0.32, 0.72, 0, 1), transform 0.15s cubic-bezier(0.32, 0.72, 0, 1); padding: 0; }
+.design-viewer .dv-arrow svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; display: block; transition: transform 0.2s cubic-bezier(0.32, 0.72, 0, 1); }
+.design-viewer .dv-arrow:hover:not(:disabled) { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.32); }
+.design-viewer .dv-arrow.is-prev:hover:not(:disabled) svg { transform: translateX(-1.5px); }
+.design-viewer .dv-arrow.is-next:hover:not(:disabled) svg { transform: translateX(1.5px); }
+.design-viewer .dv-arrow:active:not(:disabled) { transform: scale(0.92); }
+.design-viewer .dv-arrow:disabled { opacity: 0.25; cursor: default; }
+.design-viewer .dv-counter { font-size: 11px; color: rgba(255,255,255,0.3); min-width: 48px; text-align: center; transition: color 0.2s ease; }
+
+/* Light stage recolor for arrows + counter */
+.design-viewer .dv-stage.is-light-stage .dv-arrow,
+.design-viewer .dv-stage.is-light-stage .dv-fs-btn { border-color: rgba(0,0,0,0.15); background: rgba(0,0,0,0.06); color: #1a1a1a; }
+.design-viewer .dv-stage.is-light-stage .dv-arrow:hover:not(:disabled),
+.design-viewer .dv-stage.is-light-stage .dv-fs-btn:hover { background: rgba(0,0,0,0.14); }
+.design-viewer .dv-stage.is-light-stage .dv-counter { color: rgba(0,0,0,0.45); }
+
+/* ---------- Fullscreen button ---------- */
+.design-viewer .dv-fs-btn { position: absolute; bottom: 12px; right: 12px; width: 32px; height: 32px; border-radius: 8px; border: 0.5px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.08); color: #ffffff; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background 0.2s cubic-bezier(0.32, 0.72, 0, 1), border-color 0.2s cubic-bezier(0.32, 0.72, 0, 1), transform 0.15s cubic-bezier(0.32, 0.72, 0, 1); padding: 0; z-index: 6; }
+.design-viewer .dv-fs-btn:hover { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.32); }
+.design-viewer .dv-fs-btn:active { transform: scale(0.92); }
+.design-viewer .dv-fs-btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.design-viewer .dv-fs-btn .dv-icon-collapse { display: none; }
+
+/* Icon swap when fullscreen */
+.design-viewer .dv-stage.is-fullscreen .dv-fs-btn .dv-icon-expand,
+.design-viewer .dv-stage:fullscreen .dv-fs-btn .dv-icon-expand { display: none; }
+.design-viewer .dv-stage.is-fullscreen .dv-fs-btn .dv-icon-collapse,
+.design-viewer .dv-stage:fullscreen .dv-fs-btn .dv-icon-collapse { display: block; }
+
+/* ---------- Fullscreen overlay toggles (top corners) ---------- */
+.design-viewer .dv-fs-overlay { display: none; position: absolute; top: 16px; left: 16px; right: 16px; justify-content: space-between; align-items: center; pointer-events: none; z-index: 5; }
+.design-viewer .dv-fs-overlay > * { pointer-events: auto; }
+.design-viewer .dv-stage.is-fullscreen .dv-fs-overlay,
+.design-viewer .dv-stage:fullscreen .dv-fs-overlay { display: flex; }
+
+/* ---------- Fullscreen layout (CSS fallback + native) ---------- */
+.design-viewer .dv-stage.is-fullscreen { position: fixed; inset: 0; z-index: 9999; height: 100vh; width: 100vw; border-radius: 0; padding: 72px 64px 56px; }
+.design-viewer .dv-stage.is-fullscreen .dv-desktop-view { width: 100%; max-width: 1400px; }
+.design-viewer .dv-stage.is-fullscreen .dv-phone { width: auto; height: 70%; }
+.design-viewer .dv-stage.is-fullscreen .dv-phone .dv-phone-screen { width: auto; height: 100%; aspect-ratio: 9/19.5; }
+
+.design-viewer .dv-stage:fullscreen { padding: 72px 64px 56px; border-radius: 0; }
+.design-viewer .dv-stage:fullscreen .dv-desktop-view { width: 100%; max-width: 1400px; }
+.design-viewer .dv-stage:fullscreen .dv-phone { width: auto; height: 70%; }
+.design-viewer .dv-stage:fullscreen .dv-phone .dv-phone-screen { width: auto; height: 100%; aspect-ratio: 9/19.5; }
+
+/* ---------- Responsive (≤ 768px) ---------- */
+@media (max-width: 768px) {
+  .design-viewer .dv-stage { padding: 20px 20px 16px; height: min(560px, 75vh); }
+  .design-viewer .dv-desktop-view { width: 100%; }
+  .design-viewer .dv-phone { width: auto; height: 100%; }
+  .design-viewer .dv-phone .dv-phone-screen { width: auto; height: 100%; aspect-ratio: 9/19.5; }
+  .design-viewer .dv-controls { gap: 8px; flex-wrap: wrap; }
+}

@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="components.css" />
   <link rel="stylesheet" href="case-study.css" />
+  <link rel="stylesheet" href="viewer.css">
 </head>
 <body>
 
@@ -120,12 +121,17 @@
           </div>
         </section>
 
-        <!-- SECTION 2 — PRODUCT PREVIEW -->
+       <!-- SECTION 2 — PRODUCT PREVIEW -->
         <section class="cs-section" id="preview">
           <p class="section-label">02 — Product preview</p>
-          <h2 class="cs-section-title">The final designs.</h2>
-          <p class="cs-section-intro">See the finished product before diving into the process.</p>
-          <div class="cs-preview-placeholder">Device viewer — coming soon</div>
+          <h2 class="cs-section-title">A first look at the operator portal.</h2>
+          <div class="design-viewer"
+            data-base="images/case-study-1"
+            data-desktop-light="01-light-discount-list,02-light-discount-empty,03-light-discount-new-rule"
+            data-desktop-dark="01-dark-discount-list,02-dark-discount-empty,03-dark-discount-new-rule"
+            data-mobile-light="01-light-screen,02-light-screen,03-light-screen,04-light-screen,05-light-screen,06-light-screen"
+            data-mobile-dark="01-dark-screen,02-dark-screen,03-dark-screen,04-dark-screen,05-dark-screen,06-dark-screen">
+          </div>
         </section>
 
         <!-- SECTION 3 — PRODUCT BRIEF -->
@@ -236,9 +242,14 @@
         <!-- SECTION 7 — FINAL DESIGNS -->
         <section class="cs-section" id="designs">
           <p class="section-label">07 — Final designs</p>
-          <h2 class="cs-section-title">The finished product.</h2>
-          <p class="cs-section-intro">The discount creation and management flow — designed for both desktop and mobile.</p>
-          <div class="cs-preview-placeholder">Device viewer — desktop / mobile / light / dark</div>
+          <h2 class="cs-section-title">The shipped operator portal.</h2>
+          <div class="design-viewer"
+            data-base="images/case-study-1"
+            data-desktop-light="01-light-discount-list,02-light-discount-empty,03-light-discount-new-rule"
+            data-desktop-dark="01-dark-discount-list,02-dark-discount-empty,03-dark-discount-new-rule"
+            data-mobile-light="01-light-screen,02-light-screen,03-light-screen,04-light-screen,05-light-screen,06-light-screen"
+            data-mobile-dark="01-dark-screen,02-dark-screen,03-dark-screen,04-dark-screen,05-dark-screen,06-dark-screen">
+          </div>
         </section>
 
         <!-- FOOTER NAV -->
@@ -258,6 +269,7 @@
   </div>
 
   <script src="script.js"></script>
+  <script src="viewer.js"></script>
 
 </body>
 </html>

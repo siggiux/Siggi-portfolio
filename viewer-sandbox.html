@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Design Viewer — Component Sandbox</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="viewer.css">
+  <style>
+    /* Minimal page styles — only here for the sandbox, NOT part of viewer.css */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Familjen Grotesk', sans-serif; background: #f0f0ee; padding: 48px 24px; min-height: 100vh; }
+    main { max-width: 1000px; margin: 0 auto; }
+    h1 { font-size: 32px; font-weight: 700; letter-spacing: -1px; margin-bottom: 8px; }
+    h2 { font-size: 20px; font-weight: 700; margin: 64px 0 24px; }
+    p { color: #666; max-width: 600px; margin-bottom: 32px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Component sandbox</h1>
+    <p>Two viewers on one page, each with its own state. Resize the window narrow to test responsive. Click fullscreen on either.</p>
+
+    <h2>Viewer 1</h2>
+    <div class="design-viewer"
+         data-base="images/case-study-1"
+         data-desktop-light="01-light-discount-list,02-light-discount-empty,03-light-discount-new-rule"
+         data-desktop-dark="01-dark-discount-list,02-dark-discount-empty,03-dark-discount-new-rule"
+         data-mobile-light="01-light-screen,02-light-screen,03-light-screen,04-light-screen,05-light-screen,06-light-screen"
+         data-mobile-dark="01-dark-screen,02-dark-screen,03-dark-screen,04-dark-screen,05-dark-screen,06-dark-screen"></div>
+
+    <h2>Viewer 2 — same data, independent state</h2>
+    <div class="design-viewer"
+         data-base="images/case-study-1"
+         data-desktop-light="01-light-discount-list,02-light-discount-empty,03-light-discount-new-rule"
+         data-desktop-dark="01-dark-discount-list,02-dark-discount-empty,03-dark-discount-new-rule"
+         data-mobile-light="01-light-screen,02-light-screen,03-light-screen,04-light-screen,05-light-screen,06-light-screen"
+         data-mobile-dark="01-dark-screen,02-dark-screen,03-dark-screen,04-dark-screen,05-dark-screen,06-dark-screen"></div>
+  </main>
+
+  <script src="viewer.js"></script>
+</body>
+</html>

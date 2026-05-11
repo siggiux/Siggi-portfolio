@@ -36,6 +36,10 @@
     var desktop = pairImages(basePath, 'desktop', desktopLight, desktopDark);
     var mobile  = pairImages(basePath, 'mobile', mobileLight,  mobileDark);
 
+    // Parse callout data — optional, gracefully defaults to empty arrays
+    var calloutsDesktop = parseJSON(root.getAttribute('data-callouts-desktop'));
+    var calloutsMobile  = parseJSON(root.getAttribute('data-callouts-mobile'));
+
     // Render the markup
     root.innerHTML = renderMarkup();
 
@@ -65,7 +69,8 @@
         root.querySelector('.dv-phone-screen[data-idx="1"]'),
         root.querySelector('.dv-phone-screen[data-idx="2"]')
       ],
-      fsBtn:        root.querySelector('.dv-fs-btn')
+      fsBtn:        root.querySelector('.dv-fs-btn'),
+      calloutStrip: root.querySelector('.dv-callout-strip')
     };
 
     // Per-viewer state
@@ -77,6 +82,8 @@
       phonesShown: calcPhonesShown(),
       desktop: desktop,
       mobile: mobile,
+      calloutsDesktop: calloutsDesktop,
+      calloutsMobile:  calloutsMobile,
       els: els,
       root: root
     };
@@ -103,6 +110,7 @@
     setDevice(state, 'desktop');
     setMode(state, 'light');
     refreshMobile(state);
+    refreshCallouts(state);
 
     return state;
   }
@@ -129,6 +137,62 @@
     return window.innerWidth <= 768 ? 1 : 3;
   }
 
+  // ---------- Callouts ----------
+  function parseJSON(str) {
+    if (!str) return [];
+    try {
+      // Collapse whitespace that may have been introduced by multiline HTML attributes
+      var cleaned = str.replace(/[\r\n\t]/g, ' ').replace(/\s+/g, ' ').trim();
+      return JSON.parse(cleaned);
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function refreshCallouts(s) {
+    var strip = s.els.calloutStrip;
+    if (!strip) return;
+
+    var callout = null;
+    if (s.device === 'desktop') {
+      callout = s.calloutsDesktop[s.di] || null;
+    } else {
+      var groupIndex = Math.floor(s.mi / 3);
+      callout = s.calloutsMobile[groupIndex] || null;
+    }
+
+    if (!callout) {
+      strip.innerHTML = '';
+      return;
+    }
+
+    // Build one or two dv-callout blocks
+    var html = '';
+    html += buildCallout(1, callout.label, callout.text);
+    if (callout.second_label) {
+      html += buildCallout(2, callout.second_label, callout.second_text);
+    }
+    strip.innerHTML = html;
+  }
+
+  function buildCallout(num, label, text) {
+    return '<div class="dv-callout">' +
+      '<span class="dv-callout-num">' + num + '</span>' +
+      '<div class="dv-callout-body">' +
+        '<span class="dv-callout-label">' + escapeHTML(label) + '</span>' +
+        '<span class="dv-callout-text">' + escapeHTML(text || '') + '</span>' +
+      '</div>' +
+    '</div>';
+  }
+
+  function escapeHTML(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
   // ---------- State updates ----------
   function setDevice(s, d) {
     s.device = d;
@@ -142,6 +206,7 @@
     s.els.fsBtnMobile.classList.toggle('is-active',  d === 'mobile');
     s.els.btnDesktop.parentNode.setAttribute('data-active', idx);
     s.els.fsBtnDesktop.parentNode.setAttribute('data-active', idx);
+    refreshCallouts(s);
   }
 
   function setMode(s, m) {
@@ -156,6 +221,7 @@
     s.els.stage.classList.toggle('is-light-stage', m === 'dark'); // dark designs sit on a LIGHT stage
     refreshDesktop(s);
     refreshMobile(s);
+    refreshCallouts(s);
   }
 
   function refreshDesktop(s) {
@@ -199,6 +265,7 @@
       s.mi = Math.max(0, Math.min(s.mobile.length - s.phonesShown, s.mi + dir));
       refreshMobile(s);
     }
+    refreshCallouts(s);
   }
 
   function toggleFullscreen(s) {
@@ -250,10 +317,13 @@
           '<span class="dv-counter dv-mobile-counter">1 / 1</span>' +
           '<button class="dv-arrow dv-mobile-next is-next" type="button">' + ICONS.arrowRight + '</button>' +
         '</div>' +
-        '<button class="dv-fs-btn" type="button" aria-label="Toggle fullscreen">' +
-          ICONS.fsExpand +
-          ICONS.fsCollapse +
-        '</button>' +
+        '<div class="dv-bottom-row">' +
+          '<div class="dv-callout-strip"></div>' +
+          '<button class="dv-fs-btn" type="button" aria-label="Toggle fullscreen">' +
+            ICONS.fsExpand +
+            ICONS.fsCollapse +
+          '</button>' +
+        '</div>' +
         '<div class="dv-fs-overlay">' +
           '<div class="dv-group" data-active="0">' +
             '<button class="dv-btn dv-fs-btn-desktop is-active" type="button">' + ICONS.desktop + 'Desktop</button>' +

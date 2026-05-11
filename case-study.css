@@ -331,16 +331,21 @@
    TABLE OF CONTENTS
 ================================ */
 .content-wrap {
-  display: grid;
-  grid-template-columns: 200px 1fr;
-  gap: 64px;
+  position: relative;
   padding-top: 72px;
 }
 
 .toc {
+  position: absolute;
+  top: 72px;
+  bottom: 0;          /* stretch full content-wrap height for sticky inner to work */
+  left: -240px;       /* TOC width (200px) + gap (40px) */
+  width: 200px;
+}
+
+.toc-inner {
   position: sticky;
   top: 48px;
-  height: fit-content;
 }
 
 .toc-list {
@@ -368,11 +373,119 @@
   font-weight: 700;
 }
 
-/* ── Responsive — hide TOC on mobile ── */
-@media (max-width: 768px) {
-  .content-wrap {
-    grid-template-columns: 1fr;
-  }
-
+/* ── Responsive — hide TOC when viewport is too narrow for it to live in the margin ── */
+@media (max-width: 1200px) {
   .toc { display: none; }
+}
+
+/* ================================
+   PULL QUOTES
+================================ */
+.cs-quote {
+  max-width: 680px;
+  margin: 40px 0;
+  padding: 32px 0 32px 32px;
+  border-left: 2px solid var(--color-accent);
+}
+.cs-quote p {
+  font-size: clamp(20px, 2.2vw, 26px);
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.5px;
+  color: var(--color-text-1);
+  margin-bottom: 16px;
+}
+.cs-quote cite {
+  font-size: var(--text-sm);
+  font-style: normal;
+  color: var(--color-text-3);
+  letter-spacing: 0.02em;
+}
+@media (max-width: 768px) {
+  .cs-quote { padding: 24px 0 24px 20px; margin: 32px 0; }
+}
+
+/* ================================
+   LISTS INSIDE CS-BODY
+================================ */
+.cs-body ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-left: 0;
+}
+.cs-body ul li {
+  padding-left: 20px;
+  position: relative;
+  line-height: 1.6;
+}
+.cs-body ul li::before {
+  content: '–';
+  position: absolute;
+  left: 0;
+  color: var(--color-text-3);
+}
+
+/* ================================
+   HORIZONTAL SCROLL STRIP
+================================ */
+.cs-strip {
+  margin: 40px -80px 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 16px;
+}
+.cs-strip-track {
+  display: flex;
+  gap: 16px;
+  padding: 0 80px;
+  width: max-content;
+}
+.cs-strip-item {
+  flex: 0 0 auto;
+  width: 420px;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.cs-strip-img {
+  width: 100%;
+  height: 280px;
+  background: var(--color-bg-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.cs-strip-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.cs-strip-item figcaption {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--color-text-2);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+}
+.cs-strip-label {
+  font-size: var(--text-xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-3);
+  font-weight: 700;
+}
+.cs-strip::-webkit-scrollbar { height: 4px; }
+.cs-strip::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 2px; }
+.cs-strip::-webkit-scrollbar-track { background: transparent; }
+@media (max-width: 768px) {
+  .cs-strip { margin: 32px -24px 8px; }
+  .cs-strip-track { padding: 0 24px; }
+  .cs-strip-item { width: 280px; }
 }

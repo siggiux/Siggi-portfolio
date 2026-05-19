@@ -1,0 +1,282 @@
+/* ================================
+   ABOUT — Editorial two-column
+================================ */
+
+/* ── Section grid (bio / now / lists) ── */
+.bio-section,
+.now-section,
+.list-section {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) minmax(0, 2.2fr);
+  gap: clamp(32px, 6vw, 88px);
+  padding: clamp(56px, 9vh, 96px) 0;
+}
+
+/* ── Bio left (portrait) ── */
+.bio-left .portrait-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 320px;
+}
+
+.portrait-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 320px;
+  height: clamp(340px, 36vw, 430px);
+  background: var(--color-bg-2);
+  border: 0.5px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  color: var(--color-quiet);
+  font-size: var(--text-xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.portrait-placeholder svg {
+  width: 32px;
+  height: 32px;
+  opacity: 0.35;
+}
+
+/* If you add a real photo, use this: */
+.portrait-img {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  height: clamp(340px, 36vw, 430px);
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  border: 0.5px solid var(--color-line);
+}
+
+.portrait-caption {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-mute);
+}
+.portrait-caption .cap-sub { color: var(--color-quiet); }
+
+/* ── Bio right ── */
+.bio-right {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 620px;
+  padding-top: 4px;
+}
+
+.bio-lede {
+  font-family: var(--font-display);
+  font-style: normal;
+  font-weight: 500;
+  font-size: clamp(22px, 2.2vw, 30px);
+  line-height: 1.35;
+  letter-spacing: -0.025em;
+  color: var(--color-ink);
+}
+
+.bio-body {
+  font-family: var(--font-body);
+  font-size: var(--text-lg);
+  line-height: 1.7;
+  color: var(--color-mute);
+}
+
+/* ── Italic name emphasis (used instead of serif-em) ── */
+.name-em {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-style: normal;
+  color: var(--color-quiet);
+  letter-spacing: -0.025em;
+}
+
+/* ── Meta column (sticky left col) ── */
+.meta-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 8px;
+  position: sticky;
+  top: 100px;
+  height: max-content;
+}
+.meta-sub {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--color-ink);
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+/* ── Now list ── */
+.now-content { padding-top: 4px; }
+.now-list { list-style: none; display: flex; flex-direction: column; }
+.now-list li {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 24px;
+  align-items: baseline;
+  padding: 18px 0;
+  border-bottom: 0.5px solid var(--color-line);
+}
+.now-list li:last-child { border-bottom: none; }
+.now-tag {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-quiet);
+}
+.now-text {
+  font-family: var(--font-body);
+  font-size: var(--text-lg);
+  color: var(--color-ink);
+  line-height: 1.5;
+}
+
+/* ── Timeline / experience & education ── */
+.timeline { list-style: none; display: flex; flex-direction: column; }
+
+.t-row {
+  display: grid;
+  grid-template-columns: 120px 1fr 32px;
+  gap: 24px;
+  padding: 28px 0;
+  border-bottom: 0.5px solid var(--color-line);
+  align-items: start;
+  transition: padding-left 0.5s var(--ease-out);
+}
+.t-row:last-child { border-bottom: none; }
+.t-row:hover { padding-left: 6px; }
+
+.t-year {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-quiet);
+  padding-top: 8px;
+}
+
+.t-body { display: flex; flex-direction: column; gap: 6px; }
+
+.t-role {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(18px, 2vw, 24px);
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: var(--color-ink);
+}
+
+.t-place {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-mute);
+  letter-spacing: 0.01em;
+}
+.t-place .name-em { color: var(--color-ink); }
+
+.t-note {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--color-mute);
+  line-height: 1.6;
+  max-width: 540px;
+  margin-top: 8px;
+}
+
+.t-arrow {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 0.5px solid var(--color-ink);
+  background: transparent;
+  justify-self: center;
+  align-self: start;
+  margin-top: 10px;
+  flex-shrink: 0;
+  transition: background 0.3s var(--ease-out), border-color 0.3s var(--ease-out);
+}
+.t-row:hover .t-arrow {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+/* ── Contact CTA ── */
+.cta {
+  padding: clamp(72px, 12vh, 140px) 0 80px;
+}
+.cta .eyebrow { margin-bottom: 36px; }
+
+.cta-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 24px;
+  padding-top: 32px;
+}
+
+.cta-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(22px, 2.8vw, 36px);
+  letter-spacing: -0.035em;
+  color: var(--color-ink);
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--color-ink);
+  transition: gap 0.4s var(--ease-out);
+}
+.cta-primary svg { width: 20px; height: 20px; flex-shrink: 0; }
+.cta-primary:hover { gap: 22px; }
+
+.cta-socials {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-mute);
+}
+.cta-socials .soc {
+  text-decoration: none;
+  color: var(--color-mute);
+  letter-spacing: 0.04em;
+  transition: color 0.2s var(--ease-out);
+}
+.cta-socials .soc:hover { color: var(--color-ink); }
+.cta-socials .soc-dot { color: var(--color-quiet); }
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .bio-section,
+  .now-section,
+  .list-section {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: clamp(40px, 7vh, 72px) 0;
+  }
+  .meta-col { position: static; }
+  .bio-left .portrait-wrap { max-width: 260px; }
+  .now-list li { grid-template-columns: 1fr; gap: 4px; }
+  .t-row { grid-template-columns: 1fr 32px; gap: 12px; }
+  .t-year { grid-column: 1 / -1; padding-top: 0; }
+  .cta-actions { flex-direction: column; align-items: flex-start; }
+}

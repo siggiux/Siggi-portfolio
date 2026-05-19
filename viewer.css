@@ -63,6 +63,15 @@
 .design-viewer .dv-btn.is-active { color: #ffffff; }
 .design-viewer .dv-btn svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.28s cubic-bezier(0.32, 0.72, 0, 1); }
 
+/* ---------- Mode toggle (single icon button) ---------- */
+.design-viewer .dv-mode-toggle { display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 100px; border: 0.5px solid #d0d0ce; background: #eaeae8; color: #1a1a1a; cursor: pointer; flex-shrink: 0; padding: 0; transition: background 0.2s cubic-bezier(0.32, 0.72, 0, 1), transform 0.15s cubic-bezier(0.32, 0.72, 0, 1); }
+.design-viewer .dv-mode-toggle:hover { background: #d8d8d4; }
+.design-viewer .dv-mode-toggle:active { transform: scale(0.92); }
+.design-viewer .dv-mode-toggle svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; display: block; }
+.design-viewer .dv-mode-toggle .dv-sun-icon { display: none; }
+.design-viewer .dv-mode-toggle.is-dark .dv-moon-icon { display: none; }
+.design-viewer .dv-mode-toggle.is-dark .dv-sun-icon { display: block; }
+
 /* ---------- Stage ---------- */
 .design-viewer .dv-stage { background: #2a2a28; min-height: min(520px, 70vh); border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 28px 0 0; gap: 10px; position: relative; transition: background 0.15s; }
 /* Light stage state (active when viewing dark designs) */
@@ -71,19 +80,23 @@
 /* ---------- Desktop view ---------- */
 .design-viewer .dv-desktop-view { width: 88%; display: flex; flex-direction: column; align-items: center; gap: 16px; }
 .design-viewer .dv-desktop-screen { width: 100%; border-radius: 10px; overflow: hidden; box-shadow: 0 12px 40px rgba(0,0,0,0.5); flex-shrink: 0; transition: box-shadow 0.2s; }
-.design-viewer .dv-desktop-screen img { width: 100%; aspect-ratio: 16/10; object-fit: cover; display: block; border-radius: 8px; }
+.design-viewer .dv-desktop-screen img { width: 100%; height: auto; display: block; border-radius: 8px; }
 
 /* ---------- Mobile view ---------- */
 .design-viewer .dv-mobile-view { display: none; gap: 14px; justify-content: center; align-items: center; width: 100%; flex: 1; min-height: 0; padding: 8px 0; }
-.design-viewer .dv-phone { flex-shrink: 0; width: 185px; background: #111; border-radius: 28px; border: 5px solid #3a3a38; box-shadow: 0 8px 24px rgba(0,0,0,0.2); overflow: hidden; position: relative; max-height: 100%; transition: box-shadow 0.2s; }
-.design-viewer .dv-phone::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 40px; height: 9px; background: #111; border-radius: 0 0 9px 9px; z-index: 10; }
-.design-viewer .dv-phone-screen { width: 100%; aspect-ratio: 9/19.5; background: #e8e8e6; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #aaa; text-transform: uppercase; letter-spacing: 0.06em; overflow: hidden; position: relative; }
-.design-viewer .dv-phone-screen img { width: 100%; height: 100%; object-fit: cover; display: block; position: absolute; top: 0; left: 0; }
+.design-viewer .dv-phone { flex-shrink: 0; width: 180px; border-radius: 36px; background: #1c1c1e; padding: 5px; box-shadow: 0 0 0 1.5px #3a3a3c, 0 12px 40px rgba(0,0,0,0.6); position: relative; max-height: 100%; transition: box-shadow 0.2s; }
+/* Left side: volume up + volume down */
+.design-viewer .dv-phone::before { content: ''; position: absolute; left: -3px; top: 72px; width: 3px; height: 28px; background: #3a3a3c; border-radius: 2px 0 0 2px; box-shadow: 0 38px 0 #3a3a3c; pointer-events: none; }
+/* Right side: power button */
+.design-viewer .dv-phone::after { content: ''; position: absolute; right: -3px; top: 88px; width: 3px; height: 44px; background: #3a3a3c; border-radius: 0 2px 2px 0; pointer-events: none; }
+/* Screen — inner radius = outer (36) minus padding (5), forced to phone aspect ratio */
+.design-viewer .dv-phone-screen { width: 100%; aspect-ratio: 9/19.5; overflow: hidden; border-radius: 31px; background: #e8e8e6; font-size: 9px; color: #aaa; text-transform: uppercase; letter-spacing: 0.06em; }
+.design-viewer .dv-phone-screen img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
 .design-viewer .dv-phone.is-hidden { display: none; }
 
 /* Soft shadows when on light stage */
 .design-viewer .dv-stage.is-light-stage .dv-desktop-screen { box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
-.design-viewer .dv-stage.is-light-stage .dv-phone { box-shadow: 0 6px 16px rgba(0,0,0,0.10); }
+.design-viewer .dv-stage.is-light-stage .dv-phone { box-shadow: 0 0 0 1.5px #3a3a3c, 0 8px 24px rgba(0,0,0,0.18); }
 
 /* ---------- Nav arrows + counter ---------- */
 .design-viewer .dv-nav { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; flex-shrink: 0; }
@@ -121,27 +134,39 @@
 .design-viewer .dv-stage.is-fullscreen .dv-fs-overlay,
 .design-viewer .dv-stage:fullscreen .dv-fs-overlay { display: flex; }
 
-/* ---------- Fullscreen layout (CSS fallback + native) ---------- */
-.design-viewer .dv-stage.is-fullscreen { position: fixed; inset: 0; z-index: 9999; height: 100vh; min-height: unset; width: 100vw; border-radius: 0; padding: 72px 0 0; justify-content: center; overflow: hidden; gap: 10px; }
-.design-viewer .dv-stage.is-fullscreen .dv-desktop-view { width: 100%; max-width: min(1200px, calc((100vh - 72px - 52px - 10px - 100px) * 1.6)); padding: 0 48px; }
-.design-viewer .dv-stage.is-fullscreen .dv-desktop-screen img { width: 100%; aspect-ratio: 16/10; object-fit: cover; display: block; border-radius: 8px; }
-.design-viewer .dv-stage.is-fullscreen .dv-phone { width: auto; height: 70%; }
-.design-viewer .dv-stage.is-fullscreen .dv-phone .dv-phone-screen { width: auto; height: 100%; aspect-ratio: 9/19.5; }
-.design-viewer .dv-stage.is-fullscreen .dv-bottom-row { padding: 0 24px 16px; }
+/* ---------- Fullscreen layout (CSS fallback + native) ----------
+   Bottom-row is pinned to the bottom of the stage (absolute) so the
+   image area can center cleanly between the top overlay and the
+   callout row, without leftover empty space underneath the callouts.
+   Stage padding-bottom reserves space equal to the bottom-row height
+   (~76px callout + 16px breathing room) so the image never overlaps. */
+.design-viewer .dv-stage.is-fullscreen { position: fixed; inset: 0; z-index: 9999; height: 100vh; min-height: unset; width: 100vw; border-radius: 0; padding: 72px 0 168px; justify-content: center; overflow: hidden; gap: 10px; }
+.design-viewer .dv-stage:fullscreen { min-height: unset; padding: 72px 0 168px; border-radius: 0; justify-content: center; overflow: hidden; gap: 10px; }
 
-.design-viewer .dv-stage:fullscreen { min-height: unset; padding: 72px 0 0; border-radius: 0; justify-content: center; overflow: hidden; gap: 10px; }
-.design-viewer .dv-stage:fullscreen .dv-desktop-view { width: 100%; max-width: min(1200px, calc((100vh - 72px - 52px - 10px - 100px) * 1.6)); padding: 0 48px; }
-.design-viewer .dv-stage:fullscreen .dv-desktop-screen img { width: 100%; aspect-ratio: 16/10; object-fit: cover; display: block; border-radius: 8px; }
-.design-viewer .dv-stage:fullscreen .dv-phone { width: auto; height: 70%; }
+.design-viewer .dv-stage.is-fullscreen .dv-desktop-view,
+.design-viewer .dv-stage:fullscreen .dv-desktop-view { width: 100%; max-width: min(1400px, calc((100vh - 72px - 92px - 32px - 16px) * 1.6)); padding: 0 48px; }
+.design-viewer .dv-stage.is-fullscreen .dv-desktop-screen img,
+.design-viewer .dv-stage:fullscreen .dv-desktop-screen img { width: 100%; height: auto; display: block; border-radius: 8px; }
+
+.design-viewer .dv-stage.is-fullscreen .dv-phone,
+.design-viewer .dv-stage:fullscreen .dv-phone { width: auto; height: 85%; }
+.design-viewer .dv-stage.is-fullscreen .dv-phone .dv-phone-screen,
 .design-viewer .dv-stage:fullscreen .dv-phone .dv-phone-screen { width: auto; height: 100%; aspect-ratio: 9/19.5; }
-.design-viewer .dv-stage:fullscreen .dv-bottom-row { padding: 0 24px 16px; }
+.design-viewer .dv-stage.is-fullscreen .dv-phone .dv-phone-screen img,
+.design-viewer .dv-stage:fullscreen .dv-phone .dv-phone-screen img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+
+.design-viewer .dv-stage.is-fullscreen .dv-mobile-arrows,
+.design-viewer .dv-stage:fullscreen .dv-mobile-arrows { position: absolute; bottom: 124px; left: 0; right: 0; z-index: 2; }
+.design-viewer .dv-stage.is-fullscreen .dv-bottom-row,
+.design-viewer .dv-stage:fullscreen .dv-bottom-row { position: absolute; left: 0; right: 0; bottom: 0; padding: 0 24px 16px; }
 
 /* ---------- Responsive (≤ 768px) ---------- */
 @media (max-width: 768px) {
   .design-viewer .dv-stage { padding: 20px 20px 16px; min-height: min(560px, 75vh); height: auto; }
   .design-viewer .dv-desktop-view { width: 100%; }
-  .design-viewer .dv-phone { width: auto; height: 100%; }
-  .design-viewer .dv-phone .dv-phone-screen { width: auto; height: 100%; aspect-ratio: 9/19.5; }
+  .design-viewer .dv-phone { width: auto; height: 100%; padding: 6px; border-radius: 28px; }
+  .design-viewer .dv-phone .dv-phone-screen { width: auto; height: 100%; aspect-ratio: 9/19.5; border-radius: 22px; }
+  .design-viewer .dv-phone .dv-phone-screen img { width: 100%; height: 100%; object-fit: cover; }
   .design-viewer .dv-controls { gap: 8px; flex-wrap: wrap; }
 }
 
@@ -215,8 +240,15 @@
   .design-viewer .dv-callout-strip {
     flex-direction: column;
     gap: 8px;
+    width: 100%;
   }
   .design-viewer .dv-bottom-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
     padding: 0 16px 12px;
+  }
+  .design-viewer .dv-fs-btn {
+    align-self: flex-end;
   }
 }

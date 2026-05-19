@@ -323,29 +323,38 @@
 }
 
 .page--case-study {
-  max-width: 1000px;
-  padding: 0 80px 80px;
+  max-width: 1280px;
+  padding: 0 var(--gutter) 80px;
 }
 
 /* ================================
    TABLE OF CONTENTS
 ================================ */
 .content-wrap {
-  position: relative;
+  display: grid;
+  grid-template-columns: 200px minmax(0, 820px);
+  gap: clamp(40px, 5vw, 80px);
+  justify-content: center;
   padding-top: 72px;
+  align-items: start;
 }
 
 .toc {
-  position: absolute;
-  top: 72px;
-  bottom: 0;          /* stretch full content-wrap height for sticky inner to work */
-  left: -240px;       /* TOC width (200px) + gap (40px) */
-  width: 200px;
+  position: sticky;
+  top: 80px;
 }
 
 .toc-inner {
-  position: sticky;
-  top: 48px;
+  /* inner wrapper kept for backwards compat */
+}
+
+.main-content {
+  min-width: 0;   /* allow grid item to shrink below its content width */
+  max-width: 820px;
+}
+
+.main-content > * {
+  max-width: 100%;
 }
 
 .toc-list {
@@ -373,8 +382,11 @@
   font-weight: 700;
 }
 
-/* ── Responsive — hide TOC when viewport is too narrow for it to live in the margin ── */
-@media (max-width: 1200px) {
+/* ── Responsive — collapse to single column when narrow ── */
+@media (max-width: 960px) {
+  .content-wrap {
+    grid-template-columns: 1fr;
+  }
   .toc { display: none; }
 }
 

@@ -12,8 +12,8 @@
   var ICONS = {
     desktop: '<svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>',
     mobile: '<svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>',
-    sun: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>',
-    moon: '<svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>',
+    sun: '<svg class="dv-sun-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>',
+    moon: '<svg class="dv-moon-icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>',
     arrowLeft: '<svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>',
     arrowRight: '<svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>',
     fsExpand: '<svg class="dv-icon-expand" viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>',
@@ -48,12 +48,10 @@
       stage:        root.querySelector('.dv-stage'),
       btnDesktop:   root.querySelector('.dv-btn-desktop'),
       btnMobile:    root.querySelector('.dv-btn-mobile'),
-      btnLight:     root.querySelector('.dv-btn-light'),
-      btnDark:      root.querySelector('.dv-btn-dark'),
+      modeToggle:   root.querySelector('.dv-mode-toggle:not(.dv-fs-mode-toggle)'),
       fsBtnDesktop: root.querySelector('.dv-fs-btn-desktop'),
       fsBtnMobile:  root.querySelector('.dv-fs-btn-mobile'),
-      fsBtnLight:   root.querySelector('.dv-fs-btn-light'),
-      fsBtnDark:    root.querySelector('.dv-fs-btn-dark'),
+      fsModeToggle: root.querySelector('.dv-fs-mode-toggle'),
       desktopView:  root.querySelector('.dv-desktop-view'),
       desktopImg:   root.querySelector('.dv-desktop-img'),
       desktopPrev:  root.querySelector('.dv-desktop-prev'),
@@ -91,12 +89,10 @@
     // Wire up event handlers
     els.btnDesktop.addEventListener('click',   function () { setDevice(state, 'desktop'); });
     els.btnMobile.addEventListener('click',    function () { setDevice(state, 'mobile'); });
-    els.btnLight.addEventListener('click',     function () { setMode(state, 'light'); });
-    els.btnDark.addEventListener('click',      function () { setMode(state, 'dark'); });
+    els.modeToggle.addEventListener('click',   function () { setMode(state, state.mode === 'light' ? 'dark' : 'light'); });
     els.fsBtnDesktop.addEventListener('click', function () { setDevice(state, 'desktop'); });
     els.fsBtnMobile.addEventListener('click',  function () { setDevice(state, 'mobile'); });
-    els.fsBtnLight.addEventListener('click',   function () { setMode(state, 'light'); });
-    els.fsBtnDark.addEventListener('click',    function () { setMode(state, 'dark'); });
+    els.fsModeToggle.addEventListener('click', function () { setMode(state, state.mode === 'light' ? 'dark' : 'light'); });
 
     els.desktopPrev.addEventListener('click', function () { navigate(state, 'desktop', -1); });
     els.desktopNext.addEventListener('click', function () { navigate(state, 'desktop',  1); });
@@ -211,13 +207,8 @@
 
   function setMode(s, m) {
     s.mode = m;
-    var idx = m === 'light' ? 0 : 1;
-    s.els.btnLight.classList.toggle('is-active', m === 'light');
-    s.els.btnDark.classList.toggle('is-active',  m === 'dark');
-    s.els.fsBtnLight.classList.toggle('is-active', m === 'light');
-    s.els.fsBtnDark.classList.toggle('is-active',  m === 'dark');
-    s.els.btnLight.parentNode.setAttribute('data-active', idx);
-    s.els.fsBtnLight.parentNode.setAttribute('data-active', idx);
+    s.els.modeToggle.classList.toggle('is-dark', m === 'dark');
+    s.els.fsModeToggle.classList.toggle('is-dark', m === 'dark');
     s.els.stage.classList.toggle('is-light-stage', m === 'dark'); // dark designs sit on a LIGHT stage
     refreshDesktop(s);
     refreshMobile(s);
@@ -293,10 +284,7 @@
           '<button class="dv-btn dv-btn-desktop is-active" type="button">' + ICONS.desktop + 'Desktop</button>' +
           '<button class="dv-btn dv-btn-mobile" type="button">' + ICONS.mobile + 'Mobile</button>' +
         '</div>' +
-        '<div class="dv-group" data-active="0">' +
-          '<button class="dv-btn dv-btn-light is-active" type="button">' + ICONS.sun + 'Light</button>' +
-          '<button class="dv-btn dv-btn-dark" type="button">' + ICONS.moon + 'Dark</button>' +
-        '</div>' +
+        '<button class="dv-mode-toggle" type="button" title="Toggle light / dark">' + ICONS.moon + ICONS.sun + '</button>' +
       '</div>' +
       '<div class="dv-stage">' +
         '<div class="dv-desktop-view">' +
@@ -329,10 +317,7 @@
             '<button class="dv-btn dv-fs-btn-desktop is-active" type="button">' + ICONS.desktop + 'Desktop</button>' +
             '<button class="dv-btn dv-fs-btn-mobile" type="button">' + ICONS.mobile + 'Mobile</button>' +
           '</div>' +
-          '<div class="dv-group" data-active="0">' +
-            '<button class="dv-btn dv-fs-btn-light is-active" type="button">' + ICONS.sun + 'Light</button>' +
-            '<button class="dv-btn dv-fs-btn-dark" type="button">' + ICONS.moon + 'Dark</button>' +
-          '</div>' +
+          '<button class="dv-mode-toggle dv-fs-mode-toggle" type="button" title="Toggle light / dark">' + ICONS.moon + ICONS.sun + '</button>' +
         '</div>' +
       '</div>';
   }

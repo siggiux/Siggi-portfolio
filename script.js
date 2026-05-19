@@ -2,60 +2,70 @@
    SIGGI — SCRIPTS
 ================================ */
 
+/* ── Scroll reveal ── */
+(function () {
+  var els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window) || !els.length) {
+    els.forEach(function (e) { e.classList.add('in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -8% 0px' });
+  els.forEach(function (el) { io.observe(el); });
+})();
+
 /* ── Dark mode toggle ── */
-const themeBtn = document.getElementById('theme-btn');
-const iconMoon = document.getElementById('icon-moon');
-const iconSun  = document.getElementById('icon-sun');
+var themeBtn = document.getElementById('theme-btn');
+var iconMoon = document.getElementById('icon-moon');
+var iconSun  = document.getElementById('icon-sun');
 
 function toggleTheme() {
-  const isDark = document.body.classList.toggle('dark');
-
-  // Swap icon
-  iconMoon.style.display = isDark ? 'none'  : 'block';
-  iconSun.style.display  = isDark ? 'block' : 'none';
-
-  // Remember preference so it persists on page refresh
+  var isDark = document.body.classList.toggle('dark');
+  if (iconMoon && iconSun) {
+    iconMoon.style.display = isDark ? 'none'  : 'block';
+    iconSun.style.display  = isDark ? 'block' : 'none';
+  }
   localStorage.setItem('theme', isDark ? 'dark' : 'light');
 }
 
-// On page load — apply saved preference
-const savedTheme = localStorage.getItem('theme');
+// Apply saved preference on load
+var savedTheme = localStorage.getItem('theme');
 if (savedTheme === 'dark') {
   document.body.classList.add('dark');
-  iconMoon.style.display = 'none';
-  iconSun.style.display  = 'block';
+  if (iconMoon && iconSun) {
+    iconMoon.style.display = 'none';
+    iconSun.style.display  = 'block';
+  }
 }
 
 /* ── Custom cursor ── */
-const cursor = document.getElementById('cursor');
-const cards  = document.querySelectorAll('.card');
+var cursor = document.getElementById('cursor');
+var cards  = document.querySelectorAll('.card');
 
-// Cursor follows mouse position
-document.addEventListener('mousemove', function(e) {
-  cursor.style.left = e.clientX + 'px';
-  cursor.style.top  = e.clientY + 'px';
-});
+if (cursor) {
+  document.addEventListener('mousemove', function (e) {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top  = e.clientY + 'px';
+  });
 
-// Show cursor when hovering a card
-cards.forEach(function(card) {
-  card.addEventListener('mouseenter', function() {
-    cursor.style.opacity = '1';
+  cards.forEach(function (card) {
+    card.addEventListener('mouseenter', function () { cursor.style.opacity = '1'; });
+    card.addEventListener('mouseleave', function () { cursor.style.opacity = '0'; });
   });
-  card.addEventListener('mouseleave', function() {
-    cursor.style.opacity = '0';
-  });
-});
+}
 
 /* ── Accordion ── */
 function toggleAccordion(btn) {
-  const body = btn.nextElementSibling;
-  const isOpen = body.classList.contains('open');
-
-  // Close all open items first
-  document.querySelectorAll('.cs-accordion-body').forEach(b => b.classList.remove('open'));
-  document.querySelectorAll('.cs-accordion-btn').forEach(b => b.classList.remove('open'));
-
-  // Open clicked item if it was closed
+  var body   = btn.nextElementSibling;
+  var isOpen = body.classList.contains('open');
+  document.querySelectorAll('.cs-accordion-body').forEach(function (b) { b.classList.remove('open'); });
+  document.querySelectorAll('.cs-accordion-btn').forEach(function (b) { b.classList.remove('open'); });
   if (!isOpen) {
     body.classList.add('open');
     btn.classList.add('open');
@@ -63,15 +73,15 @@ function toggleAccordion(btn) {
 }
 
 /* ── Table of contents — Intersection Observer ── */
-const sections = document.querySelectorAll('.cs-section');
-const tocItems = document.querySelectorAll('.toc-item');
+var sections = document.querySelectorAll('.cs-section');
+var tocItems = document.querySelectorAll('.toc-item');
 
 if (sections.length > 0 && tocItems.length > 0) {
-  const tocObserver = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry) {
+  var tocObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
       if (entry.isIntersecting) {
-        const id = entry.target.getAttribute('id');
-        tocItems.forEach(function(item) {
+        var id = entry.target.getAttribute('id');
+        tocItems.forEach(function (item) {
           item.classList.remove('active');
           if (item.dataset.section === id) {
             item.classList.add('active');
@@ -81,7 +91,5 @@ if (sections.length > 0 && tocItems.length > 0) {
     });
   }, { rootMargin: '-20% 0px -70% 0px' });
 
-  sections.forEach(function(section) {
-    tocObserver.observe(section);
-  });
+  sections.forEach(function (section) { tocObserver.observe(section); });
 }

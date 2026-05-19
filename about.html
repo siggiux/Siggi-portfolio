@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23dd2f20'/></svg>">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Sigurður Guðmundsson</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="tokens.css" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="components.css" />
+  <link rel="stylesheet" href="about.css" />
+</head>
+<body>
+
+  <div class="page">
+
+    <nav class="site-nav">
+      <a class="nav-logo" href="index.html">Siggi<span class="dot"></span></a>
+      <div class="nav-right">
+        <ul class="nav-links">
+          <li><a href="index.html#work">Work</a></li>
+          <li><a href="about.html" class="is-current">About</a></li>
+          <li><a href="mailto:sigurdurgudmundsson1@gmail.com">Contact</a></li>
+        </ul>
+        <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle theme">
+          <svg id="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg id="icon-sun" viewBox="0 0 24 24" style="display:none;"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- ── BIO ── -->
+    <section class="bio-section">
+      <aside class="bio-left">
+        <div class="portrait-wrap reveal">
+          <img src="images/about/portrait.jpg" alt="Sigurður Guðmundsson" class="portrait-img" />
+        </div>
+      </aside>
+
+      <div class="bio-right">
+        <span class="section-label reveal">01 — Hello</span>
+
+        <p class="bio-lede reveal" data-delay="1">
+          I'm Siggi. I spent years running a startup and managing marketing
+          campaigns before I discovered that the part I liked most was always
+          the product. Now I design, and I bring everything else along with me.
+        </p>
+
+      </div>
+    </section>
+
+    <hr class="rule" />
+
+    <!-- ── NOW ── -->
+    <section class="now-section">
+      <div class="meta-col">
+        <span class="section-label">02 — Currently</span>
+        <span class="meta-sub reveal">Spring 2026</span>
+      </div>
+      <div class="now-content">
+        <ul class="now-list">
+          <li class="reveal" data-delay="1">
+            <span class="now-tag">On leave</span>
+            <span class="now-text">New baby at home, on parental leave.</span>
+          </li>
+          <li class="reveal" data-delay="2">
+            <span class="now-tag">Moving</span>
+            <span class="now-text">Berlin-bound — making the move this summer.</span>
+          </li>
+          <li class="reveal" data-delay="3">
+            <span class="now-tag">Building</span>
+            <span class="now-text">Deep in portfolio mode in my free time.</span>
+          </li>
+          <li class="reveal" data-delay="4">
+            <span class="now-tag">Open to</span>
+            <span class="now-text">Open to UX and Product Design roles in Berlin.</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <hr class="rule" />
+
+    <!-- ── EXPERIENCE ── -->
+    <section class="list-section">
+      <div class="meta-col">
+        <span class="section-label">03 — Experience</span>
+        <span class="meta-sub reveal">Selected roles</span>
+      </div>
+
+      <ol class="timeline">
+        <li class="t-row reveal" data-delay="1">
+          <span class="t-year">2022 — 2025</span>
+          <div class="t-body">
+            <h3 class="t-role">Founder &amp; Lead Designer</h3>
+            <span class="t-place"><em class="name-em">Hot Tickets</em> · Reykjavík</span>
+            <p class="t-note">Founded a last-minute tourism marketplace in Iceland, with a
+            physical store on Laugavegur. Designed the product end-to-end in Figma —
+            user research, design system, prototyping and conversion optimisation.
+            Also owned all marketing: strategy, paid campaigns and SEO. This is where
+            my interest in UX design sparked.</p>
+          </div>
+          <span class="t-arrow"></span>
+        </li>
+
+        <li class="t-row reveal" data-delay="2">
+          <span class="t-year">2024 — 2025</span>
+          <div class="t-body">
+            <h3 class="t-role">Digital Marketing Specialist</h3>
+            <span class="t-place"><em class="name-em">Datera</em> · Reykjavík</span>
+            <p class="t-note">Planned and managed Google, Meta and SEO for clients across
+            multiple industries. Monitored performance, analysed data and optimised
+            for both Icelandic and international markets.</p>
+          </div>
+          <span class="t-arrow"></span>
+        </li>
+
+        <li class="t-row reveal" data-delay="3">
+          <span class="t-year">2017 — 2021</span>
+          <div class="t-body">
+            <h3 class="t-role">Digital Marketing Specialist</h3>
+            <span class="t-place"><em class="name-em">Birtingahúsið</em> · Reykjavík</span>
+            <p class="t-note">Helped establish a newly formed digital marketing
+            department — building workflows and improving the business model.
+            Monitored and optimised online advertising across domestic and
+            international platforms.</p>
+          </div>
+          <span class="t-arrow"></span>
+        </li>
+      </ol>
+    </section>
+
+    <hr class="rule" />
+
+    <!-- ── EDUCATION ── -->
+    <section class="list-section">
+      <div class="meta-col">
+        <span class="section-label">04 — Education</span>
+        <span class="meta-sub reveal">Where I picked things up</span>
+      </div>
+
+      <ol class="timeline">
+        <li class="t-row reveal" data-delay="1">
+          <span class="t-year">2024 — 2025</span>
+          <div class="t-body">
+            <h3 class="t-role">UX Design</h3>
+            <span class="t-place"><em class="name-em">Hyper Island</em></span>
+            <p class="t-note">Industry-taught, project-based programme. Covered user research, prototyping, design systems, UI, data analytics and UX ethics. Most coursework done in collaboration with real companies.</p>
+          </div>
+          <span class="t-arrow"></span>
+        </li>
+
+        <li class="t-row reveal" data-delay="2">
+          <span class="t-year">2019 — 2020</span>
+          <div class="t-body">
+            <h3 class="t-role">MSc in Marketing</h3>
+            <span class="t-place"><em class="name-em">University of Reykjavík</em></span>
+            <p class="t-note">Consumer behaviour, brand strategy and data.</p>
+          </div>
+          <span class="t-arrow"></span>
+        </li>
+
+        <li class="t-row reveal" data-delay="3">
+          <span class="t-year">2014 — 2017</span>
+          <div class="t-body">
+            <h3 class="t-role">BSc Business Administration &amp; Computer Science</h3>
+            <span class="t-place"><em class="name-em">University of Reykjavík</em></span>
+            <p class="t-note">Business with a technical edge. Named to the Dean's List, spring 2015.</p>
+          </div>
+          <span class="t-arrow"></span>
+        </li>
+      </ol>
+    </section>
+
+    <hr class="rule" />
+
+    <!-- ── CONTACT CTA ── -->
+    <section class="cta">
+      <span class="eyebrow reveal"><span class="dot"></span>Get in touch</span>
+      <div class="cta-actions reveal" data-delay="2">
+        <a href="mailto:sigurdurgudmundsson1@gmail.com" class="cta-primary">
+          <span>sigurdurgudmundsson1@gmail.com</span>
+          <svg viewBox="0 0 24 24"><path d="M5 19L19 5M9 5h10v10" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <div class="cta-socials">
+          <a href="tel:+3548587855" class="soc">+354 858 7855</a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <footer class="site-foot">
+    <span>Sigurður Guðmundsson — UX Designer</span>
+    <span>sigurdurgudmundsson1@gmail.com</span>
+    <span>© 2026</span>
+  </footer>
+
+  <script src="script.js"></script>
+
+</body>
+</html>

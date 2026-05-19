@@ -162,7 +162,10 @@
 
 /* ---------- Responsive (≤ 768px) ---------- */
 @media (max-width: 768px) {
-  .design-viewer .dv-stage { padding: 20px 20px 16px; min-height: min(560px, 75vh); height: auto; }
+  .design-viewer .dv-stage { padding: 20px 20px 16px; min-height: min(560px, 75vh); height: auto; position: relative; }
+  /* Fullscreen button moves to top-right corner on mobile */
+  .design-viewer .dv-fs-btn { position: absolute; top: 12px; right: 12px; align-self: auto; }
+  .design-viewer .dv-bottom-row { padding-right: 16px; }
   .design-viewer .dv-desktop-view { width: 100%; }
   .design-viewer .dv-phone { width: auto; height: 100%; padding: 6px; border-radius: 28px; }
   .design-viewer .dv-phone .dv-phone-screen { width: auto; height: 100%; aspect-ratio: 9/19.5; border-radius: 22px; }
@@ -250,5 +253,48 @@
   }
   .design-viewer .dv-fs-btn {
     align-self: flex-end;
+  }
+
+  /* ── Fullscreen on mobile: restore fixed positioning and use natural
+     column flow so arrows/callouts never overlap the phone frame ── */
+  .design-viewer .dv-stage.is-fullscreen,
+  .design-viewer .dv-stage:fullscreen {
+    position: fixed;
+    inset: 0;
+    height: 100vh;
+    padding: 64px 0 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    justify-content: flex-start;
+    gap: 8px;
+  }
+  .design-viewer .dv-stage.is-fullscreen .dv-mobile-view,
+  .design-viewer .dv-stage:fullscreen .dv-mobile-view {
+    flex: 0 0 auto;
+    height: auto;
+    padding: 0 16px;
+  }
+  .design-viewer .dv-stage.is-fullscreen .dv-phone,
+  .design-viewer .dv-stage:fullscreen .dv-phone {
+    height: min(62vh, 460px);
+    width: auto;
+  }
+  .design-viewer .dv-stage.is-fullscreen .dv-mobile-arrows,
+  .design-viewer .dv-stage:fullscreen .dv-mobile-arrows {
+    position: static;
+    flex-shrink: 0;
+  }
+  .design-viewer .dv-stage.is-fullscreen .dv-bottom-row,
+  .design-viewer .dv-stage:fullscreen .dv-bottom-row {
+    position: static;
+    flex-shrink: 0;
+    padding: 0 16px 24px;
+  }
+  /* Keep fs button top-right in fullscreen too */
+  .design-viewer .dv-stage.is-fullscreen .dv-fs-btn,
+  .design-viewer .dv-stage:fullscreen .dv-fs-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
   }
 }

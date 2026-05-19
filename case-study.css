@@ -443,7 +443,7 @@
    HORIZONTAL SCROLL STRIP
 ================================ */
 .cs-strip {
-  margin: 40px -80px 8px;
+  margin: 40px 0 8px;
   overflow-x: auto;
   overflow-y: hidden;
   scroll-snap-type: x mandatory;
@@ -453,7 +453,7 @@
 .cs-strip-track {
   display: flex;
   gap: 16px;
-  padding: 0 80px;
+  padding: 0;
   width: max-content;
 }
 .cs-strip-item {
@@ -497,7 +497,7 @@
 .cs-strip::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 2px; }
 .cs-strip::-webkit-scrollbar-track { background: transparent; }
 @media (max-width: 768px) {
-  .cs-strip { margin: 32px -24px 8px; }
-  .cs-strip-track { padding: 0 24px; }
+  .cs-strip { margin: 32px 0 8px; }
+  .cs-strip-track { padding: 0; }
   .cs-strip-item { width: 280px; }
 }

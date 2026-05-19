@@ -4,7 +4,7 @@
    so the component can't leak into surrounding case study styles.
    ============================================================ */
 
-.design-viewer { width: 100%; max-width: 900px; margin: 0 auto; }
+.design-viewer { width: 100%; max-width: 900px; margin: 48px auto 0; }
 
 /* ---------- Controls bar (above stage) ---------- */
 .design-viewer .dv-controls { display: flex; justify-content: space-between; align-items: center; padding: 0 0 12px 0; }

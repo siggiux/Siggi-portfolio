@@ -163,8 +163,6 @@
 /* ---------- Responsive (≤ 768px) ---------- */
 @media (max-width: 768px) {
   .design-viewer .dv-stage { padding: 20px 20px 16px; min-height: min(560px, 75vh); height: auto; position: relative; }
-  /* Fullscreen button moves to top-right corner on mobile */
-  .design-viewer .dv-fs-btn { position: absolute; top: 12px; right: 12px; align-self: auto; }
   .design-viewer .dv-bottom-row { padding-right: 16px; }
   .design-viewer .dv-desktop-view { width: 100%; }
   .design-viewer .dv-phone { width: auto; height: 100%; padding: 6px; border-radius: 28px; }
@@ -240,6 +238,12 @@
 }
 
 @media (max-width: 768px) {
+  /* Fullscreen button: top-right corner, always above the preview container */
+  .design-viewer .dv-fs-btn { position: absolute; top: 12px; right: 12px; align-self: auto; z-index: 50; }
+  /* Push the preview container down so its content never slides behind the fs button */
+  .design-viewer .dv-desktop-view { padding-top: 36px; }
+  .design-viewer .dv-mobile-view { padding-top: 36px; }
+
   .design-viewer .dv-callout-strip {
     flex-direction: column;
     gap: 8px;
@@ -250,9 +254,6 @@
     align-items: stretch;
     gap: 10px;
     padding: 0 16px 12px;
-  }
-  .design-viewer .dv-fs-btn {
-    align-self: flex-end;
   }
 
   /* ── Fullscreen on mobile: restore fixed positioning and use natural

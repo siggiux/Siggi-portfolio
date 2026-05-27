@@ -349,8 +349,8 @@ a { color: inherit; }
   }
   .hero-headline { letter-spacing: -0.025em; }
   .card { cursor: pointer; }
-  .card-img { filter: blur(6px); transform: scale(1.05); }
-  .card-overlay { opacity: 1; }
+  .card-img { filter: none; transform: none; }
+  .card-overlay { opacity: 0; }
   .card-tags { opacity: 1; transform: translateY(0); }
   .card-bottom {
     flex-direction: column;

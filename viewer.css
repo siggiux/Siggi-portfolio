@@ -135,19 +135,19 @@
 .design-viewer .dv-stage:fullscreen .dv-fs-overlay { display: flex; }
 
 /* ---------- Fullscreen layout (CSS fallback + native) ----------
-   Bottom-row is pinned to the bottom of the stage (absolute) so the
-   image area can center cleanly between the top overlay and the
-   callout row, without leftover empty space underneath the callouts.
-   Stage padding-bottom reserves space equal to the bottom-row height
-   (~76px callout + 16px breathing room) so the image never overlaps. */
-.design-viewer .dv-stage.is-fullscreen { position: fixed; inset: 0; z-index: 9999; height: 100vh; min-height: unset; width: 100vw; border-radius: 0; padding: 72px 0 168px; justify-content: center; overflow: hidden; gap: 10px; }
-.design-viewer .dv-stage:fullscreen { min-height: unset; padding: 72px 0 168px; border-radius: 0; justify-content: center; overflow: hidden; gap: 10px; }
+   Stage is a flex column: preview area grows to fill (flex: 1),
+   then arrows and the bottom-row stack naturally below it. Static
+   positioning means tall callouts can't slide back over the arrows. */
+.design-viewer .dv-stage.is-fullscreen { position: fixed; inset: 0; z-index: 9999; height: 100vh; min-height: unset; width: 100vw; border-radius: 0; padding: 72px 0 0; justify-content: flex-start; overflow: hidden; gap: 10px; }
+.design-viewer .dv-stage:fullscreen { min-height: unset; padding: 72px 0 0; border-radius: 0; justify-content: flex-start; overflow: hidden; gap: 10px; }
 
 .design-viewer .dv-stage.is-fullscreen .dv-desktop-view,
-.design-viewer .dv-stage:fullscreen .dv-desktop-view { width: 100%; max-width: min(1400px, calc((100vh - 72px - 92px - 32px - 16px) * 1.6)); padding: 0 48px; }
+.design-viewer .dv-stage:fullscreen .dv-desktop-view { width: 100%; max-width: min(1400px, calc((100vh - 72px - 92px - 32px - 16px) * 1.6)); padding: 0 48px; flex: 1 1 0; min-height: 0; justify-content: center; }
 .design-viewer .dv-stage.is-fullscreen .dv-desktop-screen img,
 .design-viewer .dv-stage:fullscreen .dv-desktop-screen img { width: 100%; height: auto; display: block; border-radius: 8px; }
 
+.design-viewer .dv-stage.is-fullscreen .dv-mobile-view,
+.design-viewer .dv-stage:fullscreen .dv-mobile-view { flex: 1 1 0; min-height: 0; }
 .design-viewer .dv-stage.is-fullscreen .dv-phone,
 .design-viewer .dv-stage:fullscreen .dv-phone { width: auto; height: 85%; }
 .design-viewer .dv-stage.is-fullscreen .dv-phone .dv-phone-screen,
@@ -156,9 +156,9 @@
 .design-viewer .dv-stage:fullscreen .dv-phone .dv-phone-screen img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
 
 .design-viewer .dv-stage.is-fullscreen .dv-mobile-arrows,
-.design-viewer .dv-stage:fullscreen .dv-mobile-arrows { position: absolute; bottom: 124px; left: 0; right: 0; z-index: 2; }
+.design-viewer .dv-stage:fullscreen .dv-mobile-arrows { position: static; flex-shrink: 0; z-index: 2; }
 .design-viewer .dv-stage.is-fullscreen .dv-bottom-row,
-.design-viewer .dv-stage:fullscreen .dv-bottom-row { position: absolute; left: 0; right: 0; bottom: 0; padding: 0 24px 16px; }
+.design-viewer .dv-stage:fullscreen .dv-bottom-row { position: static; flex-shrink: 0; padding: 0 24px 16px; }
 
 /* ---------- Responsive (≤ 768px) ---------- */
 @media (max-width: 768px) {
@@ -291,11 +291,13 @@
     flex-shrink: 0;
     padding: 0 16px 24px;
   }
-  /* Keep fs button top-right in fullscreen too */
+  /* In fullscreen, sit the fs button next to the dark-mode toggle
+     (which the .dv-fs-overlay pins at right:16px, 34px wide).
+     58px = 16px overlay offset + 34px toggle width + 8px gap. */
   .design-viewer .dv-stage.is-fullscreen .dv-fs-btn,
   .design-viewer .dv-stage:fullscreen .dv-fs-btn {
     position: absolute;
-    top: 12px;
-    right: 12px;
+    top: 16px;
+    right: 58px;
   }
 }

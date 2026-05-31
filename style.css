@@ -137,7 +137,7 @@ a { color: inherit; }
 .hero-headline {
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(28px, 5.2vw, 64px);
+  font-size: clamp(32px, 5.2vw, 64px);
   line-height: 1.18;
   letter-spacing: -0.035em;
   color: var(--color-ink);
@@ -314,6 +314,38 @@ a { color: inherit; }
 .card:hover .card-overlay { opacity: 1; }
 .card:hover .card-title { font-size: var(--text-2xl); }
 .card:hover .card-tags { opacity: 1; transform: translateY(0); }
+
+/* ── Coming soon card ── */
+.card--coming-soon {
+  background: #0a0a0a;
+  cursor: default;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(20px, 3vw, 32px);
+}
+.card-coming-soon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+  max-width: 720px;
+}
+.card-coming-soon-title {
+  color: #ffffff;
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+.card-coming-soon-sub {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: clamp(13px, 1.4vw, 16px);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+}
 
 /* ================================
    RESPONSIVE — layered breakpoints

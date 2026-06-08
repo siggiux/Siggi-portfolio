@@ -500,3 +500,145 @@
   .cs-strip-track { padding: 0; }
   .cs-strip-item { width: 280px; }
 }
+
+/* ================================
+   VIEW PROTOTYPE BUTTON
+================================ */
+.cs-proto-btn {
+  display: inline-flex;
+  align-items: center;
+  background: var(--color-accent);
+  color: #ffffff;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 13px 24px;
+  border-radius: var(--radius-full);
+  transition: opacity 0.2s var(--ease-out);
+  margin-top: 12px;
+  margin-bottom: 8px;
+}
+.cs-proto-btn:hover {
+  opacity: 0.82;
+  color: #ffffff;
+}
+
+/* ================================
+   NUMBERED FINDING LIST
+================================ */
+.cs-numbered-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 32px;
+  border-top: 0.5px solid var(--color-border);
+}
+.cs-numbered-list li {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  padding: 20px 0;
+  border-bottom: 0.5px solid var(--color-border);
+  font-size: var(--text-base);
+  color: var(--color-text-2);
+  line-height: 1.65;
+}
+.cs-num {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--color-text-3);
+  min-width: 24px;
+  padding-top: 2px;
+  flex-shrink: 0;
+}
+
+/* ================================
+   SINGLE FIGURE (image + caption)
+================================ */
+.cs-figure {
+  margin-top: 32px;
+}
+.cs-figure-img {
+  width: 100%;
+  background: var(--color-bg-2);
+  border: 0.5px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.cs-figure-img img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.cs-figure figcaption {
+  font-size: var(--text-sm);
+  color: var(--color-text-3);
+  margin-top: 12px;
+  letter-spacing: 0.02em;
+}
+
+/* ================================
+   IMAGE ROW (multi-column grid)
+================================ */
+.cs-img-row {
+  margin-top: 32px;
+}
+.cs-img-row-track {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.cs-img-cell {
+  background: var(--color-bg-2);
+  border: 0.5px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.cs-img-cell img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.cs-img-row figcaption {
+  font-size: var(--text-sm);
+  color: var(--color-text-3);
+  margin-top: 12px;
+  letter-spacing: 0.02em;
+}
+@media (max-width: 640px) {
+  .cs-img-row-track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 8px;
+  }
+  .cs-img-cell {
+    flex: 0 0 220px;
+    scroll-snap-align: start;
+  }
+}
+
+/* ================================
+   SUB-BLOCK (named sub-section)
+================================ */
+.cs-sub-block {
+  margin-top: 48px;
+  padding-top: 40px;
+  border-top: 0.5px solid var(--color-border);
+}
+.cs-sub-block-title {
+  font-family: var(--font-display);
+  font-size: clamp(18px, 2vw, 22px);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--color-text-1);
+  line-height: 1.2;
+  margin-top: 0;
+  margin-bottom: 16px;
+}

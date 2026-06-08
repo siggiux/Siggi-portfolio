@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23dd2f20'/></svg>">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Relay — Siggi UX</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="tokens.css" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="components.css" />
+  <link rel="stylesheet" href="case-study.css" />
+</head>
+<body>
+
+  <div class="page page--case-study">
+
+    <!-- NAV -->
+    <nav>
+      <a class="nav-logo" href="index.html">Siggi<span class="dot"></span></a>
+      <div class="nav-right">
+        <ul class="nav-links">
+          <li><a href="index.html">Work</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+        <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle dark mode">
+          <svg id="icon-moon" viewBox="0 0 24 24">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <svg id="icon-sun" viewBox="0 0 24 24" style="display:none;">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <div class="cs-hero">
+      <p class="section-label">Case study · 2025</p>
+      <h1 class="cs-title">A two minute shift handover for tired cafe staff.</h1>
+      <a href="PROTOTYPE_URL_HERE" class="cs-proto-btn" target="_blank" rel="noopener">View prototype</a>
+      <div class="cs-meta">
+        <div class="cs-meta-item">
+          <p class="cs-meta-label">Role</p>
+          <p class="cs-meta-value">Product Designer</p>
+        </div>
+        <div class="cs-meta-item">
+          <p class="cs-meta-label">Type</p>
+          <p class="cs-meta-value">Concept project</p>
+        </div>
+        <div class="cs-meta-item">
+          <p class="cs-meta-label">Platform</p>
+          <p class="cs-meta-value">Mobile, iOS-first</p>
+        </div>
+        <div class="cs-meta-item">
+          <p class="cs-meta-label">Skills</p>
+          <p class="cs-meta-value">UX/UI · Design systems</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- HERO IMAGE -->
+    <div class="cs-hero-img">
+      <img src="images/case-study-2/hero.png" alt="Relay mobile handover app">
+    </div>
+    <p class="cs-cover-caption">Relay, mobile handover app for cafe and shop staff</p>
+
+    <!-- TWO COLUMN LAYOUT — TOC + content -->
+    <div class="content-wrap">
+
+      <!-- STICKY TABLE OF CONTENTS -->
+      <aside class="toc">
+        <div class="toc-inner">
+          <ul class="toc-list">
+            <li class="toc-item" data-section="overview">
+              <a href="#overview">Overview</a>
+            </li>
+            <li class="toc-item" data-section="research">
+              <a href="#research">Reading the research</a>
+            </li>
+            <li class="toc-item" data-section="ideation">
+              <a href="#ideation">Ideation</a>
+            </li>
+            <li class="toc-item" data-section="testing">
+              <a href="#testing">Wireframes and testing</a>
+            </li>
+            <li class="toc-item" data-section="design">
+              <a href="#design">Final design</a>
+            </li>
+            <li class="toc-item" data-section="reflection">
+              <a href="#reflection">Reflection</a>
+            </li>
+          </ul>
+        </div>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <div class="main-content">
+
+        <!-- SECTION 01 — OVERVIEW -->
+        <section class="cs-section" id="overview">
+          <p class="section-label">01 — Overview</p>
+          <h2 class="cs-section-title">A handover tool for tired cafe staff.</h2>
+          <div class="cs-body">
+            <p>Relay is a mobile app for cafe and shop workers. At the end of a shift it lets you pass on what got done, leave notes for the next person, and flag anything the manager needs to know, in the couple of minutes it takes to clock out.</p>
+            <p>It isn't a live product. It's a concept project I built to practice working through a full mobile design problem. To make it feel real, I worked from a fictional research brief as if it had been handed to me by a researcher. My job was to take those findings and turn them into a design.</p>
+          </div>
+        </section>
+
+        <!-- SECTION 02 — READING THE RESEARCH -->
+        <section class="cs-section" id="research">
+          <p class="section-label">02 — Reading the research</p>
+          <h2 class="cs-section-title">What I was designing against.</h2>
+          <div class="cs-body">
+            <p>The research was already done, so my first job was to read it. To make the process feel real, I worked from a set of fictional user interviews I put together with the help of AI, based on real cafe and hospitality contexts. I read through them the same way I would real research, looking for patterns, problems and constraints worth designing against.</p>
+          </div>
+          <ol class="cs-numbered-list">
+            <li>
+              <span class="cs-num">01</span>
+              <span>The handover happens at the worst moment. Lowest energy, highest urge to leave. Anything that takes real thinking gets skipped or rushed.</span>
+            </li>
+            <li>
+              <span class="cs-num">02</span>
+              <span>The most important information is skipped most. Cash discrepancies, equipment issues, incidents, because flagging them needs explaining and risks blame.</span>
+            </li>
+            <li>
+              <span class="cs-num">03</span>
+              <span>Language is a real barrier. Many of the staff interviewed had English as a second language. Dense text fails, meaning has to come from structure and icons.</span>
+            </li>
+            <li>
+              <span class="cs-num">04</span>
+              <span>Interruption is the default, not the edge case. Handovers get interrupted constantly. The flow has to survive being put down and picked back up.</span>
+            </li>
+          </ol>
+        </section>
+
+        <!-- SECTION 03 — IDEATION -->
+        <section class="cs-section" id="ideation">
+          <p class="section-label">03 — Ideation</p>
+          <h2 class="cs-section-title">Finding the right flow.</h2>
+          <div class="cs-body">
+            <p>I started by sketching out different ways to structure the handover. The first idea was to guide the user through it step by step, one screen at a time. Finished tasks, then tasks for the next shift, then a report, then a message. The thinking was that by walking people through it, the handover would feel simple and easy to complete.</p>
+          </div>
+
+          <figure class="cs-figure">
+            <div class="cs-figure-img">
+              <img src="images/case-study-2/wireframe-flows/wireframe-flow-1.png.png" alt="Flow 1, guided and linear">
+            </div>
+            <figcaption>Flow 1, guided and linear. One question per screen, completed at clock out.</figcaption>
+          </figure>
+
+          <div class="cs-body">
+            <p>It failed on two counts. It holds a first-time user's hand, but our user does this every shift and needs speed, not guidance. And it forces the whole handover into one block at the end, when the research said the opposite. Handovers get interrupted constantly and need to be built up in pieces across the shift.</p>
+            <p>So I went with the second flow, a single handover document the user can see and add to at any point during their shift.</p>
+          </div>
+
+          <figure class="cs-figure">
+            <div class="cs-figure-img">
+              <img src="images/case-study-2/wireframe-flows/wireframe-flow-2.png.png" alt="Flow 2, the chosen direction">
+            </div>
+            <figcaption>Flow 2, the chosen direction. One document, addable throughout the shift.</figcaption>
+          </figure>
+
+          <div class="cs-body">
+            <p>A returning user can scan it and add one thing in seconds. And because nothing is locked behind a linear sequence, an interruption never loses progress. You come back and keep adding where you left off.</p>
+            <p>One key decision in this flow was having users pick tasks and reports from a categorised list rather than typing them out. Two reasons. Many users are non-English speakers and typing is slow, and it means tasks are consistent across shifts rather than depending on how each staff member words things.</p>
+          </div>
+        </section>
+
+        <!-- SECTION 04 — WIREFRAMES AND TESTING -->
+        <section class="cs-section" id="testing">
+          <p class="section-label">04 — Wireframes and testing</p>
+          <h2 class="cs-section-title">What testing changed.</h2>
+          <div class="cs-body">
+            <p>I designed the wireframe flow in Figma and built a working prototype with Claude Code. I then tested it with a small group of people, giving them realistic end-of-shift tasks and watching without helping. A few clear problems came up:</p>
+          </div>
+          <ol class="cs-numbered-list">
+            <li>
+              <span class="cs-num">01</span>
+              <span>Users did not realise they could tap on a task card to expand it and add details to it. Fix: make the whole card tappable.</span>
+            </li>
+            <li>
+              <span class="cs-num">02</span>
+              <span>The note title field confused everyone. People tried to write the whole message into the title. Fix: drop the title, a note is just a note.</span>
+            </li>
+            <li>
+              <span class="cs-num">03</span>
+              <span>Adding a one-off task was buried. Fix: a visible one-off button so unusual tasks have an obvious home.</span>
+            </li>
+            <li>
+              <span class="cs-num">04</span>
+              <span>One participant said the app felt like reporting to a manager. Fix: warmer copy throughout and a friendlier confirmation screen.</span>
+            </li>
+          </ol>
+
+          <figure class="cs-img-row">
+            <div class="cs-img-row-track">
+              <div class="cs-img-cell">
+                <img src="images/case-study-2/usability-testing/usability-testing-01.png" alt="Usability test wireframe, screen 1">
+              </div>
+              <div class="cs-img-cell">
+                <img src="images/case-study-2/usability-testing/usability-testing-02.png" alt="Usability test wireframe, screen 2">
+              </div>
+              <div class="cs-img-cell">
+                <img src="images/case-study-2/usability-testing/usability-testing-03.png" alt="Usability test wireframe, screen 3">
+              </div>
+            </div>
+            <figcaption>The version tested. Dark mode only at this stage.</figcaption>
+          </figure>
+        </section>
+
+        <!-- SECTION 05 — FINAL DESIGN -->
+        <section class="cs-section" id="design">
+          <p class="section-label">05 — Final design</p>
+          <h2 class="cs-section-title">The final design.</h2>
+          <a href="PROTOTYPE_URL_HERE" class="cs-proto-btn" target="_blank" rel="noopener">View prototype</a>
+
+          <!-- Sub-block: The handover screen -->
+          <div class="cs-sub-block">
+            <h3 class="cs-sub-block-title">The handover screen.</h3>
+            <div class="cs-body">
+              <p>The main screen gives a clear overview of everything in the handover. Users can come back to it at any point during their shift to check off tasks, add new ones, or leave details on existing ones. Each card is designed to be quick to interact with. Checking off, expanding for details, or deleting all take minimal effort.</p>
+            </div>
+            <div class="cs-img-row">
+              <div class="cs-img-row-track">
+                <div class="cs-img-cell">
+                  <img src="images/case-study-2/handover-default.png" alt="Handover screen, default state">
+                </div>
+                <div class="cs-img-cell">
+                  <img src="images/case-study-2/handover-expanded.png" alt="Handover screen, card expanded">
+                </div>
+                <div class="cs-img-cell">
+                  <img src="images/case-study-2/handover-notes-reports.png" alt="Handover screen, notes and reports">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sub-block: Adding tasks, notes and reports -->
+          <div class="cs-sub-block">
+            <h3 class="cs-sub-block-title">Adding tasks, notes and reports.</h3>
+            <div class="cs-body">
+              <p>All tasks and reports are organised into categories so typing is kept to a minimum. Users pick from a list rather than writing from scratch, which matters when many staff are non-English speakers. Search makes finding a specific task quick, and if something unusual comes up that isn't in the list, adding a one-off task is straightforward.</p>
+            </div>
+            <div class="cs-img-row">
+              <div class="cs-img-row-track">
+                <div class="cs-img-cell">
+                  <img src="images/case-study-2/modal-task-default.png" alt="Task modal, default state">
+                </div>
+                <div class="cs-img-cell">
+                  <img src="images/case-study-2/modal-task-selected.png" alt="Task modal, item selected">
+                </div>
+                <div class="cs-img-cell">
+                  <img src="images/case-study-2/modal-note.png" alt="Note modal">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sub-block: The confirmation screen -->
+          <div class="cs-sub-block">
+            <h3 class="cs-sub-block-title">The confirmation screen.</h3>
+            <div class="cs-body">
+              <p>The final screen does two things. It gives the user one last look at their handover so they can think about whether anything is missing. And it should feel calm. The shift is done, the next person has what they need.</p>
+            </div>
+            <figure class="cs-figure">
+              <div class="cs-figure-img">
+                <img src="images/case-study-2/confirmation.png" alt="Confirmation screen">
+              </div>
+            </figure>
+          </div>
+
+          <!-- Sub-block: Dark mode -->
+          <div class="cs-sub-block">
+            <h3 class="cs-sub-block-title">Dark mode.</h3>
+            <div class="cs-body">
+              <p>Dark mode was built into the design system from the start.</p>
+            </div>
+            <div class="cs-img-row">
+              <div class="cs-img-row-track">
+                <div class="cs-img-cell">
+                  <img src="images/case-study-2/handover-dark.png" alt="Handover screen, dark mode">
+                </div>
+                <div class="cs-img-cell">
+                  <img src="images/case-study-2/modal-dark.png" alt="Modal, dark mode">
+                </div>
+                <div class="cs-img-cell">
+                  <img src="images/case-study-2/confirmation-dark.png" alt="Confirmation screen, dark mode">
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- SECTION 06 — REFLECTION -->
+        <section class="cs-section" id="reflection">
+          <p class="section-label">06 — Reflection</p>
+          <h2 class="cs-section-title">What I learned.</h2>
+          <!-- TODO Siggi to add reflection text later -->
+        </section>
+
+        <!-- FOOTER NAV -->
+        <div class="cs-footer-nav">
+          <a class="cs-footer-back" href="index.html">← Back to work</a>
+          <a class="cs-footer-next" href="case-study-1.html">Case study 01 →</a>
+        </div>
+
+      </div>
+    </div>
+
+    <footer>
+      <span>Siggi — UX Designer</span>
+      <span>2026</span>
+    </footer>
+
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+</html>

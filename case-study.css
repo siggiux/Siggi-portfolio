@@ -581,6 +581,9 @@
   margin-top: 12px;
   letter-spacing: 0.02em;
 }
+.cs-figure--small {
+  max-width: 560px;
+}
 
 /* ================================
    IMAGE ROW (multi-column grid)

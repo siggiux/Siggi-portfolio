@@ -562,6 +562,7 @@
 ================================ */
 .cs-figure {
   margin-top: 32px;
+  margin-bottom: 40px;
 }
 .cs-figure-img {
   width: 100%;
@@ -578,7 +579,7 @@
 .cs-figure figcaption {
   font-size: var(--text-sm);
   color: var(--color-text-3);
-  margin-top: 12px;
+  margin-top: 16px;
   letter-spacing: 0.02em;
 }
 .cs-figure--small {

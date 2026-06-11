@@ -160,7 +160,17 @@ a { color: inherit; }
   flex-wrap: wrap;
   gap: 12px;
   padding: clamp(20px, 3vw, 32px) 0 clamp(20px, 2.5vw, 28px);
-  border-top: 0.5px solid var(--color-line);
+  position: relative;
+}
+.work-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  height: 0.5px;
+  background: var(--color-line);
 }
 
 .work-title {

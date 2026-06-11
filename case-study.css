@@ -651,13 +651,13 @@
    INTERACTIVE PROTOTYPE (phone frame)
 ================================ */
 .cs-prototype {
-  display: flex;
-  justify-content: center;
-  margin: 48px 0;
+  max-width: 430px;
+  margin: 0 auto;
+  padding: 48px 0;
 }
 .cs-phone-frame {
-  width: 414px;
-  max-width: 100%;
+  max-width: 390px;
+  margin: 0 auto;
   padding: 12px;
   background: var(--color-bg);
   border: 1px solid var(--color-border);
@@ -668,7 +668,7 @@
 .cs-phone-screen {
   display: block;
   width: 100%;
-  aspect-ratio: 390 / 844;
+  height: 760px;
   border: none;
   border-radius: 36px;
   background: var(--color-bg-2);

@@ -665,7 +665,7 @@
 ================================ */
 .cs-prototype {
   max-width: 430px;
-  margin: 0 auto;
+  margin: 0;
   padding: 48px 0;
 }
 /* Scaling container — fixed height so the scaled frame leaves no gap.
@@ -676,7 +676,7 @@
 .cs-phone-frame {
   position: relative;
   width: fit-content;
-  margin: 0 auto;
+  margin: 0;
   padding: 12px;
   background: #1c1c1e;
   border: none;
@@ -684,7 +684,7 @@
   box-shadow: 0 0 0 1.5px #3a3a3c, 0 12px 40px rgba(0, 0, 0, 0.6);
   transition: box-shadow 0.2s;
   transform: scale(0.78);
-  transform-origin: top center;
+  transform-origin: top left;
 }
 /* Left side: volume up + volume down */
 .cs-phone-frame::before {

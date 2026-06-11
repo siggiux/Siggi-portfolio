@@ -631,6 +631,19 @@
 /* ================================
    SUB-BLOCK (named sub-section)
 ================================ */
+/* ── Inline body links ── */
+.cs-body p a {
+  color: var(--color-text-1);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--color-border);
+  transition: color 0.2s var(--ease-out), text-decoration-color 0.2s var(--ease-out);
+}
+.cs-body p a:hover {
+  color: var(--color-accent);
+  text-decoration-color: var(--color-accent);
+}
+
 .cs-sub-block {
   margin-top: 48px;
   padding-top: 40px;

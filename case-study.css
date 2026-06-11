@@ -661,22 +661,48 @@
   height: 682px;
 }
 .cs-phone-frame {
+  position: relative;
   width: fit-content;
   margin: 0 auto;
   padding: 12px;
-  background: var(--color-bg);
-  border: 1px solid var(--color-border);
-  border-radius: 48px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
-  transition: border-color 0.3s, background 0.3s;
+  background: #1c1c1e;
+  border: none;
+  border-radius: 36px;
+  box-shadow: 0 0 0 1.5px #3a3a3c, 0 12px 40px rgba(0, 0, 0, 0.6);
+  transition: box-shadow 0.2s;
   transform: scale(0.78);
   transform-origin: top center;
+}
+/* Left side: volume up + volume down */
+.cs-phone-frame::before {
+  content: '';
+  position: absolute;
+  left: -5px;
+  top: 160px;
+  width: 5px;
+  height: 60px;
+  background: #3a3a3c;
+  border-radius: 3px 0 0 3px;
+  box-shadow: 0 80px 0 #3a3a3c;
+  pointer-events: none;
+}
+/* Right side: power button */
+.cs-phone-frame::after {
+  content: '';
+  position: absolute;
+  right: -5px;
+  top: 196px;
+  width: 5px;
+  height: 100px;
+  background: #3a3a3c;
+  border-radius: 0 3px 3px 0;
+  pointer-events: none;
 }
 .cs-phone-screen {
   display: block;
   width: 390px;
   height: 844px;
   border: none;
-  border-radius: 36px;
+  border-radius: 24px;
   background: var(--color-bg-2);
 }

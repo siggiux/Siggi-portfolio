@@ -681,7 +681,7 @@
   background: #1c1c1e;
   border: none;
   border-radius: 36px;
-  box-shadow: 0 0 0 1.5px #3a3a3c, 0 12px 40px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 0 1.5px #3a3a3c, 0 8px 24px rgba(0, 0, 0, 0.28);
   transition: box-shadow 0.2s;
   transform: scale(0.78);
   transform-origin: top left;

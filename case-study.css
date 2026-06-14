@@ -299,7 +299,7 @@
 .cs-cover-caption {
   font-size: 12px;
   color: var(--color-text-3);
-  text-align: center;
+  text-align: right;
   margin-top: 16px;
   letter-spacing: 0.04em;
 }

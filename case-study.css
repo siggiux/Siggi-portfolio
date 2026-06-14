@@ -612,6 +612,7 @@
   font-size: var(--text-sm);
   color: var(--color-text-3);
   margin-top: 12px;
+  margin-bottom: 40px;
   letter-spacing: 0.02em;
 }
 @media (max-width: 640px) {

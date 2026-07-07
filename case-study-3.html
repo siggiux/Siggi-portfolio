@@ -102,12 +102,12 @@
   .cs-meta-value{font-size:14px;font-weight:400;color:var(--color-text-2)}
   .cs-cover-caption{font-size:12px;color:var(--color-text-3);text-align:right;margin-top:16px;letter-spacing:.04em}
   /* ---- hero cover image ---- */
-  .cs-hero-img{width:100%;margin-top:8px;border-radius:16px;overflow:hidden;
+  .cs-hero-img{width:100%;margin-top:8px;border-radius:16px;overflow:hidden;aspect-ratio:16/9;
     border:.5px solid var(--color-border);
     box-shadow:0 1px 2px rgba(17,17,16,.04),0 12px 28px rgba(17,17,16,.10),0 36px 72px rgba(17,17,16,.12)}
   body.dark .cs-hero-img{border-color:rgba(255,255,255,.08);
     box-shadow:0 2px 6px rgba(0,0,0,.4),0 22px 52px rgba(0,0,0,.5)}
-  .cs-hero-img img{width:100%;height:auto;display:block}
+  .cs-hero-img img{width:100%;height:100%;object-fit:cover;display:block}
 
   /* ---- content wrap + TOC ---- */
   .content-wrap{display:grid;grid-template-columns:200px minmax(0,1fr);gap:clamp(40px,5vw,80px);padding-top:72px;align-items:start}
@@ -125,6 +125,21 @@
 
   /* ---- sections ---- */
   .cs-section{padding:64px 0}
+  /* Final design breaks out of the TOC grid to full content width; a hairline
+     marks the hand-off so the widening reads as intentional, not a jump. */
+  .cs-section--full{border-top:.5px solid var(--color-border);margin-top:32px;padding-top:64px}
+  /* Full-width band: inset the prose AND left-align the screens to the SAME edge,
+     so copy and product share one left margin. Screens get more air below the copy.
+     (--ind is read back in JS so the fitter can align the screens to it.) */
+  #design{--ind:clamp(16px,3.5vw,56px)}
+  #design .section-label,
+  #design .cs-section-title,
+  #design .cs-body,
+  #design .cs-sub-block-title{padding-left:var(--ind)}
+  #design .device{margin-top:36px}
+  #design .device--hero{align-items:flex-start}          /* laptop hugs the indent, not centre */
+  #design .laptop-lid{margin-left:var(--ind)}
+  #design .device:not(.device--hero) .device-scale{margin-left:var(--ind);margin-right:auto}
   .cs-section-title{font-size:clamp(24px,3vw,40px);font-weight:700;letter-spacing:-1px;line-height:1.1;max-width:720px;margin:12px 0 24px}
   .cs-body{display:flex;flex-direction:column;gap:16px;max-width:680px;color:var(--color-text-2);font-size:var(--text-base)}
   .cs-body p a{color:var(--color-text-1);text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--color-border);transition:color .2s var(--ease-out),text-decoration-color .2s var(--ease-out)}
@@ -177,6 +192,38 @@
   .cs-figure-badge{position:absolute;top:14px;right:14px;width:52px;height:52px}
   .cs-figure-badge img{width:100%;height:100%;display:block}
   .cs-figure figcaption{font-size:var(--text-sm);color:var(--color-text-3);margin-top:16px;letter-spacing:.02em;line-height:1.6}
+  .cs-figure--flow .cs-figure-img{background:#fff}
+
+  /* ---- wireframe carousel (matches the Paper canvas dark bg) ---- */
+  .cs-carousel{position:relative;background:#282828;border-radius:var(--radius-lg);overflow:hidden;border:.5px solid var(--color-border)}
+  .cs-carousel-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .cs-carousel-track::-webkit-scrollbar{display:none}
+  .cs-carousel-slide{flex:0 0 100%;scroll-snap-align:center;display:flex;align-items:center;justify-content:center;padding:clamp(34px,4.5vw,64px) clamp(66px,7vw,96px)}
+  .cs-carousel-slide img{max-width:100%;height:auto;display:block;border-radius:8px;box-shadow:0 10px 34px rgba(0,0,0,.4)}
+  .cs-carousel-btn{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#fff;font-size:20px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);transition:background .2s}
+  .cs-carousel-btn:hover{background:rgba(255,255,255,.30)}
+  .cs-carousel-btn--prev{left:14px}
+  .cs-carousel-btn--next{right:14px}
+  .cs-carousel-count{position:absolute;bottom:14px;right:16px;font-size:12px;color:rgba(255,255,255,.6);letter-spacing:.04em;font-variant-numeric:tabular-nums;pointer-events:none}
+  .cs-carousel .cs-figure-badge{width:40px;height:40px;top:12px;left:12px;right:auto}
+  @media(max-width:640px){.cs-carousel-btn{width:38px;height:38px;font-size:18px}}
+
+  /* ---- prototype carousel: each slide is a tested screen + the issues found on it ---- */
+  .cs-carousel--proto{background:var(--color-bg-2)}
+  .cs-carousel--proto .cs-carousel-btn{background:color-mix(in srgb,var(--color-ink) 55%,transparent);color:var(--color-bg)}
+  .cs-carousel--proto .cs-carousel-btn:hover{background:var(--color-ink)}
+  .cs-carousel--proto .cs-carousel-count{color:var(--color-text-3)}
+  .proto-slide{flex:0 0 100%;scroll-snap-align:center;display:flex;flex-direction:column;align-items:stretch;gap:0;padding:clamp(28px,3vw,44px) clamp(66px,7vw,92px)}
+  .proto-slide__shot{width:100%}
+  .proto-slide__shot img{width:100%;height:auto;display:block;border-radius:10px;border:.5px solid var(--color-border);box-shadow:0 12px 34px rgba(0,0,0,.22)}
+  .proto-slide__issues{width:100%;margin-top:clamp(22px,2.6vw,32px)}
+  .proto-slide__screen{font-family:var(--font-display);font-size:19px;font-weight:500;letter-spacing:-.02em;color:var(--color-text-1);margin-bottom:10px}
+  .proto-slide__name{font-size:var(--text-xs);letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent);font-weight:700;margin-bottom:16px}
+  .proto-issues{list-style:none;display:flex;flex-wrap:wrap;gap:18px 44px}
+  .proto-issues li{flex:0 1 340px;font-size:14px;line-height:1.55;color:var(--color-text-2);padding-left:18px;position:relative}
+  .proto-issues li::before{content:'';position:absolute;left:0;top:7px;width:7px;height:7px;border-radius:50%;background:var(--color-accent)}
+  .proto-issues li b{color:var(--color-text-1);font-weight:600}
+  @media(max-width:600px){.proto-issues li{flex:1 1 100%}}
 
   /* ============================================================
      LIVE PRODUCT EMBED — browser window frame, scaled to fit.
@@ -186,7 +233,7 @@
   .device{margin:8px 0 0}
   /* shadow lives on .device-scale (the visible box) — its own box-shadow isn't
      clipped by its own overflow:hidden, whereas a child frame's shadow would be */
-  .device-scale{overflow:hidden;border-radius:14px;
+  .device-scale{overflow:hidden;border-radius:14px;margin:0 auto;
     border:.5px solid var(--color-border);
     box-shadow:0 1px 2px rgba(17,17,16,.04),0 10px 24px rgba(17,17,16,.09),0 30px 60px rgba(17,17,16,.11)}
   body.dark .device-scale{border-color:rgba(255,255,255,.08);
@@ -199,6 +246,33 @@
   .device-frame iframe{display:block;width:1200px;height:760px;border:0;background:#fafaf8}
   /* full-flow hero embed is a touch taller */
   .device--hero .device-frame iframe{height:800px}
+
+  /* ---- Laptop chassis around the hero embed ----
+     Frames the full clickable product in a MacBook-style body so it reads as the
+     real, running app rather than a screenshot. Pure CSS; JS (fitFrames) sizes the
+     lid to the scaled screen and widens the deck to match. */
+  .device--hero{display:flex;flex-direction:column;align-items:center}
+  .laptop-lid{display:inline-block;position:relative;
+    padding:12px;background:#0b0b0d;
+    border:2px solid #3c3e42;border-radius:16px 16px 6px 6px;
+    box-shadow:inset 0 0 0 1px #000,0 2px 4px rgba(17,17,16,.10),0 24px 54px rgba(17,17,16,.22)}
+  /* camera dot in the top bezel */
+  .laptop-lid::before{content:'';position:absolute;top:4px;left:50%;transform:translateX(-50%);
+    width:5px;height:5px;border-radius:50%;
+    background:radial-gradient(circle at 50% 40%,#2c3752 0 40%,#0a0a0c 62%)}
+  .device--hero .device-scale{margin:0;border:0;border-radius:4px;
+    box-shadow:inset 0 0 0 1px rgba(0,0,0,.55)}
+  /* base / front edge seen head-on */
+  .laptop-deck{height:15px;position:relative;
+    background:linear-gradient(#cbced3,#a6aab1 55%,#b9bdc3);
+    border-radius:1px 1px 12px 12px;
+    box-shadow:inset 0 2px 3px rgba(255,255,255,.65),inset 0 -2px 3px rgba(0,0,0,.18),0 16px 28px rgba(17,17,16,.18)}
+  /* shallow finger-notch cutout at front centre */
+  .laptop-deck::after{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+    width:13%;height:6px;background:linear-gradient(#9a9ea6,#bcc0c6);border-radius:0 0 8px 8px}
+  body.dark .laptop-lid{background:#050506;border-color:#2a2c30}
+  body.dark .laptop-deck{background:linear-gradient(#3b3e43,#25272b 55%,#313439)}
+  body.dark .laptop-deck::after{background:linear-gradient(#25272b,#34373c)}
   /* Per-section embeds stay scrollable (so the whole screen is reachable) but are
      locked to their screen: the product hides its flow-nav when loaded with ?nav=off,
      so a reader can't jump to a screen the heading doesn't describe. Hero omits the
@@ -317,8 +391,8 @@
           <p class="section-label">03 — Finding the flow</p>
           <h2 class="cs-section-title">Finding the flow.</h2>
           <div class="cs-body">
-            <p>This phase was done with two tools: Claude Code and <a href="https://paper.design/" target="_blank" rel="noopener">Paper</a>. I started by talking the problem through with Claude Code — what does a couple actually need to decide to set up shared finances, and in what order? Out of those conversations came a base flow: set your contribution, then walk through what the pot covers — bills, spending, savings — and review it together at the end.</p>
-            <p>Then came the iteration, in Paper. For each step of the flow I spun up a lot of ideas — different layouts, different framings of the same question, different ways a screen could work — as quick grayscale wireframes, side by side on one canvas. Three whole directions came and went: one partner setting everything up and the other approving, a turn-based version, and finally the one I committed to — both partners set their own contribution, then move through the setup together.</p>
+            <p>In this phase I needed to finalise the base task flow first, then move on to the detail — what belongs on each screen. For this I used Claude Code and <a href="https://paper.design/" target="_blank" rel="noopener">Paper design</a>. It was a really enjoyable workflow: I could brainstorm different ideas with Claude Code and easily see them laid out in Paper design.</p>
+            <p>Three flow directions came and went — one partner setting up and the other just approving, a turn-based version, and the one I committed to: both partners set their own contribution, then move through bills, spending, and savings together, before a final review. The outcome was both that flow and a first take on what each screen should hold.</p>
           </div>
 
           <figure class="cs-figure">
@@ -326,60 +400,138 @@
               <img src="images/case-study-3/paper-screenshot.png" alt="The Paper canvas with the wireframe explorations — three flow directions and many screen variants side by side" loading="lazy">
               <span class="cs-figure-badge"><img src="images/case-study-3/paper-logo.png" alt="Paper"></span>
             </div>
-            <figcaption>The Paper canvas — three flow directions and the screen variants explored along the way.</figcaption>
+            <figcaption>Every wireframe explored, on one Paper canvas.</figcaption>
           </figure>
 
-          <div class="cs-body">
-            <p>That committed flow is the one that carried through to the end: <strong>contribution → what's coming → bills → spending → savings → review</strong>.</p>
-          </div>
+          <figure class="cs-figure">
+            <div class="cs-carousel">
+              <div class="cs-carousel-track" id="wfTrack">
+                <div class="cs-carousel-slide" data-label="What do you want to share?"><img src="images/case-study-3/paper-wireframes/wf-01-shell.png" alt="What to share screen" loading="lazy"></div>
+                <div class="cs-carousel-slide" data-label="Set contribution — a share of your pay"><img src="images/case-study-3/paper-wireframes/wf-02-contribution-share.png" alt="Set contribution, share of pay" loading="lazy"></div>
+                <div class="cs-carousel-slide" data-label="Set contribution — a fixed amount"><img src="images/case-study-3/paper-wireframes/wf-03-contribution-fixed.png" alt="Set contribution, fixed amount" loading="lazy"></div>
+                <div class="cs-carousel-slide" data-label="You're both in — the shared pot confirmed"><img src="images/case-study-3/paper-wireframes/wf-04-gateway.png" alt="Gateway screen" loading="lazy"></div>
+                <div class="cs-carousel-slide" data-label="Spending — the savings-first split"><img src="images/case-study-3/paper-wireframes/wf-05-spending.png" alt="Spending screen" loading="lazy"></div>
+                <div class="cs-carousel-slide" data-label="Savings — no goals yet"><img src="images/case-study-3/paper-wireframes/wf-06-savings-empty.png" alt="Savings, empty state" loading="lazy"></div>
+                <div class="cs-carousel-slide" data-label="Adding a goal"><img src="images/case-study-3/paper-wireframes/wf-07-savings-add-goal.png" alt="Add a goal modal" loading="lazy"></div>
+                <div class="cs-carousel-slide" data-label="A goal without a target"><img src="images/case-study-3/paper-wireframes/wf-08-savings-open-ended.png" alt="Open-ended goal" loading="lazy"></div>
+                <div class="cs-carousel-slide" data-label="The catch-all account"><img src="images/case-study-3/paper-wireframes/wf-09-savings-catch-all.png" alt="Catch-all account" loading="lazy"></div>
+                <div class="cs-carousel-slide" data-label="Your goals — the funds breakdown"><img src="images/case-study-3/paper-wireframes/wf-10-savings-goals.png" alt="Your goals, funds breakdown" loading="lazy"></div>
+                <div class="cs-carousel-slide" data-label="Review — send to Alex"><img src="images/case-study-3/paper-wireframes/wf-11-review.png" alt="Review and send" loading="lazy"></div>
+              </div>
+              <span class="cs-figure-badge"><img src="images/case-study-3/paper-logo.png" alt="Paper"></span>
+              <button class="cs-carousel-btn cs-carousel-btn--prev" aria-label="Previous wireframe">‹</button>
+              <button class="cs-carousel-btn cs-carousel-btn--next" aria-label="Next wireframe">›</button>
+              <span class="cs-carousel-count" id="wfCount">1 / 11</span>
+            </div>
+            <figcaption>The final screens from this phase.</figcaption>
+          </figure>
         </section>
 
         <!-- 04 TESTING -->
         <section class="cs-section" id="testing">
           <p class="section-label">04 — Prototype and testing</p>
-          <h2 class="cs-section-title">What testing changed.</h2>
+          <h2 class="cs-section-title">Making it real, then testing it.</h2>
           <div class="cs-body">
-            <p>I built a working coded prototype of the full setup flow and ran a moderated, think-aloud usability test — real people, realistic tasks, watching without helping. Some things landed. The ones that didn't were more useful. A few clear patterns came out of it:</p>
+            <p>With the flow and screens resolved, I built them into a working prototype — the whole setup, clickable end to end. Clicking through it for real surfaced things the static wireframes had hidden, so I refined each screen as I went.</p>
+            <p>I also mapped the flow as a user flow diagram to catch the edge cases and added them to the prototype.</p>
+            <p>Then I put it in front of people: a moderated, think-aloud usability test, real tasks, watching without stepping in. Below is each screen that was tested, and where people got stuck.</p>
           </div>
-          <ol class="cs-numbered-list">
-            <li><span class="cs-num">01</span><span>The contribution screen led with <b>"what stays personal."</b> People read it as the app trying to take their money. <b>Fix:</b> reframe it as "your contribution to your shared pot" — lead with what you're building together, not what you're giving up.</span></li>
-            <li><span class="cs-num">02</span><span>The "what to share" screen looked like a set of switches, so people treated it as the place to opt in and got confused when choices reappeared later. <b>Fix:</b> turn it into an <b>orientation</b> step — here's what's coming — not a decision point.</span></li>
-            <li><span class="cs-num">03</span><span>Auto-paying bills from the shared pot felt like something the app decided for them. <b>Fix:</b> make auto-pay explicitly <b>opt-in</b>, per bill. It satisfies Boundary and it stopped feeling presumptuous.</span></li>
-            <li><span class="cs-num">04</span><span>The savings model had a "catch-all" account that everything fell into. Testers couldn't explain what it was. <b>Fix:</b> kill the concept. A plain <b>base savings account</b> holds the money, and goal accounts spin off it — whatever isn't assigned to a goal simply stays in the base.</span></li>
-          </ol>
-          <div class="cs-goals">
-            <div>
-              <p class="cs-goals-label cs-goals-label--wins">What worked</p>
-              <ul class="cs-goals-list cs-goals-list--wins">
-                <li>Proportional contribution was <b>immediately understood</b> and quietly appreciated — nobody wanted 50/50.</li>
-                <li>The evolving "shared pot" summary that fills in as you go gave people a clear sense of progress.</li>
-                <li>Saving-first genuinely <b>felt good</b> — the moment you lock in savings was the emotional high point.</li>
-              </ul>
+
+          <figure class="cs-figure cs-figure--flow">
+            <div class="cs-figure-img"><img src="images/case-study-3/user-flow.png" alt="The setup flow mapped as a diagram — screens, decisions, and undesigned edge states" loading="lazy"></div>
+            <figcaption>The flow mapped out — main path left to right, edge cases and undesigned states branching off.</figcaption>
+          </figure>
+
+          <figure class="cs-figure">
+            <div class="cs-carousel cs-carousel--proto">
+              <div class="cs-carousel-track">
+                <div class="cs-carousel-slide proto-slide">
+                  <p class="proto-slide__screen">Contribution</p>
+                  <div class="proto-slide__shot"><img src="images/case-study-3/prototype-screens/p1-contribution.png" alt="Prototype — contribution screen" loading="lazy"></div>
+                  <div class="proto-slide__issues">
+                    <p class="proto-slide__name">Usability issues</p>
+                    <ul class="proto-issues">
+                      <li><b>Framed the wrong way round.</b> People expected to set what they put <em>in</em>, but the screen asked how much stays personal — making the contribution the leftover.</li>
+                      <li><b>Privacy, over-said.</b> The "Alex won't see your salary" reassurance appeared three times; it drew attention to privacy instead of settling it.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="cs-carousel-slide proto-slide">
+                  <p class="proto-slide__screen">What to share · Step 1</p>
+                  <div class="proto-slide__shot"><img src="images/case-study-3/prototype-screens/p2-share.png" alt="Prototype — what to share screen" loading="lazy"></div>
+                  <div class="proto-slide__issues">
+                    <p class="proto-slide__name">Usability issues</p>
+                    <ul class="proto-issues">
+                      <li><b>A decision with no context.</b> People were asked to opt each part in or out before they knew what any of it involved. "Making a decision now, not knowing how the flow is, is strange."</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="cs-carousel-slide proto-slide">
+                  <p class="proto-slide__screen">Bills · Step 2</p>
+                  <div class="proto-slide__shot"><img src="images/case-study-3/prototype-screens/p3-bills.png" alt="Prototype — bills screen" loading="lazy"></div>
+                  <div class="proto-slide__issues">
+                    <p class="proto-slide__name">Usability issues</p>
+                    <ul class="proto-issues">
+                      <li><b>The headline misread.</b> "How should bills be paid?" read as <em>which card pays</em>, not <em>which bills the pot covers</em>. The task itself was fine once that clicked.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="cs-carousel-slide proto-slide">
+                  <p class="proto-slide__screen">Spending · Step 3</p>
+                  <div class="proto-slide__shot"><img src="images/case-study-3/prototype-screens/p4-spending.png" alt="Prototype — spending screen" loading="lazy"></div>
+                  <div class="proto-slide__issues">
+                    <p class="proto-slide__name">Usability issues</p>
+                    <ul class="proto-issues">
+                      <li><b>Sliders with hidden rules.</b> Each was capped by the others, with savings as the leftover — no one could tell what moving one did to the rest.</li>
+                      <li><b>Savings didn't feel decided.</b> As the remainder, it never registered as a choice; one tester tried to add a holiday fund right here.</li>
+                      <li><b>A pot didn't read as a card.</b> People didn't grasp that adding a pot meant a real card in their wallet.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="cs-carousel-slide proto-slide">
+                  <p class="proto-slide__screen">Savings · Step 4</p>
+                  <div class="proto-slide__shot"><img src="images/case-study-3/prototype-screens/p5-savings.png" alt="Prototype — savings screen" loading="lazy"></div>
+                  <div class="proto-slide__issues">
+                    <p class="proto-slide__name">Usability issues</p>
+                    <ul class="proto-issues">
+                      <li><b>"Where am I?"</b> On landing, people didn't realise they'd reached the savings step.</li>
+                      <li><b>The catch-all baffled everyone.</b> No one could say what "Everything else · catch-all" was actually for.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="cs-carousel-slide proto-slide">
+                  <p class="proto-slide__screen">Review · Step 5</p>
+                  <div class="proto-slide__shot"><img src="images/case-study-3/prototype-screens/p6-review.png" alt="Prototype — review screen" loading="lazy"></div>
+                  <div class="proto-slide__issues">
+                    <p class="proto-slide__name">Usability issues</p>
+                    <ul class="proto-issues">
+                      <li><b>The pot got lost.</b> People wanted to see the whole shared-pot picture, but it sat off to the side and just repeated the middle column.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <button class="cs-carousel-btn cs-carousel-btn--prev" aria-label="Previous screen">‹</button>
+              <button class="cs-carousel-btn cs-carousel-btn--next" aria-label="Next screen">›</button>
+              <span class="cs-carousel-count">1 / 6</span>
             </div>
-            <div>
-              <p class="cs-goals-label cs-goals-label--constraints">What broke</p>
-              <ul class="cs-goals-list cs-goals-list--constraints">
-                <li>Framing that led with sacrifice ("what stays") read as the bank taking, not the couple building.</li>
-                <li>Anything that looked like a switch got treated as a decision, even when it was just orientation.</li>
-                <li>Abstract structural concepts ("catch-all") never survive contact with a real user.</li>
-              </ul>
-            </div>
-          </div>
+          </figure>
         </section>
 
         <!-- 05 IDENTITY -->
         <section class="cs-section" id="identity">
           <p class="section-label">05 — Building the identity</p>
-          <h2 class="cs-section-title">Serious enough for your salary, human enough to want.</h2>
+          <h2 class="cs-section-title">Now the colour and brand.</h2>
           <div class="cs-body">
-            <p>Only now — with the flow tested and settled — did colour and brand appear. A bank you trust with your salary has to feel calm and solid; a product about a shared life shouldn't feel like a spreadsheet. The direction I landed on I think of as <strong>atmospheric glass</strong>.</p>
-            <p>A single photograph — a soft meadow-and-sky — sits blurred behind the entire app, under a white veil that acts as a brightness dial. Frosted-glass cards and a frosted nav rail float on top of it. The whole thing feels like it's lit from behind rather than painted on.</p>
-            <p>The accent is a <strong>soft sky-blue pulled straight out of that photo</strong>, used as a grained gradient rather than a flat fill — so it reads as a material, not a swatch. Savings gets its own sage-green. Type is Inter, treated with its OpenType features switched on for a quieter, more deliberate feel. Light is the default; dark mode swaps in a night photograph and a deeper accent rather than just inverting the colours.</p>
+            <p>With the flow tested and settled, I added colour and brand. The goal was trust: a product you hand your salary to has to feel calm and solid, not like a spreadsheet. I used <strong>Mobbin</strong> to study how established banking and finance apps build that trust, and pulled the direction from there.</p>
+            <p>For the build, I set up a simple <strong>two-step design system</strong> — raw values (the palette, type, spacing) feeding semantic tokens (background, accent, savings) — so the whole UI stays consistent from one source. I moved the design between <strong>Claude Code and Figma</strong>, using Figma wherever I needed finer control, then bringing it back into the coded product.</p>
           </div>
         </section>
 
-        <!-- 06 FINAL DESIGN -->
-        <section class="cs-section" id="design">
+      </div><!-- /.main-content -->
+    </div><!-- /.content-wrap : TOC + grid end here -->
+
+    <!-- 06 FINAL DESIGN — breaks out to full width; sticky TOC has released -->
+    <section class="cs-section cs-section--full" id="design">
           <p class="section-label">06 — Final design</p>
           <h2 class="cs-section-title">The final design.</h2>
           <div class="cs-body">
@@ -393,17 +545,18 @@
               <p>Walk the full flow below — set a contribution, choose bills, split spending, name a savings goal. Or <a id="openFull" href="https://siggiux.github.io/cs3-couples-banking/index.html" target="_blank" rel="noopener">open it full screen</a>.</p>
             </div>
             <div class="device device--hero" data-fit>
-              <div class="device-scale"><div class="device-frame">
+              <div class="laptop-lid"><div class="device-scale"><div class="device-frame">
                 <iframe data-screen="" data-eager="1" title="CS3 — live product, full flow"></iframe>
-              </div></div>
+              </div></div></div>
+              <div class="laptop-deck"></div>
             </div>
           </div>
 
           <!-- Contribution -->
           <div class="cs-sub-block">
-            <h3 class="cs-sub-block-title">Contribution — proportional, and private.</h3>
+            <h3 class="cs-sub-block-title">Screen 1: Contribution — proportional, and private.</h3>
             <div class="cs-body">
-              <p>Setup opens on the one decision that matters most. You set your own contribution to the shared pot — as a share of your pay or a fixed amount — and your partner sets theirs. Neither of you sees the other's salary, only what each puts in. Fairness made visible, Boundary preserved.</p>
+              <p>Testing showed people expected to set what they put <em>in</em>, not what stays — so contribution is now the deliberate number, a share of pay or a fixed amount (the <strong>Fairness</strong> constraint). The privacy reassurance testers found over-said is one calm line now: salaries stay private, only amounts show (<strong>Boundary</strong>).</p>
             </div>
             <div class="device" data-fit>
               <div class="device-scale"><div class="device-frame">
@@ -412,11 +565,24 @@
             </div>
           </div>
 
+          <!-- Bills -->
+          <div class="cs-sub-block">
+            <h3 class="cs-sub-block-title">Screen 2: Bills — which ones the pot covers.</h3>
+            <div class="cs-body">
+              <p>Testing caught the old headline — "How should bills be paid?" — misreading as <em>which card pays</em>, not which bills the pot covers. It's reworded to name the real task, with every bill (and its auto-pay) opt-in, so nothing about a couple's money is assumed (<strong>Couple-first</strong>).</p>
+            </div>
+            <div class="device" data-fit>
+              <div class="device-scale"><div class="device-frame">
+                <iframe data-screen="bills" title="Bills screen" loading="lazy"></iframe>
+              </div></div>
+            </div>
+          </div>
+
           <!-- Spending savings-first -->
           <div class="cs-sub-block">
-            <h3 class="cs-sub-block-title">Spending — but savings first.</h3>
+            <h3 class="cs-sub-block-title">Screen 3: Spending — but savings first.</h3>
             <div class="cs-body">
-              <p>This is the inverted step. Before a single spending card is set, you lock in what you'll save. The bar splits savings from spendable, and only then do the named spending cards — each a real virtual card — divide up what's left. Savings holds its ground while the rest gets allocated — that's the whole point.</p>
+              <p>This screen tested worst: the linked sliders were opaque and savings-as-leftover never read as a decision. So it's rebuilt savings-first — you lock savings before anything else — with named virtual <em>cards</em> rather than abstract "pots" (testers didn't link a pot to their wallet), keeping the <strong>Mental-load</strong> constraint honest.</p>
             </div>
             <div class="device" data-fit>
               <div class="device-scale"><div class="device-frame">
@@ -427,9 +593,9 @@
 
           <!-- Savings goals -->
           <div class="cs-sub-block">
-            <h3 class="cs-sub-block-title">Savings — a base account, and goals worth picturing.</h3>
+            <h3 class="cs-sub-block-title">Screen 4: Savings — a base account, and goals worth picturing.</h3>
             <div class="cs-body">
-              <p>The saved amount lands in a plain base account. From there you spin off goal accounts — a home deposit, a trip — each taking a fixed monthly amount, with an optional target and a photo of the thing itself. A targeted goal fills, then quietly hands its monthly amount back to the base. Interest is shown as an effect, not a headline.</p>
+              <p>Testers didn't realise they'd reached savings, and a "catch-all" account baffled them — so it's gone, replaced by a plain <strong>base account</strong> that simply holds what isn't assigned. Goal accounts keep what testing liked: a target, a time-to-reach line and an interest breakdown — the <strong>Goals</strong> constraint, made motivating.</p>
             </div>
             <div class="device" data-fit>
               <div class="device-scale"><div class="device-frame">
@@ -440,9 +606,9 @@
 
           <!-- Review -->
           <div class="cs-sub-block">
-            <h3 class="cs-sub-block-title">Review — the whole picture, agreed.</h3>
+            <h3 class="cs-sub-block-title">Screen 5: Review — the whole picture, agreed.</h3>
             <div class="cs-body">
-              <p>The last step gathers every decision into one calm summary — contribution, bills, spending, savings — ready to save and send to your partner. The right-hand "shared pot" panel that's been filling in the entire way through is complete here. Nothing on this screen is new; that's the point. You're confirming choices you already made together, not discovering them.</p>
+              <p>Testers said the shared-pot picture was there but easy to miss, and the side panel just repeated the middle. Now the whole picture is the focus, with nothing new to decide — only the choices you already made together, ready to send (<strong>Couple-first</strong>).</p>
             </div>
             <div class="device" data-fit>
               <div class="device-scale"><div class="device-frame">
@@ -470,9 +636,6 @@
           <a class="cs-footer-back" href="index.html">← Back to work</a>
           <a class="cs-footer-next" href="case-study-2.html">Next case study →</a>
         </div>
-
-      </div>
-    </div>
 
     <footer>
       <span>Siggi — UX Designer</span>
@@ -510,24 +673,70 @@
      Render the desktop app at its NATIVE width (= the column width) so it stays
      crisp and gets real room. Only when the column is narrower than the app can
      comfortably live (mobile / small windows) do we fall back to scaling a fixed
-     logical frame down. Never scale up (that would blur the app). */
+     logical frame down. Never scale up (that would blur the app).
+     Since the final-design band is full width, a native-width screen would stand
+     ~800px tall and swallow the viewport — so we also CAP the shown height to a
+     slice of the viewport, then centre the (now narrower) frame in the band. */
   var MIN_LOGICAL=1160;
+  /* laptop chassis dimensions (must match the .laptop-lid / .laptop-deck CSS) */
+  var LID_BEZEL=12, LID_RING=2, DECK_H=15, DECK_WIDEN=1.06;
   function fitFrames(){
+    var vh=window.innerHeight;
     document.querySelectorAll('[data-fit]').forEach(function(wrap){
       var scale=wrap.querySelector('.device-scale'),frame=wrap.querySelector('.device-frame'),iframe=frame&&frame.querySelector('iframe');
       if(!scale||!frame||!iframe)return;
-      var w=scale.clientWidth;
-      var logical=Math.max(w,MIN_LOGICAL);   /* app never renders narrower than this */
+      var laptop=wrap.classList.contains('device--hero'),
+          lid=wrap.querySelector('.laptop-lid'),
+          deck=wrap.querySelector('.laptop-deck');
+      /* chrome the laptop body eats out of the available box */
+      var chromeX=laptop?2*(LID_BEZEL+LID_RING):0,
+          chromeY=laptop?(2*(LID_BEZEL+LID_RING)+DECK_H):0;
+      /* keep the WHOLE thing (screen + body) inside a slice of the viewport */
+      var capH=Math.min(Math.round(vh*(laptop?0.82:0.78)),laptop?720:660);
+      /* the shared left indent the copy sits at — read from CSS so the screen lines up with it */
+      var indEl=laptop?lid:scale,
+          ind=indEl?parseFloat(getComputedStyle(indEl).marginLeft)||0:0;
+
+      scale.style.width='';                   /* reset so we measure the full band width */
+      var band=wrap.clientWidth;
+      var avail=band-ind-chromeX;              /* screen lives between the indent and the right edge */
+      var logical=Math.max(avail,MIN_LOGICAL); /* app never renders narrower than this */
       frame.style.width=logical+'px';
       iframe.style.width=logical+'px';
-      var s=w/logical;                        /* 1 at native width, <1 only on narrow screens */
+      var s=avail/logical;                     /* 1 at native width, <1 only on narrow screens */
+      var nativeH=frame.offsetHeight;          /* 760 / 800 logical px */
+      if(nativeH*s>capH-chromeY)s=(capH-chromeY)/nativeH;  /* height cap (incl. chassis) wins */
       frame.style.transform='scale('+s+')';
-      scale.style.height=(frame.offsetHeight*s)+'px';
+      var Wd=Math.round(logical*s), Hd=Math.round(nativeH*s);
+      scale.style.width=Wd+'px';              /* shrink box to the scaled frame (left-aligned to --ind) */
+      scale.style.height=Hd+'px';
+      if(deck){                                /* base a touch wider, centred under the lid */
+        var lidW=Wd+chromeX, deckW=Math.round(lidW*DECK_WIDEN),
+            deckLeft=Math.max(0,Math.round(ind-(deckW-lidW)/2));
+        if(deckLeft+deckW>band)deckW=band-deckLeft;
+        deck.style.width=deckW+'px';
+        deck.style.marginLeft=deckLeft+'px';
+      }
     });
   }
   window.addEventListener('resize',fitFrames);
   window.addEventListener('load',fitFrames);
   fitFrames();
+
+  /* ---- carousels (wireframes + prototype): arrows, scroll-snap, counter ---- */
+  document.querySelectorAll('.cs-carousel').forEach(function(car){
+    var track=car.querySelector('.cs-carousel-track'); if(!track) return;
+    var countEl=car.querySelector('.cs-carousel-count');
+    var prev=car.querySelector('.cs-carousel-btn--prev'), next=car.querySelector('.cs-carousel-btn--next');
+    var total=track.children.length;
+    function idx(){ return Math.max(0, Math.min(total-1, Math.round(track.scrollLeft/track.clientWidth))); }
+    function update(){ if(countEl) countEl.textContent=(idx()+1)+' / '+total; }
+    function nav(d){ track.scrollBy({left:d*track.clientWidth, behavior:'smooth'}); }
+    if(prev) prev.onclick=function(){ nav(-1); };
+    if(next) next.onclick=function(){ nav(1); };
+    var t; track.addEventListener('scroll',function(){ clearTimeout(t); t=setTimeout(update,60); });
+    update();
+  });
 
   /* ============================================================
      PRODUCT SOURCE — the one place the embedded app lives.

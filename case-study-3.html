@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A shared bank for couples — Siggi UX</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23dd2f20'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
+
+  <style>
+  /* ============================================================
+     CS3 CASE STUDY — self-contained.
+     Design system mirrors siggidesign.com (tokens / style /
+     components / case-study CSS) so this page matches the portfolio.
+     The embedded product carries its OWN identity (sky-blue) —
+     the portfolio red is the frame, not the product.
+  ============================================================ */
+
+  /* ---- TOKENS ---- */
+  :root{
+    --font-display:'Inter Tight','Helvetica Neue',sans-serif;
+    --font-body:'Inter Tight','Helvetica Neue',sans-serif;
+    --font-mono:'JetBrains Mono',ui-monospace,monospace;
+
+    --text-xs:11px; --text-sm:13px; --text-base:16px; --text-lg:18px;
+    --text-xl:28px; --text-2xl:44px;
+
+    --color-bg:#fafaf8; --color-bg-2:#f2f2ee;
+    --color-ink:#111110; --color-mute:#6b6b6b; --color-quiet:#a8a8a4;
+    --color-line:rgba(17,17,16,.08); --color-grid:rgba(17,17,16,.045);
+    --color-accent:#dd2f20;
+
+    --color-text-1:var(--color-ink); --color-text-2:var(--color-mute); --color-text-3:var(--color-quiet);
+    --color-border:var(--color-line);
+
+    --radius-lg:16px; --radius-xl:24px; --radius-full:999px;
+    --gutter:clamp(20px,4vw,56px); --max-width:1280px;
+    --ease-out:cubic-bezier(.22,1,.36,1);
+  }
+  body.dark{
+    --color-bg:#0e0e0d; --color-bg-2:#181816;
+    --color-ink:#f3f1ec; --color-mute:#8a8985; --color-quiet:#4a4a47;
+    --color-line:rgba(243,241,236,.10); --color-grid:rgba(243,241,236,.05);
+  }
+
+  /* ---- RESET / GLOBAL ---- */
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--font-body); font-size:clamp(15px,1vw,16px);
+    background:var(--color-bg); color:var(--color-ink); line-height:1.6;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+    transition:background .4s var(--ease-out),color .4s var(--ease-out);
+    min-height:100vh; overflow-x:hidden;
+  }
+  h1,h2,h3,h4{font-family:var(--font-display);font-weight:600;line-height:1.05;letter-spacing:-.03em}
+  p{line-height:1.65}
+  a{color:inherit}
+  ::selection{background:var(--color-ink);color:var(--color-bg)}
+
+  /* ---- background grid lines ---- */
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    border-left:.5px solid var(--color-grid);border-right:.5px solid var(--color-grid);
+    background-image:
+      linear-gradient(to right,transparent calc(100%/6 - .5px),var(--color-grid) calc(100%/6 - .5px),var(--color-grid) calc(100%/6 + .5px),transparent calc(100%/6 + .5px)),
+      linear-gradient(to right,transparent calc(2*100%/6 - .5px),var(--color-grid) calc(2*100%/6 - .5px),var(--color-grid) calc(2*100%/6 + .5px),transparent calc(2*100%/6 + .5px)),
+      linear-gradient(to right,transparent calc(3*100%/6 - .5px),var(--color-grid) calc(3*100%/6 - .5px),var(--color-grid) calc(3*100%/6 + .5px),transparent calc(3*100%/6 + .5px)),
+      linear-gradient(to right,transparent calc(4*100%/6 - .5px),var(--color-grid) calc(4*100%/6 - .5px),var(--color-grid) calc(4*100%/6 + .5px),transparent calc(4*100%/6 + .5px)),
+      linear-gradient(to right,transparent calc(5*100%/6 - .5px),var(--color-grid) calc(5*100%/6 - .5px),var(--color-grid) calc(5*100%/6 + .5px),transparent calc(5*100%/6 + .5px));
+  }
+
+  .page{position:relative;z-index:1;max-width:var(--max-width);margin:0 auto;padding:0 var(--gutter) clamp(48px,8vh,96px)}
+  .page--case-study{max-width:1800px;padding:0 var(--gutter) 80px}
+
+  /* ---- NAV ---- */
+  nav{display:flex;justify-content:space-between;align-items:center;padding:clamp(16px,2vw,22px) 0;position:relative;gap:clamp(16px,2vw,32px);flex-wrap:wrap}
+  nav::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:100vw;height:.5px;background:var(--color-line);transition:background .4s var(--ease-out)}
+  .nav-logo{font-family:var(--font-display);font-size:clamp(16px,1.4vw,18px);font-weight:600;letter-spacing:-.02em;color:var(--color-ink);text-decoration:none;display:inline-flex;align-items:center;gap:5px;flex-shrink:0}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--color-accent);display:inline-block;flex-shrink:0}
+  .nav-logo .dot{transform:translateY(-3px)}
+  .nav-right{display:flex;align-items:center;gap:clamp(14px,2.4vw,32px);margin-left:auto}
+  .nav-links{display:flex;gap:clamp(14px,2.4vw,32px);list-style:none}
+  .nav-links a{position:relative;font-size:var(--text-sm);color:var(--color-mute);text-decoration:none;letter-spacing:.02em;transition:color .2s var(--ease-out)}
+  .nav-links a::after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:1px;background:var(--color-ink);transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease-out)}
+  .nav-links a:hover{color:var(--color-ink)}
+  .nav-links a:hover::after{transform:scaleX(1)}
+  .theme-btn{width:clamp(32px,3vw,36px);height:clamp(32px,3vw,36px);border-radius:50%;border:.5px solid var(--color-line);background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--color-mute);flex-shrink:0;transition:color .2s var(--ease-out),border-color .2s var(--ease-out)}
+  .theme-btn:hover{color:var(--color-ink);border-color:var(--color-ink)}
+  .theme-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;display:block}
+
+  /* ---- section label / eyebrow ---- */
+  .section-label{font-family:var(--font-body);font-size:var(--text-xs);letter-spacing:.18em;text-transform:uppercase;color:var(--color-mute);font-weight:500}
+
+  /* ---- HERO ---- */
+  .cs-hero{padding:72px 0 0}
+  .cs-title{font-size:clamp(36px,5vw,64px);font-weight:700;letter-spacing:-2px;line-height:1;margin:16px 0}
+  .cs-meta{display:flex;gap:48px;flex-wrap:wrap;padding:24px 0 0;margin:24px 0}
+  .cs-meta-label{font-size:var(--text-xs);letter-spacing:.1em;text-transform:uppercase;color:var(--color-text-3);margin-bottom:6px}
+  .cs-meta-value{font-size:14px;font-weight:400;color:var(--color-text-2)}
+  .cs-cover-caption{font-size:12px;color:var(--color-text-3);text-align:right;margin-top:16px;letter-spacing:.04em}
+  /* ---- hero cover image ---- */
+  .cs-hero-img{width:100%;margin-top:8px;border-radius:16px;overflow:hidden;
+    border:.5px solid var(--color-border);
+    box-shadow:0 1px 2px rgba(17,17,16,.04),0 12px 28px rgba(17,17,16,.10),0 36px 72px rgba(17,17,16,.12)}
+  body.dark .cs-hero-img{border-color:rgba(255,255,255,.08);
+    box-shadow:0 2px 6px rgba(0,0,0,.4),0 22px 52px rgba(0,0,0,.5)}
+  .cs-hero-img img{width:100%;height:auto;display:block}
+
+  /* ---- content wrap + TOC ---- */
+  .content-wrap{display:grid;grid-template-columns:200px minmax(0,1fr);gap:clamp(40px,5vw,80px);padding-top:72px;align-items:start}
+  .toc{position:sticky;top:80px}
+  .main-content{min-width:0;max-width:none}
+  /* prose keeps a readable measure even in a wide column — only the live embeds go full-width */
+  .cs-numbered-list{max-width:860px}
+  .cs-goals{max-width:920px}
+  .main-content>*{max-width:100%}
+  .toc-list{list-style:none;display:flex;flex-direction:column;gap:10px}
+  .toc-item a{display:block;font-size:16px;font-weight:400;color:var(--color-text-3);text-decoration:none;padding:4px 0;transition:color .2s;line-height:1.4}
+  .toc-item a:hover{color:var(--color-text-2)}
+  .toc-item.active a{color:var(--color-text-1);font-weight:700}
+  @media(max-width:960px){.content-wrap{grid-template-columns:1fr}.toc{display:none}}
+
+  /* ---- sections ---- */
+  .cs-section{padding:64px 0}
+  .cs-section-title{font-size:clamp(24px,3vw,40px);font-weight:700;letter-spacing:-1px;line-height:1.1;max-width:720px;margin:12px 0 24px}
+  .cs-body{display:flex;flex-direction:column;gap:16px;max-width:680px;color:var(--color-text-2);font-size:var(--text-base)}
+  .cs-body p a{color:var(--color-text-1);text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--color-border);transition:color .2s var(--ease-out),text-decoration-color .2s var(--ease-out)}
+  .cs-body p a:hover{color:var(--color-accent);text-decoration-color:var(--color-accent)}
+  .cs-body strong{color:var(--color-text-1);font-weight:600}
+
+  /* ---- process / workflow list ---- */
+  .cs-process{list-style:none;counter-reset:step;display:flex;flex-direction:column;gap:14px;margin-top:32px;max-width:660px}
+  .cs-process li{counter-increment:step;position:relative;padding-left:36px;color:var(--color-text-2);font-size:var(--text-base);line-height:1.5}
+  .cs-process li::before{content:counter(step,decimal-leading-zero);position:absolute;left:0;top:3px;font-size:var(--text-xs);font-weight:700;letter-spacing:.12em;color:var(--color-text-3)}
+  .cs-process li b{color:var(--color-text-1);font-weight:600}
+
+  /* ---- numbered list ---- */
+  .cs-numbered-list{list-style:none;display:flex;flex-direction:column;gap:0;margin-top:32px;border-top:.5px solid var(--color-border)}
+  .cs-numbered-list li{display:flex;gap:20px;align-items:flex-start;padding:20px 0;border-bottom:.5px solid var(--color-border);font-size:var(--text-base);color:var(--color-text-2);line-height:1.65}
+  .cs-num{font-size:var(--text-xs);font-weight:700;letter-spacing:.12em;color:var(--color-text-3);min-width:24px;padding-top:2px;flex-shrink:0}
+  .cs-numbered-list li b{color:var(--color-text-1);font-weight:600}
+
+  /* ---- constraints / wins grid ---- */
+  .cs-goals{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:48px;padding-top:40px;border-top:.5px solid var(--color-border)}
+  .cs-goals-label{font-size:var(--text-xs);letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px;font-weight:700}
+  .cs-goals-label--wins{color:#2d9e6b}
+  .cs-goals-label--constraints{color:var(--color-accent)}
+  .cs-goals-list{list-style:none;display:flex;flex-direction:column;gap:16px}
+  .cs-goals-list li{font-size:var(--text-base);color:var(--color-text-2);padding-left:22px;position:relative;line-height:1.55}
+  .cs-goals-list li b{color:var(--color-text-1);font-weight:600}
+  .cs-goals-list li::before{content:'→';position:absolute;left:0;font-size:12px;top:2px}
+  .cs-goals-list--constraints li::before{color:var(--color-accent)}
+  .cs-goals-list--wins li::before{content:'✓';color:#2d9e6b}
+  @media(max-width:768px){.cs-goals{grid-template-columns:1fr;gap:32px}}
+
+  /* ---- pull quote ---- */
+  .cs-quote{max-width:680px;margin:40px 0;padding:32px 0 32px 32px;border-left:2px solid var(--color-accent)}
+  .cs-quote p{font-size:clamp(20px,2.2vw,26px);font-weight:400;line-height:1.4;letter-spacing:-.5px;color:var(--color-text-1);margin-bottom:16px}
+  .cs-quote cite{font-size:var(--text-sm);font-style:normal;color:var(--color-text-3);letter-spacing:.02em}
+  @media(max-width:768px){.cs-quote{padding:24px 0 24px 20px;margin:32px 0}}
+
+  /* ---- sub-block ---- */
+  .cs-sub-block{margin-top:48px;padding-top:40px;border-top:.5px solid var(--color-border)}
+  .cs-sub-block-title{font-family:var(--font-display);font-size:clamp(18px,2vw,22px);font-weight:700;letter-spacing:-.025em;color:var(--color-text-1);line-height:1.2;margin:0 0 16px}
+
+  /* ---- proto button ---- */
+  .cs-proto-btn{display:inline-flex;align-items:center;background:var(--color-accent);color:#fff;font-family:var(--font-body);font-size:var(--text-sm);font-weight:700;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;padding:13px 24px;border-radius:var(--radius-full);transition:opacity .2s var(--ease-out);margin-top:12px}
+  .cs-proto-btn:hover{opacity:.82;color:#fff}
+
+  /* ---- figure (annotated) ---- */
+  .cs-figure{margin:32px 0 40px}
+  .cs-figure-img{position:relative;width:100%;background:var(--color-bg-2);border:.5px solid var(--color-border);border-radius:var(--radius-lg);overflow:hidden}
+  .cs-figure-img img{width:100%;height:auto;display:block}
+  .cs-figure-badge{position:absolute;top:14px;right:14px;width:52px;height:52px}
+  .cs-figure-badge img{width:100%;height:100%;display:block}
+  .cs-figure figcaption{font-size:var(--text-sm);color:var(--color-text-3);margin-top:16px;letter-spacing:.02em;line-height:1.6}
+
+  /* ============================================================
+     LIVE PRODUCT EMBED — browser window frame, scaled to fit.
+     The app is a fixed desktop layout; we render it at a large
+     logical size and scale it down (JS fitter) so it stays crisp.
+  ============================================================ */
+  .device{margin:8px 0 0}
+  /* shadow lives on .device-scale (the visible box) — its own box-shadow isn't
+     clipped by its own overflow:hidden, whereas a child frame's shadow would be */
+  .device-scale{overflow:hidden;border-radius:14px;
+    border:.5px solid var(--color-border);
+    box-shadow:0 1px 2px rgba(17,17,16,.04),0 10px 24px rgba(17,17,16,.09),0 30px 60px rgba(17,17,16,.11)}
+  body.dark .device-scale{border-color:rgba(255,255,255,.08);
+    box-shadow:0 2px 6px rgba(0,0,0,.4),0 18px 44px rgba(0,0,0,.5)}
+  .device-frame{
+    width:1200px;transform-origin:top left;
+    background:#fff;border-radius:14px;overflow:hidden;
+  }
+  body.dark .device-frame{background:#111}
+  .device-frame iframe{display:block;width:1200px;height:760px;border:0;background:#fafaf8}
+  /* full-flow hero embed is a touch taller */
+  .device--hero .device-frame iframe{height:800px}
+  /* Per-section embeds stay scrollable (so the whole screen is reachable) but are
+     locked to their screen: the product hides its flow-nav when loaded with ?nav=off,
+     so a reader can't jump to a screen the heading doesn't describe. Hero omits the
+     param and stays fully navigable. See srcFor() below. */
+
+  .device-hint{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:14px}
+  .device-hint span{font-size:var(--text-sm);color:var(--color-text-3);letter-spacing:.02em;display:inline-flex;align-items:center;gap:8px}
+  .device-hint span::before{content:'';width:6px;height:6px;border-radius:50%;background:#28c840;flex-shrink:0}
+  .device-open{font-size:var(--text-sm);color:var(--color-text-2);text-decoration:none;font-weight:700;border-bottom:1px solid var(--color-border);transition:color .2s,border-color .2s}
+  .device-open:hover{color:var(--color-accent);border-color:var(--color-accent)}
+
+  /* ---- footer nav ---- */
+  .cs-footer-nav{display:flex;justify-content:space-between;align-items:center;padding:48px 0 24px}
+  .cs-footer-back,.cs-footer-next{font-size:var(--text-sm);color:var(--color-text-2);text-decoration:none;font-weight:700;transition:color .2s}
+  .cs-footer-back:hover,.cs-footer-next:hover{color:var(--color-text-1)}
+  @media(max-width:768px){.cs-footer-nav{flex-direction:column;gap:16px;align-items:flex-start}}
+
+  footer{padding:28px 0;margin-top:48px;border-top:.5px solid var(--color-line);display:flex;justify-content:space-between;font-size:var(--text-sm);color:var(--color-mute);letter-spacing:.02em;transition:border-color .4s var(--ease-out)}
+  @media(max-width:640px){footer{flex-direction:column;align-items:flex-start;gap:6px}nav{padding:14px 0;gap:12px}.cs-meta{gap:24px}}
+
+  /* ---- scroll reveal ---- */
+  .reveal{opacity:0;transform:translateY(14px);transition:opacity .9s var(--ease-out),transform .9s var(--ease-out)}
+  .reveal.in{opacity:1;transform:translateY(0)}
+  </style>
+</head>
+<body>
+
+  <div class="page page--case-study">
+
+    <!-- NAV -->
+    <nav>
+      <a class="nav-logo" href="index.html">Siggi<span class="dot"></span></a>
+      <div class="nav-right">
+        <ul class="nav-links">
+          <li><a href="index.html">Work</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+        <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle dark mode">
+          <svg id="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg id="icon-sun" viewBox="0 0 24 24" style="display:none;">
+            <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <div class="cs-hero">
+      <p class="section-label">Case study · 2026</p>
+      <h1 class="cs-title">A bank built around the couple, not the account.</h1>
+      <div class="cs-meta">
+        <div class="cs-meta-item"><p class="cs-meta-label">Role</p><p class="cs-meta-value">Product Designer</p></div>
+        <div class="cs-meta-item"><p class="cs-meta-label">Type</p><p class="cs-meta-value">Concept project</p></div>
+        <div class="cs-meta-item"><p class="cs-meta-label">Platform</p><p class="cs-meta-value">Web app</p></div>
+        <div class="cs-meta-item"><p class="cs-meta-label">Skills</p><p class="cs-meta-value">UX/UI · Research</p></div>
+      </div>
+    </div>
+
+    <!-- HERO COVER IMAGE -->
+    <div class="cs-hero-img">
+      <img src="images/case-study-3/hero.png" alt="The couples banking app running on a laptop, held up against a blue sky">
+    </div>
+    <p class="cs-cover-caption">Shared setup — deciding how a couple's money works, together.</p>
+
+    <!-- TWO COLUMN — TOC + content -->
+    <div class="content-wrap">
+
+      <!-- TOC -->
+      <aside class="toc">
+        <ul class="toc-list">
+          <li class="toc-item" data-section="overview"><a href="#overview">Overview</a></li>
+          <li class="toc-item" data-section="research"><a href="#research">Research</a></li>
+          <li class="toc-item" data-section="flow"><a href="#flow">Finding the flow</a></li>
+          <li class="toc-item" data-section="testing"><a href="#testing">Prototype and testing</a></li>
+          <li class="toc-item" data-section="identity"><a href="#identity">Building the identity</a></li>
+          <li class="toc-item" data-section="design"><a href="#design">Final design</a></li>
+        </ul>
+      </aside>
+
+      <!-- MAIN -->
+      <div class="main-content">
+
+        <!-- 01 OVERVIEW -->
+        <section class="cs-section" id="overview">
+          <p class="section-label">01 — Overview</p>
+          <h2 class="cs-section-title">A shared bank for couples.</h2>
+          <div class="cs-body">
+            <p>This is a concept project: a bank for couples who share their finances. I didn't design the whole application — I designed one flow, the <strong>shared setup</strong>: the couple decides what each partner contributes, which bills the shared pot covers, how spending is split into cards, and what they're saving for. It's the flow where all the real decisions live, so it's where the design problem is.</p>
+            <p>The process, briefly: desk research first, distilled into five constraints that guided the design decisions. Then flow explorations and lo-fi wireframes, a coded prototype, and a moderated usability test. Only after that came the visual identity and the final coded UI — which is embedded further down, live.</p>
+          </div>
+        </section>
+
+        <!-- 02 RESEARCH -->
+        <section class="cs-section" id="research">
+          <p class="section-label">02 — Research</p>
+          <h2 class="cs-section-title">Five constraints I designed against.</h2>
+          <div class="cs-body">
+            <p>I started by writing research questions to organise the research, aiming to cover every aspect of the product: how do couples actually organise their money — what's shared, what's kept separate? What happens when incomes are unequal? Why do money fights start, and what are they really about? What makes saving together work?</p>
+            <p>With those questions set, I did a round of desk research — existing studies on couples and money, plus the behavioural economics behind spending and saving. From the findings I distilled five constraints. Not hard rules, but things I kept with me throughout the project — they guided the product decisions from here on.</p>
+          </div>
+          <ol class="cs-numbered-list">
+            <li><span class="cs-num">01</span><span><b>Boundary.</b> Couples want partial transparency, not full. What's shared is visible to both; what's personal stays private. So nothing is ever defaulted into the shared layer — every shared item is an active choice.</span></li>
+            <li><span class="cs-num">02</span><span><b>Fairness.</b> The harm from unequal income isn't the gap, it's the unspoken meaning. Contribution has to be explicit, agreed, and proportional to income — never an assumed 50/50. This is the product's sharpest differentiator: the Icelandic incumbent only offers 50/50.</span></li>
+            <li><span class="cs-num">03</span><span><b>Mental load.</b> The partner who manages the money carries stress nobody consciously handed them. Automate the execution, and surface decisions as shared, so the admin is distributed rather than dumped on one person.</span></li>
+            <li><span class="cs-num">04</span><span><b>Goals.</b> Shared goals motivate more than private ones, and visible progress sustains them. Saving has to feel motivating, not like filling in a form — named pots, a picture of what you're saving toward, progress both partners can see.</span></li>
+            <li><span class="cs-num">05</span><span><b>Couple-first.</b> Every existing tool treats a couple as two individuals. Here the shared pot is the primary concept and setup is a joint act — neither partner's experience is the secondary one.</span></li>
+          </ol>
+        </section>
+
+        <!-- 03 FLOW -->
+        <section class="cs-section" id="flow">
+          <p class="section-label">03 — Finding the flow</p>
+          <h2 class="cs-section-title">Finding the flow.</h2>
+          <div class="cs-body">
+            <p>This phase was done with two tools: Claude Code and <a href="https://paper.design/" target="_blank" rel="noopener">Paper</a>. I started by talking the problem through with Claude Code — what does a couple actually need to decide to set up shared finances, and in what order? Out of those conversations came a base flow: set your contribution, then walk through what the pot covers — bills, spending, savings — and review it together at the end.</p>
+            <p>Then came the iteration, in Paper. For each step of the flow I spun up a lot of ideas — different layouts, different framings of the same question, different ways a screen could work — as quick grayscale wireframes, side by side on one canvas. Three whole directions came and went: one partner setting everything up and the other approving, a turn-based version, and finally the one I committed to — both partners set their own contribution, then move through the setup together.</p>
+          </div>
+
+          <figure class="cs-figure">
+            <div class="cs-figure-img">
+              <img src="images/case-study-3/paper-screenshot.png" alt="The Paper canvas with the wireframe explorations — three flow directions and many screen variants side by side" loading="lazy">
+              <span class="cs-figure-badge"><img src="images/case-study-3/paper-logo.png" alt="Paper"></span>
+            </div>
+            <figcaption>The Paper canvas — three flow directions and the screen variants explored along the way.</figcaption>
+          </figure>
+
+          <div class="cs-body">
+            <p>That committed flow is the one that carried through to the end: <strong>contribution → what's coming → bills → spending → savings → review</strong>.</p>
+          </div>
+        </section>
+
+        <!-- 04 TESTING -->
+        <section class="cs-section" id="testing">
+          <p class="section-label">04 — Prototype and testing</p>
+          <h2 class="cs-section-title">What testing changed.</h2>
+          <div class="cs-body">
+            <p>I built a working coded prototype of the full setup flow and ran a moderated, think-aloud usability test — real people, realistic tasks, watching without helping. Some things landed. The ones that didn't were more useful. A few clear patterns came out of it:</p>
+          </div>
+          <ol class="cs-numbered-list">
+            <li><span class="cs-num">01</span><span>The contribution screen led with <b>"what stays personal."</b> People read it as the app trying to take their money. <b>Fix:</b> reframe it as "your contribution to your shared pot" — lead with what you're building together, not what you're giving up.</span></li>
+            <li><span class="cs-num">02</span><span>The "what to share" screen looked like a set of switches, so people treated it as the place to opt in and got confused when choices reappeared later. <b>Fix:</b> turn it into an <b>orientation</b> step — here's what's coming — not a decision point.</span></li>
+            <li><span class="cs-num">03</span><span>Auto-paying bills from the shared pot felt like something the app decided for them. <b>Fix:</b> make auto-pay explicitly <b>opt-in</b>, per bill. It satisfies Boundary and it stopped feeling presumptuous.</span></li>
+            <li><span class="cs-num">04</span><span>The savings model had a "catch-all" account that everything fell into. Testers couldn't explain what it was. <b>Fix:</b> kill the concept. A plain <b>base savings account</b> holds the money, and goal accounts spin off it — whatever isn't assigned to a goal simply stays in the base.</span></li>
+          </ol>
+          <div class="cs-goals">
+            <div>
+              <p class="cs-goals-label cs-goals-label--wins">What worked</p>
+              <ul class="cs-goals-list cs-goals-list--wins">
+                <li>Proportional contribution was <b>immediately understood</b> and quietly appreciated — nobody wanted 50/50.</li>
+                <li>The evolving "shared pot" summary that fills in as you go gave people a clear sense of progress.</li>
+                <li>Saving-first genuinely <b>felt good</b> — the moment you lock in savings was the emotional high point.</li>
+              </ul>
+            </div>
+            <div>
+              <p class="cs-goals-label cs-goals-label--constraints">What broke</p>
+              <ul class="cs-goals-list cs-goals-list--constraints">
+                <li>Framing that led with sacrifice ("what stays") read as the bank taking, not the couple building.</li>
+                <li>Anything that looked like a switch got treated as a decision, even when it was just orientation.</li>
+                <li>Abstract structural concepts ("catch-all") never survive contact with a real user.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- 05 IDENTITY -->
+        <section class="cs-section" id="identity">
+          <p class="section-label">05 — Building the identity</p>
+          <h2 class="cs-section-title">Serious enough for your salary, human enough to want.</h2>
+          <div class="cs-body">
+            <p>Only now — with the flow tested and settled — did colour and brand appear. A bank you trust with your salary has to feel calm and solid; a product about a shared life shouldn't feel like a spreadsheet. The direction I landed on I think of as <strong>atmospheric glass</strong>.</p>
+            <p>A single photograph — a soft meadow-and-sky — sits blurred behind the entire app, under a white veil that acts as a brightness dial. Frosted-glass cards and a frosted nav rail float on top of it. The whole thing feels like it's lit from behind rather than painted on.</p>
+            <p>The accent is a <strong>soft sky-blue pulled straight out of that photo</strong>, used as a grained gradient rather than a flat fill — so it reads as a material, not a swatch. Savings gets its own sage-green. Type is Inter, treated with its OpenType features switched on for a quieter, more deliberate feel. Light is the default; dark mode swaps in a night photograph and a deeper accent rather than just inverting the colours.</p>
+          </div>
+        </section>
+
+        <!-- 06 FINAL DESIGN -->
+        <section class="cs-section" id="design">
+          <p class="section-label">06 — Final design</p>
+          <h2 class="cs-section-title">The final design.</h2>
+          <div class="cs-body">
+            <p>Everything below is the real, coded product — not screenshots. The whole setup flow is embedded here, playable start to finish; the screens after it are that same live UI, each held on the moment that carries the most design thinking.</p>
+          </div>
+
+          <!-- Try it yourself — full interactive flow -->
+          <div class="cs-sub-block">
+            <h3 class="cs-sub-block-title">Try it yourself.</h3>
+            <div class="cs-body">
+              <p>Walk the full flow below — set a contribution, choose bills, split spending, name a savings goal. Or <a id="openFull" href="https://siggiux.github.io/cs3-couples-banking/index.html" target="_blank" rel="noopener">open it full screen</a>.</p>
+            </div>
+            <div class="device device--hero" data-fit>
+              <div class="device-scale"><div class="device-frame">
+                <iframe data-screen="" data-eager="1" title="CS3 — live product, full flow"></iframe>
+              </div></div>
+            </div>
+          </div>
+
+          <!-- Contribution -->
+          <div class="cs-sub-block">
+            <h3 class="cs-sub-block-title">Contribution — proportional, and private.</h3>
+            <div class="cs-body">
+              <p>Setup opens on the one decision that matters most. You set your own contribution to the shared pot — as a share of your pay or a fixed amount — and your partner sets theirs. Neither of you sees the other's salary, only what each puts in. Fairness made visible, Boundary preserved.</p>
+            </div>
+            <div class="device" data-fit>
+              <div class="device-scale"><div class="device-frame">
+                <iframe data-screen="contribution" title="Contribution screen" loading="lazy"></iframe>
+              </div></div>
+            </div>
+          </div>
+
+          <!-- Spending savings-first -->
+          <div class="cs-sub-block">
+            <h3 class="cs-sub-block-title">Spending — but savings first.</h3>
+            <div class="cs-body">
+              <p>This is the inverted step. Before a single spending card is set, you lock in what you'll save. The bar splits savings from spendable, and only then do the named spending cards — each a real virtual card — divide up what's left. Savings holds its ground while the rest gets allocated — that's the whole point.</p>
+            </div>
+            <div class="device" data-fit>
+              <div class="device-scale"><div class="device-frame">
+                <iframe data-screen="spending" title="Spending screen" loading="lazy"></iframe>
+              </div></div>
+            </div>
+          </div>
+
+          <!-- Savings goals -->
+          <div class="cs-sub-block">
+            <h3 class="cs-sub-block-title">Savings — a base account, and goals worth picturing.</h3>
+            <div class="cs-body">
+              <p>The saved amount lands in a plain base account. From there you spin off goal accounts — a home deposit, a trip — each taking a fixed monthly amount, with an optional target and a photo of the thing itself. A targeted goal fills, then quietly hands its monthly amount back to the base. Interest is shown as an effect, not a headline.</p>
+            </div>
+            <div class="device" data-fit>
+              <div class="device-scale"><div class="device-frame">
+                <iframe data-screen="savings" title="Savings screen" loading="lazy"></iframe>
+              </div></div>
+            </div>
+          </div>
+
+          <!-- Review -->
+          <div class="cs-sub-block">
+            <h3 class="cs-sub-block-title">Review — the whole picture, agreed.</h3>
+            <div class="cs-body">
+              <p>The last step gathers every decision into one calm summary — contribution, bills, spending, savings — ready to save and send to your partner. The right-hand "shared pot" panel that's been filling in the entire way through is complete here. Nothing on this screen is new; that's the point. You're confirming choices you already made together, not discovering them.</p>
+            </div>
+            <div class="device" data-fit>
+              <div class="device-scale"><div class="device-frame">
+                <iframe data-screen="review" title="Review screen" loading="lazy"></iframe>
+              </div></div>
+            </div>
+          </div>
+
+          <!-- Dark mode -->
+          <div class="cs-sub-block">
+            <h3 class="cs-sub-block-title">Dark mode.</h3>
+            <div class="cs-body">
+              <p>Dark mode was part of the system from the start — a dedicated night photograph behind the glass and a deeper accent, rather than a mechanical invert.</p>
+            </div>
+            <div class="device" data-fit>
+              <div class="device-scale"><div class="device-frame">
+                <iframe data-screen="savings" data-theme="dark" title="Savings screen, dark mode" loading="lazy"></iframe>
+              </div></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- FOOTER NAV -->
+        <div class="cs-footer-nav">
+          <a class="cs-footer-back" href="index.html">← Back to work</a>
+          <a class="cs-footer-next" href="case-study-2.html">Next case study →</a>
+        </div>
+
+      </div>
+    </div>
+
+    <footer>
+      <span>Siggi — UX Designer</span>
+      <span>2026</span>
+    </footer>
+
+  </div>
+
+  <script>
+  /* ---- theme toggle ---- */
+  var iconMoon=document.getElementById('icon-moon'),iconSun=document.getElementById('icon-sun');
+  function toggleTheme(){
+    var isDark=document.body.classList.toggle('dark');
+    if(iconMoon&&iconSun){iconMoon.style.display=isDark?'none':'block';iconSun.style.display=isDark?'block':'none';}
+    try{localStorage.setItem('theme',isDark?'dark':'light');}catch(e){}
+  }
+  try{if(localStorage.getItem('theme')==='dark'){document.body.classList.add('dark');iconMoon.style.display='none';iconSun.style.display='block';}}catch(e){}
+
+  /* ---- scroll reveal ---- */
+  (function(){
+    var els=document.querySelectorAll('.reveal');
+    if(!('IntersectionObserver'in window)||!els.length){els.forEach(function(e){e.classList.add('in');});return;}
+    var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target);}});},{threshold:.08,rootMargin:'0px 0px -8% 0px'});
+    els.forEach(function(el){io.observe(el);});
+  })();
+
+  /* ---- TOC active state ---- */
+  var sections=document.querySelectorAll('.cs-section'),tocItems=document.querySelectorAll('.toc-item');
+  if(sections.length&&tocItems.length){
+    var tocObs=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){var id=x.target.id;tocItems.forEach(function(it){it.classList.toggle('active',it.dataset.section===id);});}});},{rootMargin:'-20% 0px -70% 0px'});
+    sections.forEach(function(s){tocObs.observe(s);});
+  }
+
+  /* ---- browser-frame fitter ----
+     Render the desktop app at its NATIVE width (= the column width) so it stays
+     crisp and gets real room. Only when the column is narrower than the app can
+     comfortably live (mobile / small windows) do we fall back to scaling a fixed
+     logical frame down. Never scale up (that would blur the app). */
+  var MIN_LOGICAL=1160;
+  function fitFrames(){
+    document.querySelectorAll('[data-fit]').forEach(function(wrap){
+      var scale=wrap.querySelector('.device-scale'),frame=wrap.querySelector('.device-frame'),iframe=frame&&frame.querySelector('iframe');
+      if(!scale||!frame||!iframe)return;
+      var w=scale.clientWidth;
+      var logical=Math.max(w,MIN_LOGICAL);   /* app never renders narrower than this */
+      frame.style.width=logical+'px';
+      iframe.style.width=logical+'px';
+      var s=w/logical;                        /* 1 at native width, <1 only on narrow screens */
+      frame.style.transform='scale('+s+')';
+      scale.style.height=(frame.offsetHeight*s)+'px';
+    });
+  }
+  window.addEventListener('resize',fitFrames);
+  window.addEventListener('load',fitFrames);
+  fitFrames();
+
+  /* ============================================================
+     PRODUCT SOURCE — the one place the embedded app lives.
+     Auto-switches: the local copy while working on this machine,
+     the live GitHub Pages build once this page is on the website.
+     To force one, replace PRODUCT_BASE with a single string.
+  ============================================================ */
+  var PRODUCT_LOCAL='../final-ui/index.html';
+  var PRODUCT_LIVE ='https://siggiux.github.io/cs3-couples-banking/index.html';
+  var isLocal=false; // portfolio copy: always use the live app
+  var PRODUCT_BASE=isLocal?PRODUCT_LOCAL:PRODUCT_LIVE;
+
+  /* build a full URL for one embed from its data-screen / data-theme.
+     Every embed except the hero gets nav=off, which tells the product to hide its
+     flow navigation so the reader stays on the screen the section is about. */
+  function srcFor(f){
+    var screen=f.getAttribute('data-screen')||'';
+    var q=[];
+    if(f.getAttribute('data-theme')) q.push('theme='+f.getAttribute('data-theme'));
+    if(!f.hasAttribute('data-eager')) q.push('nav=off');
+    return PRODUCT_BASE+(q.length?'?'+q.join('&'):'')+(screen?'#'+screen:'');
+  }
+
+  /* the "Open the full flow" button points at the same source */
+  var openFull=document.getElementById('openFull');
+  if(openFull) openFull.href=PRODUCT_BASE;
+
+  /* load eager embeds (the hero) immediately, lazy ones as they near the viewport */
+  document.querySelectorAll('iframe[data-eager]').forEach(function(f){ f.src=srcFor(f); });
+  var lazy=document.querySelectorAll('iframe[data-screen]:not([data-eager])');
+  if('IntersectionObserver'in window){
+    var lio=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){var f=x.target;f.src=srcFor(f);lio.unobserve(f);setTimeout(fitFrames,80);}});},{rootMargin:'300px 0px'});
+    lazy.forEach(function(f){lio.observe(f);});
+  }else{lazy.forEach(function(f){f.src=srcFor(f);});}
+  </script>
+
+</body>
+</html>

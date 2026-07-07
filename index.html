@@ -9,21 +9,325 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="tokens.css" />
-  <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="components.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--color-bg);
+      color: var(--color-ink);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      transition: background 0.4s, color 0.4s;
+    }
+    a { color: inherit; text-decoration: none; }
+    ::selection { background: var(--color-ink); color: var(--color-bg); }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      border-left: 0.5px solid var(--color-grid);
+      border-right: 0.5px solid var(--color-grid);
+      background-image:
+        linear-gradient(to right, transparent calc(100%/6 - .5px), var(--color-grid) calc(100%/6 - .5px), var(--color-grid) calc(100%/6 + .5px), transparent calc(100%/6 + .5px)),
+        linear-gradient(to right, transparent calc(2*100%/6 - .5px), var(--color-grid) calc(2*100%/6 - .5px), var(--color-grid) calc(2*100%/6 + .5px), transparent calc(2*100%/6 + .5px)),
+        linear-gradient(to right, transparent calc(3*100%/6 - .5px), var(--color-grid) calc(3*100%/6 - .5px), var(--color-grid) calc(3*100%/6 + .5px), transparent calc(3*100%/6 + .5px)),
+        linear-gradient(to right, transparent calc(4*100%/6 - .5px), var(--color-grid) calc(4*100%/6 - .5px), var(--color-grid) calc(4*100%/6 + .5px), transparent calc(4*100%/6 + .5px)),
+        linear-gradient(to right, transparent calc(5*100%/6 - .5px), var(--color-grid) calc(5*100%/6 - .5px), var(--color-grid) calc(5*100%/6 + .5px), transparent calc(5*100%/6 + .5px));
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 var(--gutter) clamp(48px, 8vh, 96px);
+    }
+
+    .dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      padding: clamp(40px, 7vh, 80px) 0 clamp(32px, 5vh, 56px);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .hero-role {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-mute);
+      margin-bottom: 16px;
+      display: block;
+    }
+    .hero-headline {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 5vw, 64px);
+      font-weight: 500;
+      letter-spacing: -0.04em;
+      line-height: 1.04;
+      max-width: 720px;
+    }
+    .hero-right { max-width: 280px; }
+    .hero-bio {
+      font-size: var(--text-sm);
+      color: var(--color-mute);
+      line-height: 1.65;
+    }
+
+    /* ── Work header ── */
+    .work-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: clamp(16px, 2.5vw, 24px) 0;
+      position: relative;
+    }
+    .work-header::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 100vw;
+      height: 0.5px;
+      background: var(--color-line);
+    }
+    .work-title {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-mute);
+      font-weight: 500;
+    }
+    .work-year { font-size: var(--text-sm); color: var(--color-mute); }
+
+    /* ── Card grid ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: clamp(12px, 2vw, 24px);
+      padding-top: clamp(16px, 2vw, 24px);
+    }
+
+    /* Featured card spans full row */
+    .project-card--featured {
+      grid-column: 1 / -1;
+      margin-bottom: clamp(20px, 4vw, 48px);
+    }
+    .project-card--featured .card-stage {
+      aspect-ratio: 16 / 8;
+    }
+    .project-card--featured .card-stage img {
+      object-position: center center;
+    }
+
+    /* Each card: transparent wrapper */
+    .project-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ── Stage: full-bleed image rectangle ── */
+    .card-stage {
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+      aspect-ratio: 3 / 4;
+      transition: transform 0.4s var(--ease-out);
+    }
+    .project-card:hover .card-stage { transform: translateY(-4px); }
+
+    .card-stage img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+      display: block;
+      transition: transform 0.5s var(--ease-out);
+    }
+    .project-card:hover .card-stage img { transform: scale(1.04); }
+
+    /* Index label in corner */
+    .card-badge {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.82);
+      backdrop-filter: blur(6px);
+      color: rgba(0,0,0,0.6);
+      z-index: 1;
+    }
+
+    /* ── Card info (below the stage) ── */
+    .card-info {
+      padding: clamp(16px, 2vw, 22px) 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .tag {
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-mute);
+      border: 0.5px solid var(--color-line);
+      padding: 3px 8px;
+      border-radius: 999px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .project-card:hover .tag {
+      border-color: rgba(17,17,16,0.2);
+    }
+
+    .card-title {
+      font-family: var(--font-display);
+      font-size: clamp(17px, 1.8vw, 22px);
+      font-weight: 500;
+      letter-spacing: -0.025em;
+      line-height: 1.2;
+      transition: color 0.2s;
+    }
+    .project-card:hover .card-title { color: var(--color-accent); }
+
+    .card-arrow {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 0.5px solid var(--color-line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 4px;
+      transition: background 0.2s, border-color 0.2s, transform 0.35s var(--ease-out), color 0.2s;
+    }
+    .card-arrow svg {
+      width: 13px; height: 13px;
+      stroke: currentColor; fill: none;
+      stroke-width: 1.25;
+      stroke-linecap: round; stroke-linejoin: round;
+    }
+    .project-card:hover .card-arrow {
+      background: var(--color-ink);
+      border-color: var(--color-ink);
+      color: var(--color-bg);
+      transform: rotate(45deg);
+    }
+
+    /* ── About strip ── */
+    .about-strip {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      margin-top: clamp(40px, 6vh, 64px);
+      padding: clamp(24px, 3vw, 36px);
+      border: 0.5px solid var(--color-line);
+      border-radius: var(--radius-lg);
+      flex-wrap: wrap;
+    }
+    .strip-left { display: flex; align-items: center; gap: 20px; }
+    .strip-avatar {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      overflow: hidden;
+      flex-shrink: 0;
+      background: var(--color-bg-2);
+    }
+    .strip-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .strip-name {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      margin-bottom: 3px;
+    }
+    .strip-tagline { font-size: var(--text-sm); color: var(--color-mute); }
+    .strip-right { display: flex; gap: 12px; }
+    .strip-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: var(--text-sm);
+      font-weight: 500;
+      padding: 10px 18px;
+      border-radius: 999px;
+      border: 0.5px solid var(--color-line);
+      transition: border-color 0.2s, background 0.2s, color 0.2s;
+    }
+    .strip-link svg {
+      width: 13px; height: 13px;
+      stroke: currentColor; fill: none;
+      stroke-width: 1.25;
+      stroke-linecap: round; stroke-linejoin: round;
+    }
+    .strip-link:hover { border-color: var(--color-ink); background: var(--color-ink); color: var(--color-bg); }
+    .strip-link.primary { background: var(--color-ink); color: var(--color-bg); border-color: var(--color-ink); }
+    .strip-link.primary:hover { background: var(--color-accent); border-color: var(--color-accent); }
+
+    @media (max-width: 900px) {
+      .card-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .card-grid { grid-template-columns: 1fr; }
+      .hero {
+        flex-direction: column;
+        padding: clamp(32px, 8vh, 64px) 0 clamp(24px, 4vh, 40px);
+      }
+      .hero-headline { font-size: clamp(28px, 8vw, 42px); }
+      .hero-right { max-width: 100%; }
+      .strip-right { flex-wrap: wrap; }
+
+      .project-card--featured {
+        grid-column: 1;
+        margin-bottom: 0;
+      }
+      .project-card--featured .card-stage {
+        aspect-ratio: 3 / 4;
+      }
+      .project-card--featured .card-stage img {
+        object-position: top center;
+      }
+
+      .about-strip {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
 </head>
 <body>
 
-  <!-- Custom cursor -->
-  <div class="cursor" id="cursor">
-    <div class="cursor-inner">View project</div>
-  </div>
-
   <div class="page">
-
     <nav class="site-nav">
       <a class="nav-logo" href="index.html">Siggi<span class="dot"></span></a>
-<div class="nav-right">
+      <div class="nav-right">
         <ul class="nav-links">
           <li><a href="#work">Work</a></li>
           <li><a href="about.html">About</a></li>
@@ -36,97 +340,121 @@
       </div>
     </nav>
 
-    <!-- ── HERO ── -->
     <section class="hero">
-      <h1 class="hero-headline reveal">
-        I got into UX by building something that failed.
-        Best thing that ever happened.
-      </h1>
+      <div class="hero-left">
+        <span class="hero-role">UX Designer</span>
+        <h1 class="hero-headline">
+          I got into UX by building<br>something that failed.<br>Best thing that ever happened.
+        </h1>
+      </div>
+      <div class="hero-right">
+        <p class="hero-bio">Background in marketing and entrepreneurship. I built a startup, learned what works, and moved into UX to apply it on purpose.</p>
+      </div>
     </section>
 
-    <!-- ── WORK ── -->
-    <section id="work" class="work">
-      <div class="work-header reveal">
+    <section id="work">
+      <div class="work-header">
         <span class="work-title">Selected work</span>
-        <span class="work-count">3 case studies</span>
+        <span class="work-year">2025–2026</span>
       </div>
 
-      <div class="cards">
+      <div class="card-grid">
 
-        <!-- CARD 1 — Couples banking (CS3) -->
-        <a class="card reveal" data-delay="1" href="case-study-3.html">
-          <div class="card-bg"></div>
-          <div class="card-img">
-            <img src="images/case-study-3/hero.png" alt="A shared bank for couples">
+        <!-- Card 1: shared bank for couples — featured, full row -->
+        <a class="project-card project-card--featured" href="case-study-3.html">
+          <div class="card-stage">
+            <span class="card-badge">01 — Latest</span>
+            <img src="images/case-study-3/hero-homepage.jpg" alt="A shared bank for couples">
           </div>
-          <div class="card-overlay"></div>
-          <span class="card-number">01</span>
-          <div class="card-bottom">
-            <div class="card-title">A shared bank for couples</div>
-            <div class="card-tags">
-              <span class="card-tag">Product design</span>
-              <span class="card-tag">Concept project</span>
-              <span class="card-tag">Web app</span>
-              <span class="card-tag">2026</span>
+          <div class="card-info">
+            <div class="card-info-left">
+              <div class="card-tags">
+                <span class="tag">Product design</span>
+                <span class="tag">Concept</span>
+                <span class="tag">Fintech</span>
+              </div>
+              <h2 class="card-title">A shared bank for couples</h2>
+            </div>
+            <div class="card-arrow">
+              <svg viewBox="0 0 24 24"><path d="M5 19L19 5M9 5h10v10"/></svg>
             </div>
           </div>
         </a>
 
-        <!-- CARD 2 — Relay -->
-        <a class="card reveal" data-delay="2" href="case-study-2.html">
-          <div class="card-bg"></div>
-          <div class="card-img">
-            <img src="images/case-study-2/hero.png" alt="Relay, end-of-shift handover tool">
+        <!-- Card 2: handover tool -->
+        <a class="project-card" href="case-study-2.html">
+          <div class="card-stage">
+            <span class="card-badge">02</span>
+            <img src="images/case-study-2/hero.png" alt="End-of-shift handover tool">
           </div>
-          <div class="card-overlay"></div>
-          <span class="card-number">02</span>
-          <div class="card-bottom">
-            <div class="card-title">End-of-shift handover tool</div>
-            <div class="card-tags">
-              <span class="card-tag">Product design</span>
-              <span class="card-tag">Concept project</span>
-              <span class="card-tag">Mobile</span>
-              <span class="card-tag">2025</span>
+          <div class="card-info">
+            <div class="card-info-left">
+              <div class="card-tags">
+                <span class="tag">Product design</span>
+                <span class="tag">Concept</span>
+                <span class="tag">Mobile</span>
+              </div>
+              <h2 class="card-title">End-of-shift handover tool</h2>
+            </div>
+            <div class="card-arrow">
+              <svg viewBox="0 0 24 24"><path d="M5 19L19 5M9 5h10v10"/></svg>
             </div>
           </div>
         </a>
 
-        <!-- CARD 3 — Hot Tickets -->
-        <a class="card reveal" data-delay="3" href="case-study-1.html">
-          <div class="card-bg"></div>
-          <div class="card-img">
-            <img src="images/case-study-1/hero.png" alt="Last-minute experiences startup">
+        <!-- Card 3: last-minute experiences -->
+        <a class="project-card" href="case-study-1.html">
+          <div class="card-stage">
+            <span class="card-badge">03</span>
+            <img src="images/case-study-1/hero.png" alt="Last-minute experience marketplace">
           </div>
-          <div class="card-overlay"></div>
-          <span class="card-number">03</span>
-          <div class="card-bottom">
-            <div class="card-title">Last-minute experiences — startup</div>
-            <div class="card-tags">
-              <span class="card-tag">Product design</span>
-              <span class="card-tag">Startup</span>
-              <span class="card-tag">Web app</span>
-              <span class="card-tag">2024</span>
+          <div class="card-info">
+            <div class="card-info-left">
+              <div class="card-tags">
+                <span class="tag">Startup</span>
+                <span class="tag">Web app</span>
+                <span class="tag">Design system</span>
+              </div>
+              <h2 class="card-title">Last-minute experience marketplace</h2>
+            </div>
+            <div class="card-arrow">
+              <svg viewBox="0 0 24 24"><path d="M5 19L19 5M9 5h10v10"/></svg>
             </div>
           </div>
         </a>
 
       </div>
 
-      <a href="about.html" class="more-link reveal" data-delay="4">
-        <span>More about me</span>
-        <svg viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
+      <div class="about-strip">
+        <div class="strip-left">
+          <div class="strip-avatar">
+            <img src="images/about/portrait.jpg" alt="Sigurður Guðmundsson">
+          </div>
+          <div class="strip-text">
+            <p class="strip-name">Sigurður Guðmundsson</p>
+            <p class="strip-tagline">Hyper Island · UX Design</p>
+          </div>
+        </div>
+        <div class="strip-right">
+          <a class="strip-link" href="mailto:sigurdurgudmundsson1@gmail.com">
+            <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <span>Get in touch</span>
+          </a>
+          <a class="strip-link primary" href="about.html">
+            <span>About me</span>
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
     </section>
-
   </div>
 
   <footer class="site-foot">
-    <span>Siggi — UX Designer</span>
+    <span>Sigurður Guðmundsson — UX Designer</span>
     <span>sigurdurgudmundsson1@gmail.com</span>
     <span>© 2026</span>
   </footer>
 
   <script src="script.js"></script>
-
 </body>
 </html>

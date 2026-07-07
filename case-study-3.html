@@ -128,18 +128,18 @@
   /* Final design breaks out of the TOC grid to full content width; a hairline
      marks the hand-off so the widening reads as intentional, not a jump. */
   .cs-section--full{border-top:.5px solid var(--color-border);margin-top:32px;padding-top:64px}
-  /* Full-width band: inset the prose AND left-align the screens to the SAME edge,
-     so copy and product share one left margin. Screens get more air below the copy.
-     (--ind is read back in JS so the fitter can align the screens to it.) */
-  #design{--ind:clamp(16px,3.5vw,56px)}
+  /* Full-width band: the screens are CENTRED, and each block's copy is indented to
+     line up with the left edge of its screen. That edge depends on the screen's
+     width, so the fitter computes it and writes --tind (per block) / --intro-ind
+     (section header) back as pixels. */
   #design .section-label,
   #design .cs-section-title,
-  #design .cs-body,
-  #design .cs-sub-block-title{padding-left:var(--ind)}
+  #design > .cs-body{padding-left:var(--intro-ind,0px)}
+  #design .cs-sub-block > .cs-sub-block-title,
+  #design .cs-sub-block > .cs-body{padding-left:var(--tind,0px)}
   #design .device{margin-top:36px}
-  #design .device--hero{align-items:flex-start}          /* laptop hugs the indent, not centre */
-  #design .laptop-lid{margin-left:var(--ind)}
-  #design .device:not(.device--hero) .device-scale{margin-left:var(--ind);margin-right:auto}
+  #design .device--hero{align-items:center}              /* laptop centred in the band */
+  #design .cs-body{max-width:880px}                      /* wider measure than the default prose column */
   .cs-section-title{font-size:clamp(24px,3vw,40px);font-weight:700;letter-spacing:-1px;line-height:1.1;max-width:720px;margin:12px 0 24px}
   .cs-body{display:flex;flex-direction:column;gap:16px;max-width:680px;color:var(--color-text-2);font-size:var(--text-base)}
   .cs-body p a{color:var(--color-text-1);text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--color-border);transition:color .2s var(--ease-out),text-decoration-color .2s var(--ease-out)}
@@ -565,9 +565,22 @@
             </div>
           </div>
 
+          <!-- Onboarding intro — the "what's coming" fix for the flow-orientation problem -->
+          <div class="cs-sub-block">
+            <h3 class="cs-sub-block-title">Screen 2: What's coming — orienting before deciding.</h3>
+            <div class="cs-body">
+              <p>The loudest signal from testing was that people decided without knowing what was coming, then opened each screen unsure where they were. So setup now opens with a short intro — bills, then spending, then savings — orienting the couple <em>before</em> a single decision is asked. Page through its three cards below.</p>
+            </div>
+            <div class="device" data-fit>
+              <div class="device-scale"><div class="device-frame">
+                <iframe data-screen="share" title="Onboarding intro — what's coming" loading="lazy"></iframe>
+              </div></div>
+            </div>
+          </div>
+
           <!-- Bills -->
           <div class="cs-sub-block">
-            <h3 class="cs-sub-block-title">Screen 2: Bills — which ones the pot covers.</h3>
+            <h3 class="cs-sub-block-title">Screen 3: Bills — which ones the pot covers.</h3>
             <div class="cs-body">
               <p>Testing caught the old headline — "How should bills be paid?" — misreading as <em>which card pays</em>, not which bills the pot covers. It's reworded to name the real task, with every bill (and its auto-pay) opt-in, so nothing about a couple's money is assumed (<strong>Couple-first</strong>).</p>
             </div>
@@ -580,7 +593,7 @@
 
           <!-- Spending savings-first -->
           <div class="cs-sub-block">
-            <h3 class="cs-sub-block-title">Screen 3: Spending — but savings first.</h3>
+            <h3 class="cs-sub-block-title">Screen 4: Spending — but savings first.</h3>
             <div class="cs-body">
               <p>This screen tested worst: the linked sliders were opaque and savings-as-leftover never read as a decision. So it's rebuilt savings-first — you lock savings before anything else — with named virtual <em>cards</em> rather than abstract "pots" (testers didn't link a pot to their wallet), keeping the <strong>Mental-load</strong> constraint honest.</p>
             </div>
@@ -593,7 +606,7 @@
 
           <!-- Savings goals -->
           <div class="cs-sub-block">
-            <h3 class="cs-sub-block-title">Screen 4: Savings — a base account, and goals worth picturing.</h3>
+            <h3 class="cs-sub-block-title">Screen 5: Savings — a base account, and goals worth picturing.</h3>
             <div class="cs-body">
               <p>Testers didn't realise they'd reached savings, and a "catch-all" account baffled them — so it's gone, replaced by a plain <strong>base account</strong> that simply holds what isn't assigned. Goal accounts keep what testing liked: a target, a time-to-reach line and an interest breakdown — the <strong>Goals</strong> constraint, made motivating.</p>
             </div>
@@ -606,7 +619,7 @@
 
           <!-- Review -->
           <div class="cs-sub-block">
-            <h3 class="cs-sub-block-title">Screen 5: Review — the whole picture, agreed.</h3>
+            <h3 class="cs-sub-block-title">Screen 6: Review — the whole picture, agreed.</h3>
             <div class="cs-body">
               <p>Testers said the shared-pot picture was there but easy to miss, and the side panel just repeated the middle. Now the whole picture is the focus, with nothing new to decide — only the choices you already made together, ready to send (<strong>Couple-first</strong>).</p>
             </div>
@@ -617,16 +630,17 @@
             </div>
           </div>
 
-          <!-- Dark mode -->
+          <!-- Dark mode — the whole flow again, clickable, in the dark -->
           <div class="cs-sub-block">
             <h3 class="cs-sub-block-title">Dark mode.</h3>
             <div class="cs-body">
-              <p>Dark mode was part of the system from the start — a dedicated night photograph behind the glass and a deeper accent, rather than a mechanical invert.</p>
+              <p>Dark mode was part of the system from the start — a dedicated night photograph behind the glass and a deeper accent, rather than a mechanical invert. Here's the whole flow again, clickable from the top, at night.</p>
             </div>
-            <div class="device" data-fit>
-              <div class="device-scale"><div class="device-frame">
-                <iframe data-screen="savings" data-theme="dark" title="Savings screen, dark mode" loading="lazy"></iframe>
-              </div></div>
+            <div class="device device--hero" data-fit>
+              <div class="laptop-lid"><div class="device-scale"><div class="device-frame">
+                <iframe data-screen="" data-theme="dark" data-full title="CS3 in dark mode — the full flow, clickable" loading="lazy"></iframe>
+              </div></div></div>
+              <div class="laptop-deck"></div>
             </div>
           </div>
         </section>
@@ -693,13 +707,10 @@
           chromeY=laptop?(2*(LID_BEZEL+LID_RING)+DECK_H):0;
       /* keep the WHOLE thing (screen + body) inside a slice of the viewport */
       var capH=Math.min(Math.round(vh*(laptop?0.82:0.78)),laptop?720:660);
-      /* the shared left indent the copy sits at — read from CSS so the screen lines up with it */
-      var indEl=laptop?lid:scale,
-          ind=indEl?parseFloat(getComputedStyle(indEl).marginLeft)||0:0;
 
       scale.style.width='';                   /* reset so we measure the full band width */
       var band=wrap.clientWidth;
-      var avail=band-ind-chromeX;              /* screen lives between the indent and the right edge */
+      var avail=band-chromeX;                  /* screen fills the band (minus laptop chrome) */
       var logical=Math.max(avail,MIN_LOGICAL); /* app never renders narrower than this */
       frame.style.width=logical+'px';
       iframe.style.width=logical+'px';
@@ -708,14 +719,19 @@
       if(nativeH*s>capH-chromeY)s=(capH-chromeY)/nativeH;  /* height cap (incl. chassis) wins */
       frame.style.transform='scale('+s+')';
       var Wd=Math.round(logical*s), Hd=Math.round(nativeH*s);
-      scale.style.width=Wd+'px';              /* shrink box to the scaled frame (left-aligned to --ind) */
+      scale.style.width=Wd+'px';              /* box shrinks to the scaled frame; CSS centres it */
       scale.style.height=Hd+'px';
-      if(deck){                                /* base a touch wider, centred under the lid */
-        var lidW=Wd+chromeX, deckW=Math.round(lidW*DECK_WIDEN),
-            deckLeft=Math.max(0,Math.round(ind-(deckW-lidW)/2));
-        if(deckLeft+deckW>band)deckW=band-deckLeft;
-        deck.style.width=deckW+'px';
-        deck.style.marginLeft=deckLeft+'px';
+      if(deck){                                /* base a touch wider than the lid; flex centres it */
+        deck.style.marginLeft='';
+        deck.style.width=Math.round((Wd+chromeX)*DECK_WIDEN)+'px';
+      }
+      /* the screen is centred, so its left edge sits at this offset — line the copy up with it */
+      var outerW=laptop?(Wd+chromeX):Wd,
+          off=Math.max(0,Math.round((band-outerW)/2))+'px',
+          block=wrap.closest('.cs-sub-block');
+      if(block)block.style.setProperty('--tind',off);
+      if(laptop){                              /* section header lines up with the hero laptop */
+        var sec=wrap.closest('#design'); if(sec)sec.style.setProperty('--intro-ind',off);
       }
     });
   }
@@ -750,13 +766,14 @@
   var PRODUCT_BASE=isLocal?PRODUCT_LOCAL:PRODUCT_LIVE;
 
   /* build a full URL for one embed from its data-screen / data-theme.
-     Every embed except the hero gets nav=off, which tells the product to hide its
-     flow navigation so the reader stays on the screen the section is about. */
+     Most embeds get nav=off (locked to one screen). The exceptions are the hero
+     (data-eager) and any embed flagged data-full — those keep the flow navigation
+     so the reader can click through the whole product. */
   function srcFor(f){
     var screen=f.getAttribute('data-screen')||'';
     var q=[];
     if(f.getAttribute('data-theme')) q.push('theme='+f.getAttribute('data-theme'));
-    if(!f.hasAttribute('data-eager')) q.push('nav=off');
+    if(!f.hasAttribute('data-eager') && !f.hasAttribute('data-full')) q.push('nav=off');
     return PRODUCT_BASE+(q.length?'?'+q.join('&'):'')+(screen?'#'+screen:'');
   }
 

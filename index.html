@@ -622,6 +622,9 @@
 
     /* ── Below-fold work section ── */
     .below-fold {
+      /* fills a full viewport so "See projects" can scroll the hero
+         (and its filter/button rows) completely out of view */
+      min-height: 100svh;
       padding: clamp(100px, 16vh, 180px) clamp(20px, 3vw, 40px) clamp(90px, 14vh, 160px);
     }
 

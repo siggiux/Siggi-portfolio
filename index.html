@@ -506,7 +506,21 @@
       opacity: 0.95;
       margin: 0;
     }
-    .card-info .card-back-link { margin-top: 4px; }
+    /* the overlay link gets a bordered box like the See Projects button */
+    .card-info .card-back-link {
+      margin-top: 10px;
+      padding: 8px 12px;
+      border: 1px solid currentColor;
+      align-self: flex-start;
+      opacity: 0.9;
+      transition: opacity 0.2s, background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    .card-info .card-back-link:hover {
+      opacity: 1;
+      background: #fff;
+      border-color: #fff;
+      color: #111;
+    }
     .card-front-label {
       align-self: flex-end;
       margin: -8px -8px 0 0; /* tuck the tag closer to the corner */

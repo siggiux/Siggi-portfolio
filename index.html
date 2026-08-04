@@ -273,7 +273,15 @@
       will-change: transform;
       /* Position driven by JS: auto-drift + drag/wheel carousel */
     }
-    .cards-stage { user-select: none; -webkit-user-select: none; }
+    .cards-stage {
+      user-select: none; -webkit-user-select: none;
+      /* let the browser handle vertical page scroll natively — only
+         horizontal gestures get intercepted by the drag-to-scroll JS.
+         Without this, a vertical scroll attempt over the deck could get
+         mistaken for a horizontal drag, making scrolling feel janky and
+         occasionally toggling a card's flip on release. */
+      touch-action: pan-y;
+    }
 
     /* Column layout: intro sits at the top, the stage takes the rest and
        centres the cards in it — so the gap above and below the cards match */
@@ -1276,10 +1284,20 @@
     // Hover detail overlays (.card-info / .card-dim) are authored statically
     // in each card's markup — single source of truth for card content.
 
-    // Tap/click toggles the detail (for touch, where there is no hover)
+    // Tap toggles the detail (for touch, where there is no hover) — but
+    // only a genuinely still tap. Gated by movement so a scroll attempt
+    // (finger travels before lifting) never flips the card underneath it.
     document.querySelectorAll('.flip-card-outer').forEach(card => {
+      let downX = 0, downY = 0, moved = false;
+      card.addEventListener('pointerdown', e => {
+        downX = e.clientX; downY = e.clientY; moved = false;
+      });
+      card.addEventListener('pointermove', e => {
+        if (Math.hypot(e.clientX - downX, e.clientY - downY) > 8) moved = true;
+      });
       card.addEventListener('click', e => {
         if (e.target.closest('a')) return; // let links navigate
+        if (moved) return; // was a scroll/drag, not a tap
         card.classList.toggle('show-detail');
       });
     });
@@ -1314,7 +1332,11 @@
     stage.addEventListener('pointermove', e => {
       if (!armed && !dragging) return;
       if (!dragging) {
-        if (Math.hypot(e.clientX - downX, e.clientY - downY) < 6) { lastX = e.clientX; return; }
+        const dx = e.clientX - downX, dy = e.clientY - downY;
+        // require the gesture to actually be horizontal before we commit
+        // to a drag — otherwise a vertical scroll attempt (page scroll,
+        // finger passing over the deck) gets hijacked as a card drag
+        if (Math.hypot(dx, dy) < 6 || Math.abs(dx) <= Math.abs(dy)) { lastX = e.clientX; return; }
         dragging = true; wasDragged = true;
         try { stage.setPointerCapture(downId); } catch (err) {}
       }

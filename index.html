@@ -805,19 +805,15 @@
       color: var(--color-ink);
     }
 
-    /* ── Scroll reveal: below-fold blocks rise gently and settle ── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(14px);
-      transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
-                  transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    /* ── Scroll reveal: the work section nudges up into place as one
+       unit when you reach it — movement only, no fade, no stagger ── */
+    .reveal-block {
+      transform: translateY(18px);
+      transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
     }
-    .reveal.in { opacity: 1; transform: translateY(0); }
-    .reveal[data-delay="1"] { transition-delay: 80ms; }
-    .reveal[data-delay="2"] { transition-delay: 160ms; }
-    .reveal[data-delay="3"] { transition-delay: 240ms; }
+    .reveal-block.in { transform: translateY(0); }
     @media (prefers-reduced-motion: reduce) {
-      .reveal { opacity: 1; transform: none; transition: none; }
+      .reveal-block { transform: none; transition: none; }
     }
 
     /* ── Theme wipe: dark grows out of the toggle; on the way back it
@@ -1263,21 +1259,18 @@
     // Card background videos play at half speed
     document.querySelectorAll('video.card-front-bg').forEach(v => { v.playbackRate = 0.5; });
 
-    // Below-fold blocks rise gently into view (staggered work cards)
+    // The work section nudges up into place as one unit when reached
     (function () {
-      document.querySelector('.below-fold-header').classList.add('reveal');
-      document.querySelectorAll('.work-card').forEach((el, i) => {
-        el.classList.add('reveal');
-        el.setAttribute('data-delay', String((i % 3) + 1));
-      });
-      const els = document.querySelectorAll('.reveal');
-      if (!('IntersectionObserver' in window)) { els.forEach(e => e.classList.add('in')); return; }
+      const section = document.querySelector('.below-fold');
+      if (!section) return;
+      section.classList.add('reveal-block');
+      if (!('IntersectionObserver' in window)) { section.classList.add('in'); return; }
       const io = new IntersectionObserver(entries => {
         entries.forEach(en => {
           if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
         });
       }, { threshold: 0.08, rootMargin: '0px 0px -8% 0px' });
-      els.forEach(el => io.observe(el));
+      io.observe(section);
     })();
 
     // Hover detail overlays (.card-info / .card-dim) are authored statically

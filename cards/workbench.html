@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Card Workbench</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../tokens.css" />
+  <link rel="stylesheet" href="index.css" />
+  <style>
+    /* Workbench chrome — loaded BEFORE the injected page styles?
+       No: injected styles are appended to <head>, so keep every
+       override below scoped under .wb-stage to win by specificity. */
+    .wb-top {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 14px clamp(20px, 3vw, 40px);
+      font-size: 13px;
+      z-index: 50;
+    }
+    .wb-top strong { font-weight: 500; margin-right: 8px; }
+    #wbNav { display: inline-flex; gap: 16px; flex-wrap: wrap; }
+    .wb-top button {
+      background: none; border: none; padding: 0;
+      font: inherit; color: inherit;
+      opacity: 0.45; cursor: pointer;
+    }
+    .wb-top button:hover, .wb-top button.active { opacity: 1; }
+    .wb-top .wb-tilt { margin-left: auto; }
+
+    .wb-stage {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    /* Big, flat, static card for designing */
+    .wb-stage .flip-card-outer {
+      width: 420px;
+      height: 573px;
+      margin: 0;
+      transform: none;
+      box-shadow: 0 16px 39px rgba(0, 0, 0, 0.09);
+    }
+    .wb-stage .flip-card-outer:hover {
+      transform: translateY(-10px);
+    }
+    /* Optional tilt preview (same angles as the homepage) */
+    .wb-stage.tilt .flip-card-outer {
+      transform: perspective(2800px) rotateX(-16deg) rotateY(-45deg);
+    }
+    .wb-stage.tilt .flip-card-outer:hover {
+      transform: perspective(900px) rotateX(0deg) rotateY(0deg) scale(1.04) translateY(-36px);
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="wb-top">
+    <strong>Card workbench</strong>
+    <span id="wbNav"></span>
+    <button class="wb-tilt" id="wbTilt">tilt: off</button>
+  </nav>
+
+  <main class="wb-stage" id="wbStage"></main>
+
+  <script>
+    // The homepage is the single source of truth: fetch it, inject its
+    // styles once, then mount whichever card is selected.
+    const CARDS = ['cs3', 'hyper-island', 'cs2', 'hot-tickets', 'cs1', 'datera', 'msc', 'bsc'];
+    let sourceDoc = null;
+
+    const stage = document.getElementById('wbStage');
+    const nav = document.getElementById('wbNav');
+
+    fetch('../homepage-testing/v1-drifting-deck.html')
+      .then(r => r.text())
+      .then(html => {
+        sourceDoc = new DOMParser().parseFromString(html, 'text/html');
+        const pageStyle = sourceDoc.querySelector('style');
+        if (pageStyle) document.head.insertBefore(pageStyle.cloneNode(true), document.head.querySelector('link[href="index.css"]'));
+        buildNav();
+        show(location.hash.slice(1) || CARDS[0]);
+      });
+
+    function buildNav() {
+      nav.append(...CARDS.map(name => {
+        const b = document.createElement('button');
+        b.textContent = name;
+        b.addEventListener('click', () => show(name));
+        return b;
+      }));
+    }
+
+    function show(name) {
+      if (!sourceDoc || !CARDS.includes(name)) return;
+      location.hash = name;
+      [...nav.children].forEach(b => b.classList.toggle('active', b.textContent === name));
+      const card = sourceDoc.querySelector('.card--' + name);
+      stage.innerHTML = '';
+      const mounted = document.importNode(card, true);
+      // media paths are relative to the fetched page (homepage-testing/) —
+      // resolve them against that base so they work from here too
+      const sourceBase = new URL('../homepage-testing/', location.href);
+      mounted.querySelectorAll('img, video').forEach(media => {
+        media.setAttribute('src', new URL(media.getAttribute('src'), sourceBase).href);
+      });
+      // match the homepage's half-speed video playback
+      mounted.querySelectorAll('video').forEach(v => { v.playbackRate = 0.5; });
+      // tap toggles the detail overlay, same as the homepage
+      mounted.addEventListener('click', e => {
+        if (e.target.closest('a')) return;
+        mounted.classList.toggle('show-detail');
+      });
+      stage.appendChild(mounted);
+    }
+
+    document.getElementById('wbTilt').addEventListener('click', e => {
+      const on = stage.classList.toggle('tilt');
+      e.target.textContent = 'tilt: ' + (on ? 'on' : 'off');
+    });
+  </script>
+</body>
+</html>

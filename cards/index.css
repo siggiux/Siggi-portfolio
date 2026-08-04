@@ -1,0 +1,14 @@
+/* ── Card designs ──────────────────────────────────────────────
+   One file per card. Every rule inside a card file must be scoped
+   to that card's class (e.g. .card--hyper-island …) so cards can
+   never affect each other. Add an @import here when a new card
+   file is created. */
+
+@import url("cs1.css");
+@import url("cs2.css");
+@import url("cs3.css");
+@import url("hyper-island.css");
+@import url("hot-tickets.css");
+@import url("datera.css");
+@import url("msc.css");
+@import url("bsc.css");

@@ -1,0 +1,23 @@
+/* ── msc card ──────────────────────────────────────────────
+   Scope every rule to .card--msc so this file can only
+   affect this one card. Pure-CSS animations welcome — target
+   the inner elements, e.g.:
+
+   .card--msc .card-front-bg   → background image
+   .card--msc .card-front-title → title
+   .card--msc .card-front       → whole front face
+
+   Keyframes should be prefixed with the card name to avoid
+   collisions, e.g. @keyframes msc-float { … }             */
+
+/* RU pinwheel mark, bottom right — sits under the hover dim
+   so the text stays the focus while the card is open */
+.card--msc .msc-logo {
+  position: absolute;
+  right: clamp(16px, 2vw, 22px);
+  bottom: clamp(16px, 2vw, 22px);
+  width: 38px;
+  height: 38px;
+  opacity: 0.45;
+  z-index: 2;
+}

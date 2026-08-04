@@ -1,0 +1,11 @@
+/* ── cs1 card ──────────────────────────────────────────────
+   Scope every rule to .card--cs1 so this file can only
+   affect this one card. Pure-CSS animations welcome — target
+   the inner elements, e.g.:
+
+   .card--cs1 .card-front-bg   → background image
+   .card--cs1 .card-front-title → title
+   .card--cs1 .card-front       → whole front face
+
+   Keyframes should be prefixed with the card name to avoid
+   collisions, e.g. @keyframes cs1-float { … }             */

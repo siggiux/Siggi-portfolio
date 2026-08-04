@@ -1,0 +1,453 @@
+/* ============================================================
+   V3 SITE CHROME — shared by the V3 (Quiet) sub-pages
+   (about + case studies inside homepage-testing/).
+
+   Load order matters:
+     ../tokens.css  →  [../case-study.css]  →  this file
+   This file overrides the old skin: Geist, uppercase quiet UI,
+   sharp corners, grain. Page-specific layout stays inline in
+   each page, same as the homepage versions themselves.
+============================================================ */
+
+/* ── Tokens: V3 overrides ── */
+body {
+  --font-body: 'Geist', sans-serif;
+  --font-display: 'Geist', sans-serif;
+  /* sharp corners everywhere — no border-radius in the system */
+  --radius-sm: 0; --radius-md: 0; --radius-lg: 0; --radius-xl: 0;
+}
+
+/* ── Reset / base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  font-size: clamp(15px, 1vw, 16px);
+  background: var(--color-bg);
+  color: var(--color-ink);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  transition: background 0.4s var(--ease-out), color 0.4s var(--ease-out);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+p { line-height: 1.65; }
+a { color: inherit; }
+::selection { background: var(--color-ink); color: var(--color-bg); }
+
+/* Grain texture — same fixed overlay as the V3 homepage */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.22;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  mix-blend-mode: overlay;
+}
+
+/* ── Layout ── */
+.page {
+  position: relative;
+  z-index: 1;
+  max-width: var(--max-width, 1280px);
+  margin: 0 auto;
+  padding: 0 var(--gutter) clamp(48px, 8vh, 96px);
+}
+
+/* ── Shared bits ── */
+.dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  display: inline-block;
+  flex-shrink: 0;
+}
+.rule, .divider {
+  border: none;
+  border-top: 0.5px solid var(--color-line);
+  margin: 0;
+}
+
+/* Section label — V3 voice */
+.section-label {
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-mute);
+  font-weight: 500;
+}
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-mute);
+  font-weight: 500;
+}
+
+/* Category chips — same colours as the homepage cards */
+.chip {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 8px;
+}
+.chip--cs   { background: #f5d90a; color: #111; }
+.chip--edu  { background: #1e3aff; color: #fff; }
+.chip--work { background: #16e34f; color: #111; }
+
+/* Solid ink button — the V3 "See projects" pattern */
+.btn-ink {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 16px;
+  background: var(--color-ink);
+  border: 0.5px solid var(--color-ink);
+  color: var(--color-bg);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.btn-ink:hover {
+  background: transparent;
+  border-color: var(--color-ink);
+  color: var(--color-ink);
+}
+.btn-ink svg {
+  width: 14px; height: 14px;
+  stroke: currentColor; fill: none;
+  stroke-width: 1.5;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+
+/* ── Scroll reveal ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+}
+.reveal.in { opacity: 1; transform: translateY(0); }
+.reveal[data-delay="1"] { transition-delay: 80ms; }
+.reveal[data-delay="2"] { transition-delay: 160ms; }
+.reveal[data-delay="3"] { transition-delay: 240ms; }
+.reveal[data-delay="4"] { transition-delay: 320ms; }
+
+/* ============================================================
+   HEADER — the V3 corners, adapted to a scrolling page
+============================================================ */
+.site-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: clamp(20px, 3vh, 32px) 0 0;
+}
+.wordmark {
+  font-weight: 600;
+  font-size: clamp(20px, 2.6vw, 34px);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  text-decoration: none;
+}
+.top-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-top: 4px;
+  color: var(--color-mute);
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  list-style: none;
+}
+.nav-links a {
+  color: var(--color-mute);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover,
+.nav-links a.is-current { color: var(--color-ink); }
+
+/* Theme toggle: segmented sun / moon, current mode filled (copied from V3) */
+.theme-toggle {
+  position: relative;
+  z-index: 60; /* stays reachable above the open mobile menu panel */
+  overflow: hidden;
+  display: inline-flex;
+  align-items: stretch;
+  padding: 0;
+  border: 0.5px solid var(--color-line);
+  background: none;
+  color: var(--color-mute);
+  cursor: pointer;
+  line-height: 0;
+  transition: border-color 0.3s ease;
+}
+.theme-toggle:hover { border-color: var(--color-ink); }
+.tt-thumb {
+  position: absolute;
+  top: 0; left: 0;
+  width: 50%; height: 100%;
+  background: var(--color-ink);
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+              background 0.4s ease;
+}
+body.dark .tt-thumb { transform: translateX(100%); }
+.tt-cell {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 27px;
+  height: 22px;
+  color: var(--color-mute);
+  transition: color 0.35s ease;
+}
+.tt-cell svg {
+  width: 13px; height: 13px;
+  stroke: currentColor; fill: none;
+  stroke-width: 1.5;
+  stroke-linecap: round; stroke-linejoin: round;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+body:not(.dark) .tt-cell[data-mode="light"],
+body.dark .tt-cell[data-mode="dark"] { color: var(--color-bg); }
+body.dark .tt-cell[data-mode="light"] svg { transform: rotate(-70deg) scale(0.88); }
+body:not(.dark) .tt-cell[data-mode="dark"] svg { transform: rotate(30deg) scale(0.88); }
+
+/* Hamburger — desktop hides it, mobile shows it */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 30px;
+  height: 22px;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 60;
+}
+.nav-toggle span {
+  display: block;
+  width: 100%;
+  height: 1.5px;
+  background: var(--color-ink);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s;
+}
+body.nav-open .nav-toggle span:first-child { transform: translateY(3.25px) rotate(45deg); }
+body.nav-open .nav-toggle span:last-child  { transform: translateY(-3.25px) rotate(-45deg); }
+
+@media (max-width: 900px) {
+  .nav-toggle { display: flex; }
+  .nav-links {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 4px;
+    padding: 0 clamp(20px, 6vw, 48px);
+    background: var(--color-bg);
+    font-size: clamp(28px, 7vw, 44px);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    text-transform: none;
+    color: var(--color-ink);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-12px);
+    transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s 0.35s;
+  }
+  body.nav-open .nav-links {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s;
+  }
+  .nav-links a { color: inherit; }
+}
+
+/* ── Footer — same as the V3 homepage ── */
+footer.site-foot {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--color-mute);
+  padding: clamp(16px, 2.5vw, 24px) clamp(20px, 4vw, 56px);
+  border-top: 0.5px solid var(--color-line);
+  margin-top: 48px;
+}
+
+/* ============================================================
+   CASE-STUDY RESKIN — overrides on top of ../case-study.css
+============================================================ */
+
+/* type: Geist carries less weight than Inter Tight did */
+.cs-title { font-weight: 600; letter-spacing: -0.035em; }
+.cs-section-title { font-weight: 500; letter-spacing: -0.03em; }
+.cs-sub-block-title { font-weight: 500; }
+.cs-accordion-title { font-weight: 500; }
+.cs-meta-label { letter-spacing: 0.08em; }
+.cs-goals-label { font-weight: 600; letter-spacing: 0.08em; }
+.cs-strip-label { font-weight: 500; letter-spacing: 0.08em; }
+.cs-num { font-weight: 500; }
+.cs-quote p { letter-spacing: -0.02em; }
+.toc-item.active a { font-weight: 600; }
+
+/* hero kicker: chip + year instead of a plain label */
+.cs-kicker {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.cs-kicker .cs-kicker-year {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-mute);
+  font-weight: 500;
+}
+
+/* TOC in the quiet uppercase voice */
+.toc-item a {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-quiet);
+}
+.toc-item a:hover { color: var(--color-mute); }
+.toc-item.active a { color: var(--color-ink); }
+
+/* sharp corners */
+.cs-hero-img,
+.cs-figure-img,
+.cs-img-cell,
+.cs-strip-img,
+.cs-accordion,
+.cs-carousel,
+.cs-image-placeholder,
+.cs-preview-placeholder { border-radius: 0; }
+
+/* prototype button becomes the ink button */
+.cs-proto-btn {
+  background: var(--color-ink);
+  border: 0.5px solid var(--color-ink);
+  color: var(--color-bg);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  padding: 10px 16px;
+  border-radius: 0;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.cs-proto-btn:hover {
+  opacity: 1;
+  background: transparent;
+  border-color: var(--color-ink);
+  color: var(--color-ink);
+}
+
+/* footer nav in the uppercase voice */
+.cs-footer-back, .cs-footer-next {
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-mute);
+}
+.cs-footer-back:hover, .cs-footer-next:hover { color: var(--color-ink); }
+
+/* ============================================================
+   DESIGN VIEWER RESKIN — overrides on top of ../viewer.css
+   (phone chassis keeps its rounding — it's hardware, not UI)
+============================================================ */
+.design-viewer .dv-stage { border-radius: 0; }
+.design-viewer .dv-group,
+.design-viewer .dv-group::before,
+.design-viewer .dv-btn::before,
+.design-viewer .dv-mode-toggle,
+.design-viewer .dv-arrow,
+.design-viewer .dv-fs-btn,
+.design-viewer .dv-callout,
+.design-viewer .dv-callout-num { border-radius: 0; }
+
+.design-viewer .dv-group {
+  background: var(--color-bg-2);
+  border-color: var(--color-line);
+}
+.design-viewer .dv-group::before { background: var(--color-ink); }
+.design-viewer .dv-btn {
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-mute);
+}
+.design-viewer .dv-btn:not(.is-active):hover { color: var(--color-ink); }
+.design-viewer .dv-btn::before { background: var(--color-line); }
+.design-viewer .dv-btn.is-active { color: var(--color-bg); }
+.design-viewer .dv-mode-toggle {
+  background: var(--color-bg-2);
+  border-color: var(--color-line);
+  color: var(--color-ink);
+}
+.design-viewer .dv-mode-toggle:hover { background: var(--color-line); }
+/* callout number badge takes the case-study yellow */
+.design-viewer .dv-callout-num { background: #f5d90a; color: #111; }
+
+/* ============================================================
+   THEME WIPE — the new theme reveals as a circle from the toggle.
+   The clip-path animation is driven from JS (toggleTheme); here we
+   only disable the default cross-fade and the underlying CSS fades.
+============================================================ */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+/* returning to light: the dark (old) snapshot collapses back into the
+   toggle, so it must sit ABOVE the incoming light view while it shrinks */
+html.theme-wipe--out::view-transition-old(root) { z-index: 1; }
+html.theme-wipe *,
+html.theme-wipe *::before,
+html.theme-wipe *::after {
+  transition: none !important;
+}

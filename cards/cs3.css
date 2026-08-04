@@ -1,0 +1,11 @@
+/* ── cs3 card ──────────────────────────────────────────────
+   Scope every rule to .card--cs3 so this file can only
+   affect this one card. Pure-CSS animations welcome — target
+   the inner elements, e.g.:
+
+   .card--cs3 .card-front-bg   → background image
+   .card--cs3 .card-front-title → title
+   .card--cs3 .card-front       → whole front face
+
+   Keyframes should be prefixed with the card name to avoid
+   collisions, e.g. @keyframes cs3-float { … }             */

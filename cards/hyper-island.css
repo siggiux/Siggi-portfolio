@@ -1,0 +1,25 @@
+/* ── hyper-island card ──────────────────────────────────────
+   Scope every rule to .card--hyper-island so this file can
+   only affect this one card.
+
+   Background: looping caustics video (test-images/caustics.mp4),
+   placed as <video class="card-front-bg"> in the card markup —
+   the shared .card-front-bg styles handle cover/position.
+
+   Add any extra treatments (tints, overlays, text animation)
+   here, e.g.:
+
+   .card--hyper-island .card-front-bg { filter: …; }
+   Keyframes prefixed with the card name: @keyframes hyper-island-… */
+
+/* Hyper Island wordmark, bottom right — subtle watermark under
+   the hover dim, same treatment as the RU mark on the MSc card */
+.card--hyper-island .hi-logo {
+  position: absolute;
+  right: clamp(16px, 2vw, 22px);
+  bottom: clamp(18px, 2.2vw, 24px);
+  width: 118px;
+  height: auto;
+  opacity: 0.45;
+  z-index: 2;
+}

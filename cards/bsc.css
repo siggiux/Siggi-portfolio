@@ -1,0 +1,26 @@
+/* ── bsc card ──────────────────────────────────────────────
+   Scope every rule to .card--bsc so this file can only
+   affect this one card. Pure-CSS animations welcome — target
+   the inner elements, e.g.:
+
+   .card--bsc .card-front-bg    → background image
+   .card--bsc .card-front-title → title
+   .card--bsc .card-front       → whole front face
+
+   Keyframes should be prefixed with the card name to avoid
+   collisions, e.g. @keyframes bsc-float { … }              */
+
+/* Static gradient — the image's own blue/purple + warm glow
+   palette, deliberately not animated */
+
+/* RU mark, bottom right — subtle watermark under the hover dim,
+   same treatment as the MSc card */
+.card--bsc .bsc-logo {
+  position: absolute;
+  right: clamp(16px, 2vw, 22px);
+  bottom: clamp(16px, 2vw, 22px);
+  width: 38px;
+  height: 38px;
+  opacity: 0.45;
+  z-index: 2;
+}

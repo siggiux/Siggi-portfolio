@@ -1,0 +1,11 @@
+/* ── hot-tickets card ──────────────────────────────────────────────
+   Scope every rule to .card--hot-tickets so this file can only
+   affect this one card. Pure-CSS animations welcome — target
+   the inner elements, e.g.:
+
+   .card--hot-tickets .card-front-bg   → background image
+   .card--hot-tickets .card-front-title → title
+   .card--hot-tickets .card-front       → whole front face
+
+   Keyframes should be prefixed with the card name to avoid
+   collisions, e.g. @keyframes hot-tickets-float { … }             */

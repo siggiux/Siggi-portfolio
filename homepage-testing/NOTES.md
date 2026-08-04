@@ -132,6 +132,11 @@ cards get their redesign pass.
   freeze.
 - **Filter clicks are queued**, not dropped, during the ~3s deck animation —
   dropping them made buttons feel like they needed a double-click.
+- **Don't `setPointerCapture` on pointerdown** in the drag-to-scroll code —
+  with capture active, the browser delivers the click to the stage instead
+  of the card links, so none of them navigate. Capture only after the
+  pointer moves ≥6px (fixed on the live homepage; the archived versions
+  here still have the bug).
 
 ## Open threads
 

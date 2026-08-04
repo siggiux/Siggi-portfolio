@@ -1262,19 +1262,31 @@
     track.addEventListener('mouseover', e => { if (e.target.closest('.flip-card-outer')) paused = true; });
     track.addEventListener('mouseout',  e => { if (e.target.closest('.flip-card-outer')) paused = false; });
 
-    // Drag to scroll
+    // Drag to scroll — capture only after real movement. Capturing on
+    // pointerdown made the browser deliver the CLICK to the stage instead
+    // of the card links, so "View case study" etc. never navigated.
+    let armed = false, downX = 0, downY = 0, downId = null, wasDragged = false;
     stage.addEventListener('pointerdown', e => {
       if (filterMode !== 'all') return;
-      dragging = true;
-      lastX = e.clientX;
-      try { stage.setPointerCapture(e.pointerId); } catch (err) {}
+      armed = true; wasDragged = false;
+      downId = e.pointerId;
+      downX = lastX = e.clientX; downY = e.clientY;
     });
     stage.addEventListener('pointermove', e => {
-      if (!dragging) return;
+      if (!armed && !dragging) return;
+      if (!dragging) {
+        if (Math.hypot(e.clientX - downX, e.clientY - downY) < 6) { lastX = e.clientX; return; }
+        dragging = true; wasDragged = true;
+        try { stage.setPointerCapture(downId); } catch (err) {}
+      }
       offset += e.clientX - lastX;
       lastX = e.clientX;
     });
-    ['pointerup', 'pointercancel'].forEach(t => stage.addEventListener(t, () => { dragging = false; }));
+    ['pointerup', 'pointercancel'].forEach(t => stage.addEventListener(t, () => { dragging = false; armed = false; }));
+    // a drag that happens to end on a link shouldn't navigate
+    stage.addEventListener('click', e => {
+      if (wasDragged) { e.preventDefault(); e.stopPropagation(); wasDragged = false; }
+    }, true);
     track.addEventListener('dragstart', e => e.preventDefault());
 
     // Trackpad / shift-wheel horizontal scroll

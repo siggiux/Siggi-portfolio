@@ -70,13 +70,10 @@
       height: max-content;
       align-items: flex-start;
     }
-    .meta-sub {
-      font-family: var(--font-display);
-      font-weight: 500;
-      font-size: 18px;
-      color: var(--color-ink);
-      letter-spacing: -0.025em;
-      line-height: 1.2;
+    /* the chip IS the section heading — give it a touch more presence */
+    .meta-col .chip {
+      font-size: 11px;
+      padding: 6px 10px;
     }
 
     /* timeline */
@@ -243,7 +240,7 @@
       </aside>
 
       <div class="bio-right">
-        <span class="section-label reveal">01 — Hello</span>
+        <span class="section-label reveal">Hello</span>
 
         <p class="bio-lede reveal" data-delay="1">
           I'm Siggi. I spent years running a startup and managing marketing
@@ -259,9 +256,7 @@
     <!-- ── EXPERIENCE ── -->
     <section class="list-section">
       <div class="meta-col">
-        <span class="section-label">02 — Experience</span>
-        <span class="meta-sub reveal">Selected roles</span>
-        <span class="chip chip--work reveal" data-delay="1">Work</span>
+        <span class="chip chip--work reveal">Work experience</span>
       </div>
 
       <ol class="timeline">
@@ -311,9 +306,7 @@
     <!-- ── EDUCATION ── -->
     <section class="list-section">
       <div class="meta-col">
-        <span class="section-label">03 — Education</span>
-        <span class="meta-sub reveal">Where I picked things up</span>
-        <span class="chip chip--edu reveal" data-delay="1">Education</span>
+        <span class="chip chip--edu reveal">Education</span>
       </div>
 
       <ol class="timeline">

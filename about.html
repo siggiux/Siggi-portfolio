@@ -18,9 +18,14 @@
       display: grid;
       grid-template-columns: minmax(260px, 1fr) minmax(0, 2.2fr);
       gap: clamp(32px, 6vw, 88px);
-      padding: clamp(56px, 9vh, 96px) 0;
+      padding: clamp(48px, 7.5vh, 80px) 0;
     }
-    .bio-section { padding-top: clamp(64px, 11vh, 120px); }
+    /* keep the intro compact enough that "02 — Experience" peeks above
+       the fold — the scroll hint that there's more page below */
+    .bio-section {
+      padding-top: clamp(48px, 8vh, 88px);
+      padding-bottom: clamp(32px, 5.5vh, 56px);
+    }
 
     /* portrait — sharp corners, hairline */
     .bio-left .portrait-wrap {

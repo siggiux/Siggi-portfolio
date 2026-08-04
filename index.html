@@ -656,9 +656,24 @@
     }
     .work-card { display: block; }
     .work-card-img {
+      position: relative;
       aspect-ratio: 4 / 3;
       overflow: hidden;
       background: var(--color-bg-2);
+    }
+    /* "view this first" marker on the most recent project */
+    .work-card-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      z-index: 1;
+      background: var(--color-accent);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 8px;
     }
     .work-card-img img {
       width: 100%;
@@ -1103,7 +1118,7 @@
 
     <div class="work-grid">
       <a class="work-card" href="case-study-3.html">
-        <div class="work-card-img"><img loading="lazy" src="images/case-study-3/thumb.jpg" alt="A shared bank for couples"></div>
+        <div class="work-card-img"><span class="work-card-badge">Latest</span><img loading="lazy" src="images/case-study-3/thumb.jpg" alt="A shared bank for couples"></div>
         <h3 class="work-card-title">A shared bank for couples</h3>
         <p class="work-card-tags">Product design, Fintech, 2026</p>
       </a>

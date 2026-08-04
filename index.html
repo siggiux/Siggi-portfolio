@@ -812,6 +812,11 @@
       letter-spacing: -0.03em;
       color: var(--color-ink);
     }
+    /* belt-and-suspenders: never show on touch, even if a stray synthetic
+       mousemove event slips past the JS's own (hover: hover) guard */
+    @media (hover: none) {
+      .cursor-label { display: none; }
+    }
 
     /* ── Scroll reveal: the work section nudges up into place as one
        unit when you reach it — movement only, no fade, no stagger ── */
@@ -1234,24 +1239,30 @@
     });
 
     // Custom cursor — active only in the band between the top nav row and the
-    // bottom controls row; a full-width line, not per-element exclusions
-    const cursorZone = document.querySelector('.hero');
-    const cursorLabel = document.getElementById('cursorLabel');
-    const cornerTL = document.querySelector('.corner-tl');
-    const cornerBL = document.querySelector('.corner-bl');
-    cursorZone.addEventListener('mouseleave', () => {
-      cursorLabel.classList.remove('visible');
-      cursorZone.classList.remove('hide-cursor');
-    });
-    cursorZone.addEventListener('mousemove', e => {
-      const topLine = cornerTL.getBoundingClientRect().bottom + 8;
-      const bottomLine = cornerBL.getBoundingClientRect().top - 8;
-      const inBand = e.clientY > topLine && e.clientY < bottomLine;
-      cursorLabel.classList.toggle('visible', inBand);
-      cursorZone.classList.toggle('hide-cursor', inBand);
-      cursorLabel.style.left = e.clientX + 'px';
-      cursorLabel.style.top  = e.clientY + 'px';
-    });
+    // bottom controls row; a full-width line, not per-element exclusions.
+    // Real-mouse only: touch devices report no hover / a coarse pointer, so
+    // this never attaches there (some mobile browsers fire a single
+    // synthetic mousemove after a tap, which would otherwise flash the
+    // label at the tap point on a screen with no cursor to follow).
+    if (window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      const cursorZone = document.querySelector('.hero');
+      const cursorLabel = document.getElementById('cursorLabel');
+      const cornerTL = document.querySelector('.corner-tl');
+      const cornerBL = document.querySelector('.corner-bl');
+      cursorZone.addEventListener('mouseleave', () => {
+        cursorLabel.classList.remove('visible');
+        cursorZone.classList.remove('hide-cursor');
+      });
+      cursorZone.addEventListener('mousemove', e => {
+        const topLine = cornerTL.getBoundingClientRect().bottom + 8;
+        const bottomLine = cornerBL.getBoundingClientRect().top - 8;
+        const inBand = e.clientY > topLine && e.clientY < bottomLine;
+        cursorLabel.classList.toggle('visible', inBand);
+        cursorZone.classList.toggle('hide-cursor', inBand);
+        cursorLabel.style.left = e.clientX + 'px';
+        cursorLabel.style.top  = e.clientY + 'px';
+      });
+    }
 
     // Duplicate the card set for the seamless loop — cards are authored ONCE
     // in the markup; this clone replaces the old hand-written second set

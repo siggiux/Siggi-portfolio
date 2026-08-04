@@ -73,6 +73,11 @@ window.addEventListener('resize', function () {
 
 /* ── Scroll reveal ── */
 (function () {
+  /* sections rise ~14px and settle as they scroll into view — tagged from
+     here so the markup stays clean (and stays visible without JS) */
+  document.querySelectorAll('.cs-section, .cs-sub-block').forEach(function (el) {
+    el.classList.add('reveal');
+  });
   var els = document.querySelectorAll('.reveal');
   if (!('IntersectionObserver' in window) || !els.length) {
     els.forEach(function (e) { e.classList.add('in'); });

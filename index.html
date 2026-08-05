@@ -242,7 +242,11 @@
     /* ── Card track ── */
     .cards-stage {
       width: 100%;
-      flex: 1;
+      /* size to the deck, don't grow: as flex:1 it swallowed every spare
+         pixel, so nudging the filters' margin only moved the CARDS and the
+         filters stayed pinned. Content-sized, the deck + filters centre as
+         one group and the filters actually sit under the cards. */
+      flex: 0 1 auto;
       display: flex;
       align-items: center;
       /* Edge fade masks */
@@ -317,12 +321,24 @@
       font-weight: 500;
       color: var(--color-ink);
     }
+    /* In the flow under .cards-stage, centred on the deck. Being in flow (not
+       a positioned corner) means it tracks the cards at every viewport size
+       instead of needing a hand-tuned offset. */
     .cards-filter {
       display: flex;
       align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
       gap: 8px; /* buttons carry 8px side padding — text rhythm stays ~24px */
-      margin: 0 0 -4px -8px; /* compensate button padding so text aligns to the corner */
-      max-width: none;
+      padding: 0 clamp(20px, 3vw, 40px);
+      /* negative pulls into the track's bottom padding (shadow room, empty
+         space). Trimming that padding instead would work but must stay
+         symmetric or the deck sits off-centre — see NOTES gotchas. */
+      margin-top: clamp(-12px, calc(3vh - 36px), 0px);
+      /* .hero::after (the bottom fade) sits at z-index 5 and washed these
+         out once they left the .corner stacking context — sit above it */
+      position: relative;
+      z-index: 6;
     }
     .filter-btn {
       background: none;
@@ -335,14 +351,30 @@
       letter-spacing: 0.05em;
       color: var(--color-mute);
       cursor: pointer;
-      transition: color 0.2s, background 0.2s;
+      transition: color 0.2s, background 0.2s, transform 0.14s var(--ease-out);
     }
-    .filter-btn:hover, .filter-btn.active { color: var(--color-ink); }
-    /* Hover takes the matching card-chip colour */
-    .filter-btn[data-filter="case"]:hover { background: #f5d90a; color: #111; }
-    .filter-btn[data-filter="education"]:hover { background: #1e3aff; color: #fff; }
-    .filter-btn[data-filter="work"]:hover { background: #16e34f; color: #111; }
-    .filter-btn[data-filter="all"]:hover { background: var(--color-ink); color: var(--color-bg); }
+    .filter-btn:hover { color: var(--color-ink); }
+    /* Press feedback — :active is the held-down pseudo-class, distinct from
+       the .active CLASS below that marks the selected filter */
+    .filter-btn:active { transform: scale(1.06); }
+    /* The selected filter wears the same fill as its hover state, so the
+       chosen category stays obvious once the pointer leaves. */
+    .filter-btn[data-filter="case"]:hover,
+    .filter-btn[data-filter="case"].active { background: #f5d90a; color: #111; }
+    .filter-btn[data-filter="education"]:hover,
+    .filter-btn[data-filter="education"].active { background: #1e3aff; color: #fff; }
+    .filter-btn[data-filter="work"]:hover,
+    .filter-btn[data-filter="work"].active { background: #16e34f; color: #111; }
+    .filter-btn[data-filter="all"]:hover,
+    .filter-btn[data-filter="all"].active { background: var(--color-ink); color: var(--color-bg); }
+    /* Held down: each fill drops 15% toward black. Must come AFTER the rules
+       above (same specificity) so the press colour wins over the hover fill.
+       color-mix rather than hard-coded hexes so All darkens correctly against
+       whichever --color-ink the current theme is using. */
+    .filter-btn[data-filter="case"]:active { background: color-mix(in srgb, #f5d90a 85%, #000); }
+    .filter-btn[data-filter="education"]:active { background: color-mix(in srgb, #1e3aff 85%, #000); }
+    .filter-btn[data-filter="work"]:active { background: color-mix(in srgb, #16e34f 85%, #000); }
+    .filter-btn[data-filter="all"]:active { background: color-mix(in srgb, var(--color-ink) 85%, #000); }
 
     /* ── Flip card ── */
     /* Tunable knobs (each card has its own perspective = identical angle for all):
@@ -538,6 +570,30 @@
       text-transform: uppercase;
       opacity: 0.45;
     }
+    /* "newest work" marker — same red chip as the Projects grid badge.
+       Selector needs the .styled > span specificity to beat that rule's
+       position: relative; the offsets mirror the category tag's corner tuck. */
+    .card-front.styled > .card-front-badge {
+      position: absolute;
+      bottom: calc(clamp(12px, 1.5vw, 16px) - 8px);
+      right: calc(clamp(12px, 1.5vw, 16px) - 8px);
+      z-index: 4; /* above .card-dim, like the other front text */
+      background: var(--color-accent);
+      color: #fff;
+      opacity: 1;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 8px;
+      transition: opacity 0.3s ease;
+    }
+    /* on hover the detail overlay's "View case study" button reaches into
+       this corner — the badge is only a scanning cue, so hand the space over */
+    .flip-card-outer:hover .card-front.styled > .card-front-badge,
+    .flip-card-outer.show-detail .card-front.styled > .card-front-badge {
+      opacity: 0;
+    }
     .card-front-title {
       font-family: var(--font-display);
       font-size: clamp(13px, 1.45vw, 17px);
@@ -554,10 +610,10 @@
       margin-top: 4px;
     }
     .card-front-sub {
-      font-size: 10px;
+      font-size: 12px;
       font-weight: 400;
       letter-spacing: -0.01em;
-      opacity: 0.45;
+      opacity: 0.55;
       margin-top: auto;
     }
 
@@ -847,20 +903,27 @@
         transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s;
       }
 
-      /* bottom controls stack: filters sit above the button */
-      .corner-bl {
-        left: clamp(20px, 3vw, 40px);
-        right: clamp(20px, 3vw, 40px);
-        bottom: 76px;
-        flex-wrap: wrap;
-      }
+    }
+
+    /* The filters now live in the flow under the deck at every size, so the
+       only narrow-screen change left is the CTA: full-width-ish and centred
+       once there's no longer room for it to sit off to the side. */
+    @media (max-width: 600px) {
       .corner-br {
-        left: clamp(20px, 3vw, 40px);
+        left: 50%;
         right: auto;
+        transform: translateX(-50%);
+        width: 60%;
         justify-content: center;
+        padding: 15px 28px;
+        font-size: 13px;
       }
-      /* more room at the bottom now that the controls stack */
-      .cards-area { padding-bottom: clamp(120px, 17vh, 150px); }
+      .corner-br svg { width: 15px; height: 15px; }
+      .cards-area { padding-bottom: clamp(96px, 14vh, 120px); }
+      /* the 90px guards the hover lift / shadow from the stage mask, and
+         there is no hover on touch — reclaim it so the filters (now real
+         flow content) still clear the CTA on short phones */
+      .cards-track { padding: 56px 0; }
     }
 
     /* ── Custom cursor — only between the top nav row and the bottom controls row ── */
@@ -876,14 +939,18 @@
       transition: opacity 0.25s ease;
       transform: translate(12px, -50%);
       white-space: nowrap;
-      /* fixed black pill, not theme tokens — it sits over arbitrary photo/
-         video card art, so it needs to stay readable regardless of what's
-         underneath or which theme is active */
+      color: var(--color-ink);
+    }
+    .cursor-label.visible { opacity: 1; }
+    /* Only the Projects-grid cursor gets the pill: it tracks across photo
+       thumbnails and needs to stay readable over them. The hero cursor
+       moves over the page background, so plain ink is enough. Fixed black
+       (not a theme token) because it sits on the art, not the page. */
+    #workCursorLabel {
       background: #111110;
       color: #fff;
       padding: 7px 12px 7px 10px;
     }
-    .cursor-label.visible { opacity: 1; }
     .cursor-asterisk {
       flex-shrink: 0;
       display: block;
@@ -987,12 +1054,6 @@
         <span></span><span></span>
       </button>
     </div>
-    <div class="corner corner-bl cards-filter">
-      <button class="filter-btn active" data-filter="all">All</button>
-      <button class="filter-btn" data-filter="case">Case studies</button>
-      <button class="filter-btn" data-filter="education">Education</button>
-      <button class="filter-btn" data-filter="work">Work</button>
-    </div>
     <a class="corner corner-br" href="#work">
       See projects
       <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
@@ -1008,101 +1069,32 @@
 
         <!-- ─ SET 1 ─ -->
 
-        <!-- Case study 3: Shared bank -->
-        <div class="flip-card-outer card--cs3">
+        <!-- Datera -->
+        <div class="flip-card-outer card--datera" data-cat="work">
           <div class="flip-card-inner">
-            <div class="card-face card-front styled has-img">
-              <img class="card-front-bg" src="images/case-study-3/card.jpg" alt="A shared bank for couples">
-              <span class="card-front-label tag-cs">Case study</span>
-              <span class="card-front-title">A shared bank for couples</span>
+            <div class="card-face card-front styled has-img theme-cream">
+              <img class="card-front-bg" src="images/cards/datera-bg.jpg" alt="">
+              <span class="card-front-label tag-work">Work</span>
+              <span class="card-front-title">Digital Marketing Specialist</span>
+              <span class="card-front-org">Datera &amp; Birtingahúsið</span>
               <div class="card-info">
-                <div class="card-info-sub">Product design · Fintech · Concept</div>
-                <p class="card-info-desc">A joint-finance app concept helping couples manage shared money without losing independence. Research, flows and a full UI kit.</p>
-                <a class="card-back-link" href="case-study-3.html">
-                  View case study
-                  <svg viewBox="0 0 24 24"><path d="M5 19L19 5M9 5h10v10"/></svg>
-                </a>
+                <p class="card-info-desc">Digital marketing for Datera and Birtingahúsið: Google, Meta and SEO campaigns, media planning and data-driven optimisation. I came to product design already used to reading real user behaviour and being measured on whether a decision worked.</p>
               </div>
-              <span class="card-front-sub">2026</span>
+              <span class="card-front-sub">2017 – 2021 · 2024 – 2025</span>
               <div class="card-dim"></div>
             </div>
-            <div class="card-face card-back theme-dark">
-              <span class="card-back-label">Case study · 2026</span>
-              <span class="card-back-title">A shared bank for couples</span>
+            <div class="card-face card-back theme-cream">
+              <span class="card-back-label">Experience</span>
+              <span class="card-back-title">Digital Marketing Specialist</span>
               <div>
-                <div class="card-back-meta">Product design · Fintech · Concept project</div>
-                <a class="card-back-link" href="case-study-3.html">
-                  View case study
-                  <svg viewBox="0 0 24 24"><path d="M5 19L19 5M9 5h10v10"/></svg>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Hyper Island -->
-        <div class="flip-card-outer card--hyper-island">
-          <div class="flip-card-inner">
-            <div class="card-face card-front styled has-img theme-slate">
-              <video class="card-front-bg" src="images/cards/caustics.mp4" autoplay muted loop playsinline></video>
-              <span class="card-front-label tag-edu">Education</span>
-              <span class="card-front-title">UX design programme</span>
-              <span class="card-front-org">Hyper Island</span>
-              <div class="card-info">
-                <p class="card-info-desc">Industry-taught, project-based programme. Covered user research, prototyping, design systems, UI, data analytics and UX ethics. Most coursework done in collaboration with real companies.</p>
-                <a class="card-back-link" href="https://hyperisland.com/en/programs/yh-courses/ux-design" target="_blank" rel="noopener">
-                  About the programme
-                  <svg viewBox="0 0 24 24"><path d="M5 19L19 5M9 5h10v10"/></svg>
-                </a>
-              </div>
-              <span class="card-front-sub">2024 – 2025</span>
-              <img class="hi-logo" src="images/cards/hi-logo.svg" alt="Hyper Island">
-              <div class="card-dim"></div>
-            </div>
-            <div class="card-face card-back theme-slate">
-              <span class="card-back-label">Education</span>
-              <span class="card-back-title">UX Design</span>
-              <div>
-                <div class="card-back-meta">Hyper Island · Industry-taught programme · User research, prototyping, design systems, UI and UX ethics</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Case study 2: Handover tool -->
-        <div class="flip-card-outer card--cs2">
-          <div class="flip-card-inner">
-            <div class="card-face card-front styled has-img">
-              <img class="card-front-bg" src="images/case-study-2/card.jpg" alt="End-of-shift handover tool">
-              <span class="card-front-label tag-cs">Case study</span>
-              <span class="card-front-title">End-of-shift handover tool</span>
-              <div class="card-info">
-                <div class="card-info-sub">Product design · Mobile · Concept</div>
-                <p class="card-info-desc">A mobile tool for service teams to hand over notes, tasks and reports between shifts, designed end-to-end with usability testing.</p>
-                <a class="card-back-link" href="case-study-2.html">
-                  View case study
-                  <svg viewBox="0 0 24 24"><path d="M5 19L19 5M9 5h10v10"/></svg>
-                </a>
-              </div>
-              <span class="card-front-sub">2025</span>
-              <div class="card-dim"></div>
-            </div>
-            <div class="card-face card-back theme-dark">
-              <span class="card-back-label">Case study · 2025</span>
-              <span class="card-back-title">End-of-shift handover tool</span>
-              <div>
-                <div class="card-back-meta">Product design · Mobile · Concept project</div>
-                <a class="card-back-link" href="case-study-2.html">
-                  View case study
-                  <svg viewBox="0 0 24 24"><path d="M5 19L19 5M9 5h10v10"/></svg>
-                </a>
+                <div class="card-back-meta">Google, Meta and SEO for clients across multiple industries. Data-driven optimisation for Icelandic and international markets.</div>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Hot Tickets -->
-        <div class="flip-card-outer card--hot-tickets">
+        <div class="flip-card-outer card--hot-tickets" data-cat="work">
           <div class="flip-card-inner">
             <div class="card-face card-front styled has-img theme-warm">
               <img class="card-front-bg" src="images/cards/hot-tickets-bg.jpg" alt="">
@@ -1126,7 +1118,7 @@
         </div>
 
         <!-- Case study 1: Last-minute -->
-        <div class="flip-card-outer card--cs1">
+        <div class="flip-card-outer card--cs1" data-cat="case">
           <div class="flip-card-inner">
             <div class="card-face card-front styled has-img">
               <img class="card-front-bg" src="images/case-study-1/card.jpg" alt="Last-minute experiences">
@@ -1157,61 +1149,73 @@
           </div>
         </div>
 
-        <!-- Datera -->
-        <div class="flip-card-outer card--datera">
+        <!-- Case study 2: Handover tool -->
+        <div class="flip-card-outer card--cs2" data-cat="case">
           <div class="flip-card-inner">
-            <div class="card-face card-front styled has-img theme-cream">
-              <img class="card-front-bg" src="images/cards/datera-bg.jpg" alt="">
-              <span class="card-front-label tag-work">Work</span>
-              <span class="card-front-title">Digital Marketing Specialist</span>
-              <span class="card-front-org">Datera &amp; Birtingahúsið</span>
+            <div class="card-face card-front styled has-img">
+              <img class="card-front-bg" src="images/case-study-2/card.jpg" alt="End-of-shift handover tool">
+              <span class="card-front-label tag-cs">Case study</span>
+              <span class="card-front-title">End-of-shift handover tool</span>
               <div class="card-info">
-                <p class="card-info-desc">Digital marketing for Datera and Birtingahúsið: Google, Meta and SEO campaigns, media planning and data-driven optimisation. I came to product design already used to reading real user behaviour and being measured on whether a decision worked.</p>
+                <div class="card-info-sub">Product design · Mobile · Concept</div>
+                <p class="card-info-desc">A mobile tool for service teams to hand over notes, tasks and reports between shifts, designed end-to-end with usability testing.</p>
+                <a class="card-back-link" href="case-study-2.html">
+                  View case study
+                  <svg viewBox="0 0 24 24"><path d="M5 19L19 5M9 5h10v10"/></svg>
+                </a>
               </div>
-              <span class="card-front-sub">2017 – 2021 · 2024 – 2025</span>
+              <span class="card-front-sub">2025</span>
               <div class="card-dim"></div>
             </div>
-            <div class="card-face card-back theme-cream">
-              <span class="card-back-label">Experience</span>
-              <span class="card-back-title">Digital Marketing Specialist</span>
+            <div class="card-face card-back theme-dark">
+              <span class="card-back-label">Case study · 2025</span>
+              <span class="card-back-title">End-of-shift handover tool</span>
               <div>
-                <div class="card-back-meta">Google, Meta and SEO for clients across multiple industries. Data-driven optimisation for Icelandic and international markets.</div>
+                <div class="card-back-meta">Product design · Mobile · Concept project</div>
+                <a class="card-back-link" href="case-study-2.html">
+                  View case study
+                  <svg viewBox="0 0 24 24"><path d="M5 19L19 5M9 5h10v10"/></svg>
+                </a>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- MSc Marketing -->
-        <div class="flip-card-outer card--msc">
+        <!-- Case study 3: Shared bank -->
+        <div class="flip-card-outer card--cs3" data-cat="case">
           <div class="flip-card-inner">
-            <div class="card-face card-front styled has-img theme-sage">
-              <video class="card-front-bg" src="images/cards/msc-bg.mp4" autoplay muted loop playsinline></video>
-              <span class="card-front-label tag-edu">Education</span>
-              <span class="card-front-title">MSc Marketing</span>
-              <span class="card-front-org">Reykjavík University</span>
+            <div class="card-face card-front styled has-img">
+              <img class="card-front-bg" src="images/case-study-3/card.jpg" alt="A shared bank for couples">
+              <span class="card-front-badge">Latest</span>
+              <span class="card-front-label tag-cs">Case study</span>
+              <span class="card-front-title">A shared bank for couples</span>
               <div class="card-info">
-                <p class="card-info-desc">One-year MSc taught in English. Covered consumer behaviour, brand development, market research and marketing metrics, using data to shape strategy across digital and international markets.</p>
-                <a class="card-back-link" href="https://www.ru.is/en/departments/dbe/markadsfraedi" target="_blank" rel="noopener">
-                  About the degree
+                <div class="card-info-sub">Product design · Fintech · Concept</div>
+                <p class="card-info-desc">A joint-finance app concept helping couples manage shared money without losing independence. Research, flows and a full UI kit.</p>
+                <a class="card-back-link" href="case-study-3.html">
+                  View case study
                   <svg viewBox="0 0 24 24"><path d="M5 19L19 5M9 5h10v10"/></svg>
                 </a>
               </div>
-              <span class="card-front-sub">2019 – 2020</span>
-              <img class="msc-logo" src="images/cards/ru-logo.svg" alt="Reykjavík University">
+              <span class="card-front-sub">2026</span>
               <div class="card-dim"></div>
             </div>
-            <div class="card-face card-back theme-sage">
-              <span class="card-back-label">Education</span>
-              <span class="card-back-title">MSc in Marketing</span>
+            <div class="card-face card-back theme-dark">
+              <span class="card-back-label">Case study · 2026</span>
+              <span class="card-back-title">A shared bank for couples</span>
               <div>
-                <div class="card-back-meta">University of Reykjavík · Consumer behaviour, brand strategy and data.</div>
+                <div class="card-back-meta">Product design · Fintech · Concept project</div>
+                <a class="card-back-link" href="case-study-3.html">
+                  View case study
+                  <svg viewBox="0 0 24 24"><path d="M5 19L19 5M9 5h10v10"/></svg>
+                </a>
               </div>
             </div>
           </div>
         </div>
 
         <!-- BSc Business + CS -->
-        <div class="flip-card-outer card--bsc">
+        <div class="flip-card-outer card--bsc" data-cat="education">
           <div class="flip-card-inner">
             <div class="card-face card-front styled has-img theme-sand">
               <img class="card-front-bg" src="images/cards/bsc-bg.jpg" alt="">
@@ -1239,8 +1243,74 @@
           </div>
         </div>
 
+        <!-- MSc Marketing -->
+        <div class="flip-card-outer card--msc" data-cat="education">
+          <div class="flip-card-inner">
+            <div class="card-face card-front styled has-img theme-sage">
+              <video class="card-front-bg" src="images/cards/msc-bg.mp4" autoplay muted loop playsinline></video>
+              <span class="card-front-label tag-edu">Education</span>
+              <span class="card-front-title">MSc Marketing</span>
+              <span class="card-front-org">Reykjavík University</span>
+              <div class="card-info">
+                <p class="card-info-desc">One-year MSc taught in English. Covered consumer behaviour, brand development, market research and marketing metrics, using data to shape strategy across digital and international markets.</p>
+                <a class="card-back-link" href="https://www.ru.is/en/departments/dbe/markadsfraedi" target="_blank" rel="noopener">
+                  About the degree
+                  <svg viewBox="0 0 24 24"><path d="M5 19L19 5M9 5h10v10"/></svg>
+                </a>
+              </div>
+              <span class="card-front-sub">2019 – 2020</span>
+              <img class="msc-logo" src="images/cards/ru-logo.svg" alt="Reykjavík University">
+              <div class="card-dim"></div>
+            </div>
+            <div class="card-face card-back theme-sage">
+              <span class="card-back-label">Education</span>
+              <span class="card-back-title">MSc in Marketing</span>
+              <div>
+                <div class="card-back-meta">University of Reykjavík · Consumer behaviour, brand strategy and data.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hyper Island -->
+        <div class="flip-card-outer card--hyper-island" data-cat="education">
+          <div class="flip-card-inner">
+            <div class="card-face card-front styled has-img theme-slate">
+              <video class="card-front-bg" src="images/cards/caustics.mp4" autoplay muted loop playsinline></video>
+              <span class="card-front-label tag-edu">Education</span>
+              <span class="card-front-title">UX design programme</span>
+              <span class="card-front-org">Hyper Island</span>
+              <div class="card-info">
+                <p class="card-info-desc">Industry-taught, project-based programme. Covered user research, prototyping, design systems, UI, data analytics and UX ethics. Most coursework done in collaboration with real companies.</p>
+                <a class="card-back-link" href="https://hyperisland.com/en/programs/yh-courses/ux-design" target="_blank" rel="noopener">
+                  About the programme
+                  <svg viewBox="0 0 24 24"><path d="M5 19L19 5M9 5h10v10"/></svg>
+                </a>
+              </div>
+              <span class="card-front-sub">2024 – 2025</span>
+              <img class="hi-logo" src="images/cards/hi-logo.svg" alt="Hyper Island">
+              <div class="card-dim"></div>
+            </div>
+            <div class="card-face card-back theme-slate">
+              <span class="card-back-label">Education</span>
+              <span class="card-back-title">UX Design</span>
+              <div>
+                <div class="card-back-meta">Hyper Island · Industry-taught programme · User research, prototyping, design systems, UI and UX ethics</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
+
+      <!-- filters sit in the flow directly under the deck they control -->
+      <div class="cards-filter">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="case">Case studies</button>
+        <button class="filter-btn" data-filter="education">Education</button>
+        <button class="filter-btn" data-filter="work">Work</button>
+      </div>
     </div>
   </section>
 
@@ -1363,7 +1433,9 @@
       const cursorZone = document.querySelector('.hero');
       const cursorLabel = document.getElementById('cursorLabel');
       const cornerTL = document.querySelector('.corner-tl');
-      const cornerBL = document.querySelector('.corner-bl');
+      // the filter row is the band's lower edge (it moved out of the corner
+      // into the flow under the deck, so query it by its own class now)
+      const cornerBL = document.querySelector('.cards-filter');
       cursorZone.addEventListener('mouseleave', () => {
         cursorLabel.classList.remove('visible');
         cursorZone.classList.remove('hide-cursor');
@@ -1524,10 +1596,10 @@
     }, 50);
 
     // ── Category filter ──
-    // Card order per set: CS3, Hyper Island, CS2, Hot Tickets, CS1, Datera, MSc, BSc
-    const CATS = ['case', 'education', 'case', 'work', 'case', 'work', 'education', 'education'];
+    // Each card declares its own data-cat in the markup (the loop clones
+    // inherit it), so reordering the deck can't silently mis-label the
+    // filters — which a positional CATS array here used to risk.
     const allCards = [...track.querySelectorAll('.flip-card-outer')];
-    allCards.forEach((c, i) => { c.dataset.cat = CATS[i % CATS.length]; });
 
     const filterBtns = document.querySelectorAll('.filter-btn');
     let filterMode = 'all';

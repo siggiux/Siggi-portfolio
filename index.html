@@ -725,14 +725,31 @@
       color: var(--color-mute);
     }
 
-    /* ── About strip: short bio + link to the about page ── */
+    /* ── About strip: portrait + short bio + link to the about page ── */
     .about-strip {
+      display: flex;
+      align-items: flex-start;
+      gap: clamp(36px, 6vw, 88px);
+      padding: clamp(90px, 14vh, 160px) clamp(20px, 3vw, 40px);
+      border-top: 0.5px solid var(--color-line);
+    }
+    .about-photo { flex-shrink: 0; width: clamp(200px, 26vw, 300px); }
+    .about-photo img {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+      display: block;
+      border: 0.5px solid var(--color-line);
+    }
+    .about-body {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
       gap: clamp(24px, 3.5vh, 36px);
-      padding: clamp(90px, 14vh, 160px) clamp(20px, 3vw, 40px);
-      border-top: 0.5px solid var(--color-line);
+    }
+    @media (max-width: 800px) {
+      .about-strip { flex-direction: column; }
+      .about-photo { width: min(260px, 70vw); }
     }
     .about-lede {
       font-family: var(--font-display);
@@ -1244,15 +1261,20 @@
 
   <!-- ── ABOUT STRIP ── -->
   <section class="about-strip">
-    <span class="section-label">About</span>
-    <p class="about-lede">I'm Siggi — a UX designer in Reykjavík. I spent years
-    running a startup and managing marketing campaigns before I discovered that
-    the part I liked most was always the product. Now I design, and I bring
-    everything else along with me.</p>
-    <a class="about-btn" href="about.html">
-      More about me
-      <svg viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-    </a>
+    <div class="about-photo">
+      <img loading="lazy" src="images/about/portrait.jpg" alt="Sigurður Guðmundsson">
+    </div>
+    <div class="about-body">
+      <span class="section-label">About</span>
+      <p class="about-lede">I'm Siggi — a UX designer in Reykjavík. I spent years
+      running a startup and managing marketing campaigns before I discovered that
+      the part I liked most was always the product. Now I design, and I bring
+      everything else along with me.</p>
+      <a class="about-btn" href="about.html">
+        More about me
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+    </div>
   </section>
 
   <footer class="site-foot">

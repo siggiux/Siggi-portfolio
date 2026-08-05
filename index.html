@@ -645,9 +645,14 @@
     /* ── Below-fold work section ── */
     .below-fold {
       /* fills a full viewport so "See projects" can scroll the hero
-         (and its filter/button rows) completely out of view */
+         (and its filter/button rows) completely out of view. Centred so
+         the leftover height splits above/below the grid instead of all
+         pooling underneath it as a gap before the About strip. */
       min-height: 100svh;
-      padding: clamp(100px, 16vh, 180px) clamp(20px, 3vw, 40px) clamp(90px, 14vh, 160px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(80px, 12vh, 140px) clamp(20px, 3vw, 40px) clamp(40px, 6vh, 72px);
     }
 
     .below-fold-header {
@@ -730,7 +735,7 @@
       display: flex;
       align-items: flex-start;
       gap: clamp(36px, 6vw, 88px);
-      padding: clamp(90px, 14vh, 160px) clamp(20px, 3vw, 40px);
+      padding: clamp(48px, 7vh, 80px) clamp(20px, 3vw, 40px) clamp(90px, 14vh, 160px);
     }
     .about-photo { flex-shrink: 0; width: clamp(200px, 26vw, 300px); }
     .about-photo img {

@@ -751,14 +751,20 @@
     @media (max-width: 800px) {
       .about-photo { display: none; }
     }
+    /* same voice as the hero's deck intro: small uppercase, muted,
+       key words carrying weight + ink */
     .about-lede {
-      font-family: var(--font-display);
-      font-size: clamp(22px, 2.6vw, 32px);
+      font-size: clamp(11.5px, 1vw, 13px);
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.045em;
+      line-height: 1.6;
+      color: var(--color-mute);
+      max-width: 36em;
+    }
+    .about-lede .k {
       font-weight: 500;
-      letter-spacing: -0.025em;
-      line-height: 1.35;
       color: var(--color-ink);
-      max-width: 26em;
     }
     /* same pattern as the See Projects button */
     .about-btn {
@@ -1266,10 +1272,11 @@
     </div>
     <div class="about-body">
       <span class="section-label">About</span>
-      <p class="about-lede">I'm Siggi — a UX designer in Reykjavík. I spent years
-      running a startup and managing marketing campaigns before I discovered that
-      the part I liked most was always the product. Now I design, and I bring
-      everything else along with me.</p>
+      <p class="about-lede">I'm Siggi — a <span class="k">UX designer</span> in
+      Reykjavík. I spent years running a <span class="k">startup</span> and managing
+      <span class="k">marketing campaigns</span> before I discovered that the part I
+      liked most was always <span class="k">the product</span>. Now I design, and I
+      bring everything else along with me.</p>
       <a class="about-btn" href="about.html">
         More about me
         <svg viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></svg>

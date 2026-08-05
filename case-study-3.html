@@ -23,8 +23,18 @@
   /* wide page: the final-design band needs room */
   .page--case-study { max-width: 1320px; }
 
-  /* content wrap: main column may grow (live embeds go full-width) */
-  .content-wrap { grid-template-columns: 200px minmax(0, 1fr); justify-content: stretch; }
+  /* content wrap: main column may grow (live embeds go full-width).
+     Scoped to match case-study.css's own 960px breakpoint — unscoped,
+     this always-on 2-column grid was overriding that stylesheet's
+     mobile collapse (.content-wrap { grid-template-columns: 1fr }), so
+     .toc correctly hid below 960px but the grid still reserved its
+     200px track. With no sidebar left to fill it, the lone remaining
+     child (.main-content) auto-placed INTO that leftover 200px column
+     instead of the wide one — a ~200px text column with a huge dead
+     gap beside it on tablet-width screens. */
+  @media (min-width: 961px) {
+    .content-wrap { grid-template-columns: 200px minmax(0, 1fr); justify-content: stretch; }
+  }
   .main-content { max-width: none; }
   /* prose keeps a readable measure even in a wide column */
   .cs-numbered-list { max-width: 860px; }

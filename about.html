@@ -50,12 +50,19 @@
       max-width: 620px;
       padding-top: 4px;
     }
+    /* same quiet uppercase voice as the homepage hero intro and its
+       About strip (.about-lede in index.html) — keep the two in step */
     .bio-lede {
-      font-family: var(--font-display);
+      font-size: clamp(15px, 1.6vw, 20px);
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.045em;
+      line-height: 1.6;
+      color: var(--color-mute);
+      max-width: 30em;
+    }
+    .bio-lede .k {
       font-weight: 500;
-      font-size: clamp(22px, 2.2vw, 30px);
-      line-height: 1.35;
-      letter-spacing: -0.025em;
       color: var(--color-ink);
     }
 
@@ -245,9 +252,11 @@
         <span class="section-label reveal">Hello</span>
 
         <p class="bio-lede reveal" data-delay="1">
-          I'm Siggi. I spent years running a startup and managing marketing
-          campaigns before I discovered that the part I liked most was always
-          the product. Now I design, and I bring everything else along with me.
+          I'm Siggi, a <span class="k">UX designer</span> in Reykjavík. I spent
+          years running a <span class="k">startup</span> and managing
+          <span class="k">marketing campaigns</span> before I discovered that the
+          part I liked most was always <span class="k">the product</span>. Now I
+          design, and I bring everything else along with me.
         </p>
 
       </div>

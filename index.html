@@ -207,26 +207,28 @@
     .corner-br {
       bottom: clamp(20px, 3vh, 32px);
       right: clamp(20px, 3vw, 40px);
-      color: var(--color-mute);
       display: flex;
       align-items: center;
       gap: 9px;
       padding: 10px 16px;
-      background: var(--color-ink);
+      /* light by default, filling with ink on hover */
+      background: var(--color-bg);
       border: 0.5px solid var(--color-ink);
-      color: var(--color-bg);
+      color: var(--color-ink);
       font-size: 12px;
       font-weight: 500;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       cursor: pointer;
-      transition: background 0.2s, color 0.2s, border-color 0.2s;
+      transition: background 0.2s, color 0.2s, border-color 0.2s,
+                  transform 0.14s var(--ease-out);
     }
     .corner-br:hover {
-      background: transparent;
+      background: var(--color-ink);
       border-color: var(--color-ink);
-      color: var(--color-ink);
+      color: var(--color-bg);
     }
+    .corner-br:active { transform: scale(1.04); }
     .corner-br svg {
       width: 14px; height: 14px;
       stroke: currentColor; fill: none;
@@ -909,15 +911,19 @@
        only narrow-screen change left is the CTA: full-width-ish and centred
        once there's no longer room for it to sit off to the side. */
     @media (max-width: 600px) {
+      /* full width between the page gutters — same clamp the wordmark,
+         deck intro, filters and Projects section all use */
       .corner-br {
-        left: 50%;
-        right: auto;
-        transform: translateX(-50%);
-        width: 60%;
+        left: clamp(20px, 3vw, 40px);
+        right: clamp(20px, 3vw, 40px);
+        width: auto;
         justify-content: center;
         padding: 15px 28px;
         font-size: 13px;
       }
+      /* smaller grow than desktop: 4% of a full-width button would spill
+         past the gutters, 2% keeps the same ~6px growth in absolute terms */
+      .corner-br:active { transform: scale(1.02); }
       .corner-br svg { width: 15px; height: 15px; }
       .cards-area { padding-bottom: clamp(96px, 14vh, 120px); }
       /* the 90px guards the hover lift / shadow from the stage mask, and

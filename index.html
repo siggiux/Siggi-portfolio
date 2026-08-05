@@ -725,6 +725,53 @@
       color: var(--color-mute);
     }
 
+    /* ── About strip: short bio + link to the about page ── */
+    .about-strip {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: clamp(24px, 3.5vh, 36px);
+      padding: clamp(90px, 14vh, 160px) clamp(20px, 3vw, 40px);
+      border-top: 0.5px solid var(--color-line);
+    }
+    .about-lede {
+      font-family: var(--font-display);
+      font-size: clamp(22px, 2.6vw, 32px);
+      font-weight: 500;
+      letter-spacing: -0.025em;
+      line-height: 1.35;
+      color: var(--color-ink);
+      max-width: 26em;
+    }
+    /* same pattern as the See Projects button */
+    .about-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 12px 18px;
+      background: var(--color-ink);
+      border: 0.5px solid var(--color-ink);
+      color: var(--color-bg);
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    .about-btn:hover {
+      background: transparent;
+      border-color: var(--color-ink);
+      color: var(--color-ink);
+    }
+    .about-btn svg {
+      width: 14px; height: 14px;
+      stroke: currentColor; fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round; stroke-linejoin: round;
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .about-btn:hover svg { transform: translateX(4px); }
+
     /* footer */
     .site-foot {
       display: flex;
@@ -1195,6 +1242,19 @@
     </div>
   </div>
 
+  <!-- ── ABOUT STRIP ── -->
+  <section class="about-strip">
+    <span class="section-label">About</span>
+    <p class="about-lede">I'm Siggi — a UX designer in Reykjavík. I spent years
+    running a startup and managing marketing campaigns before I discovered that
+    the part I liked most was always the product. Now I design, and I bring
+    everything else along with me.</p>
+    <a class="about-btn" href="about.html">
+      More about me
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+    </a>
+  </section>
+
   <footer class="site-foot">
     <span>Sigurður Guðmundsson — UX Designer</span>
     <span>sigurdurgudmundsson1@gmail.com</span>
@@ -1300,18 +1360,18 @@
     // Card background videos play at half speed
     document.querySelectorAll('video.card-front-bg').forEach(v => { v.playbackRate = 0.5; });
 
-    // The work section nudges up into place as one unit when reached
+    // The work and about sections nudge up into place as units when reached
     (function () {
-      const section = document.querySelector('.below-fold');
-      if (!section) return;
-      section.classList.add('reveal-block');
-      if (!('IntersectionObserver' in window)) { section.classList.add('in'); return; }
+      const sections = document.querySelectorAll('.below-fold, .about-strip');
+      if (!sections.length) return;
+      sections.forEach(s => s.classList.add('reveal-block'));
+      if (!('IntersectionObserver' in window)) { sections.forEach(s => s.classList.add('in')); return; }
       const io = new IntersectionObserver(entries => {
         entries.forEach(en => {
           if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
         });
       }, { threshold: 0.08, rootMargin: '0px 0px -8% 0px' });
-      io.observe(section);
+      sections.forEach(s => io.observe(s));
     })();
 
     // Custom cursor over the Projects grid — same visual language as the

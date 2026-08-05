@@ -802,12 +802,18 @@
       transition: opacity 0.25s ease;
       transform: translate(12px, -50%);
       white-space: nowrap;
+      /* fixed black pill, not theme tokens — it sits over arbitrary photo/
+         video card art, so it needs to stay readable regardless of what's
+         underneath or which theme is active */
+      background: #111110;
+      color: #fff;
+      padding: 7px 12px 7px 10px;
     }
     .cursor-label.visible { opacity: 1; }
     .cursor-asterisk {
       flex-shrink: 0;
       display: block;
-      color: var(--color-ink);
+      color: currentColor;
     }
     .cursor-label span {
       font-family: 'Geist', sans-serif;
@@ -815,7 +821,7 @@
       line-height: 1.1;
       font-weight: 400;
       letter-spacing: -0.03em;
-      color: var(--color-ink);
+      color: currentColor;
     }
     /* belt-and-suspenders: never show on touch, even if a stray synthetic
        mousemove event slips past the JS's own (hover: hover) guard */

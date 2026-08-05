@@ -747,9 +747,9 @@
       align-items: flex-start;
       gap: clamp(24px, 3.5vh, 36px);
     }
+    /* small screens: text only — the stacked photo-above-text read poorly */
     @media (max-width: 800px) {
-      .about-strip { flex-direction: column; }
-      .about-photo { width: min(260px, 70vw); }
+      .about-photo { display: none; }
     }
     .about-lede {
       font-family: var(--font-display);

@@ -354,9 +354,11 @@ footer.site-foot {
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--color-quiet);
+  /* mute, not quiet — quiet sits near 2.2:1 in both themes, too
+     faint for navigation */
+  color: var(--color-mute);
 }
-.toc-item a:hover { color: var(--color-mute); }
+.toc-item a:hover { color: var(--color-ink); }
 .toc-item.active a { color: var(--color-ink); }
 
 /* sharp corners */

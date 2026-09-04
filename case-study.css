@@ -368,14 +368,16 @@
   display: block;
   font-size: 16px;
   font-weight: 400;
-  color: var(--color-text-3);
+  /* mute, not quiet: quiet greys sit near 2.2:1 against both themes'
+     backgrounds — too faint for navigation */
+  color: var(--color-text-2);
   text-decoration: none;
   padding: 4px 0;
   transition: color 0.2s;
   line-height: 1.4;
 }
 
-.toc-item a:hover { color: var(--color-text-2); }
+.toc-item a:hover { color: var(--color-text-1); }
 
 .toc-item.active a {
   color: var(--color-text-1);

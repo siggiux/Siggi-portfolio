@@ -75,4 +75,13 @@ body.dark {
   --color-line:   rgba(243, 241, 236, 0.10);
   --color-grid:   rgba(243, 241, 236, 0.05);
   --color-btn-hover: #222220;
+
+  /* The compat aliases must be RESTATED here: a var() alias resolves
+     where it is defined, so the :root definitions locked in the light
+     values — dark mode was rendering .cs-quote p, accordion titles,
+     TOC links etc. in light-mode ink on the dark background. */
+  --color-text-1:    var(--color-ink);
+  --color-text-2:    var(--color-mute);
+  --color-text-3:    var(--color-quiet);
+  --color-border:    var(--color-line);
 }

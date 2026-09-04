@@ -37,6 +37,10 @@
   <link rel="stylesheet" href="site.css" />
 </head>
 <body>
+  <!-- theme before first paint: site.js re-applies this at the end of
+       the body, which flashed the light theme on every load for
+       dark-mode visitors -->
+  <script>if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark');</script>
 
   <div class="page page--case-study">
 

@@ -124,7 +124,9 @@
       letter-spacing: 0.08em;
       text-transform: uppercase;
       font-weight: 500;
-      color: var(--color-quiet);
+      /* mute, not quiet — quiet is ~2.2:1 against the page in both
+         themes, too faint for the year labels */
+      color: var(--color-mute);
       padding-top: 8px;
     }
     .t-body { display: flex; flex-direction: column; gap: 6px; }
@@ -232,6 +234,10 @@
   </style>
 </head>
 <body>
+  <!-- theme before first paint: site.js re-applies this at the end of
+       the body, which flashed the light theme on every load for
+       dark-mode visitors -->
+  <script>if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark');</script>
 
   <div class="page">
 

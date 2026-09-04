@@ -36,6 +36,10 @@
   <link rel="stylesheet" href="site.css" />
 </head>
 <body>
+  <!-- theme before first paint: site.js re-applies this at the end of
+       the body, which flashed the light theme on every load for
+       dark-mode visitors -->
+  <script>if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark');</script>
 
   <div class="page page--case-study">
 
@@ -175,7 +179,7 @@
 
           <figure class="cs-figure cs-figure--small">
             <div class="cs-figure-img">
-              <img loading="lazy" src="images/case-study-2/wireframe-flows/wireframe-flow-1.png.png" alt="Flow 1, guided and linear">
+              <img loading="lazy" src="images/case-study-2/wireframe-flows/wireframe-flow-1.png" alt="Flow 1, guided and linear">
             </div>
             <figcaption>Flow 1, guided and linear. One question per screen, completed at clock out.</figcaption>
           </figure>
@@ -187,7 +191,7 @@
 
           <figure class="cs-figure cs-figure--small">
             <div class="cs-figure-img">
-              <img loading="lazy" src="images/case-study-2/wireframe-flows/wireframe-flow-2.png.png" alt="Flow 2, the chosen direction">
+              <img loading="lazy" src="images/case-study-2/wireframe-flows/wireframe-flow-2.png" alt="Flow 2, the chosen direction">
             </div>
             <figcaption>Flow 2, the chosen direction. One document, addable throughout the shift.</figcaption>
           </figure>

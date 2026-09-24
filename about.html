@@ -116,6 +116,25 @@
       border-bottom: 0.5px solid var(--color-line);
       align-items: start;
       transition: padding-left 0.5s var(--ease-out);
+      /* arriving from a work card's "See more": clear the sticky meta
+         column (top: 100px) so the row isn't jammed under it */
+      scroll-margin-top: 132px;
+    }
+    /* and mark which row was asked for — the deck sends you to one entry
+       in a list of four, so it has to be findable at a glance. The tint
+       fades out on its own; the rule stays until focus moves on. */
+    .t-row:target {
+      animation: t-row-found 2.4s var(--ease-out) 1;
+    }
+    .t-row:target .t-year,
+    .t-row:target .t-role { color: var(--color-ink); }
+    @keyframes t-row-found {
+      0%   { background: var(--color-bg-2); }
+      60%  { background: var(--color-bg-2); }
+      100% { background: transparent; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .t-row:target { animation: none; background: var(--color-bg-2); }
     }
     .t-row:last-child { border-bottom: none; }
     .t-row:hover { padding-left: 6px; }
@@ -156,6 +175,41 @@
       line-height: 1.6;
       max-width: 540px;
       margin-top: 8px;
+    }
+    /* out to the school's own page for the degree, same link the
+       matching card on the homepage carries. Quiet until hovered,
+       borrowing the CTA's widening gap so the arrow steps away. */
+    .t-link {
+      display: inline-flex;
+      align-items: center;
+      align-self: flex-start;
+      gap: 8px;
+      margin-top: 14px;
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      color: var(--color-mute);
+      padding-bottom: 4px;
+      border-bottom: 0.5px solid var(--color-line);
+      transition: color 0.2s var(--ease-out),
+                  border-color 0.2s var(--ease-out),
+                  gap 0.4s var(--ease-out);
+    }
+    .t-link:hover {
+      color: var(--color-ink);
+      border-color: var(--color-ink);
+      gap: 14px;
+    }
+    .t-link svg {
+      width: 12px; height: 12px;
+      flex-shrink: 0;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
     /* little box that fills with the section's category colour on hover */
     .t-arrow {
@@ -300,7 +354,25 @@
       </div>
 
       <ol class="timeline">
-        <li class="t-row reveal" data-delay="1">
+        <li class="t-row reveal" id="work-athme" data-delay="1">
+          <span class="t-year">2026 — Present</span>
+          <div class="t-body">
+            <h3 class="t-role">UX/UI Designer</h3>
+            <span class="t-place"><em class="name-em">athme</em> · Remote</span>
+            <p class="t-note">Leading the redesign of athme, a mobile app for finding
+            and organising real world sports activities, to bring the product in line
+            with the brand. Restructuring the information architecture and owning the
+            design system. Working in a cross functional product team, taking design
+            from research through to developer handoff.</p>
+            <a class="t-link" href="https://www.athmeapp.eu/" target="_blank" rel="noopener">
+              Visit the site
+              <svg viewBox="0 0 24 24"><path d="M5 19L19 5M9 5h10v10"/></svg>
+            </a>
+          </div>
+          <span class="t-arrow"></span>
+        </li>
+
+        <li class="t-row reveal" id="work-hot-tickets" data-delay="2">
           <span class="t-year">2022 — 2025</span>
           <div class="t-body">
             <h3 class="t-role">Founder &amp; Lead Designer</h3>
@@ -314,7 +386,7 @@
           <span class="t-arrow"></span>
         </li>
 
-        <li class="t-row reveal" data-delay="2">
+        <li class="t-row reveal" id="work-datera" data-delay="3">
           <span class="t-year">2024 — 2025</span>
           <div class="t-body">
             <h3 class="t-role">Digital Marketing Specialist</h3>
@@ -322,11 +394,15 @@
             <p class="t-note">Planned and managed Google, Meta and SEO for clients across
             multiple industries. Monitored performance, analysed data and optimised
             for both Icelandic and international markets.</p>
+            <a class="t-link" href="https://datera.is/" target="_blank" rel="noopener">
+              Visit the site
+              <svg viewBox="0 0 24 24"><path d="M5 19L19 5M9 5h10v10"/></svg>
+            </a>
           </div>
           <span class="t-arrow"></span>
         </li>
 
-        <li class="t-row reveal" data-delay="3">
+        <li class="t-row reveal" id="work-birtingahusid" data-delay="4">
           <span class="t-year">2017 — 2021</span>
           <div class="t-body">
             <h3 class="t-role">Digital Marketing Specialist</h3>
@@ -335,6 +411,10 @@
             department, building workflows and improving the business model.
             Monitored and optimised online advertising across domestic and
             international platforms.</p>
+            <a class="t-link" href="https://www.birtingahusid.is/" target="_blank" rel="noopener">
+              Visit the site
+              <svg viewBox="0 0 24 24"><path d="M5 19L19 5M9 5h10v10"/></svg>
+            </a>
           </div>
           <span class="t-arrow"></span>
         </li>
@@ -356,6 +436,10 @@
             <h3 class="t-role">UX Design</h3>
             <span class="t-place"><em class="name-em">Hyper Island</em></span>
             <p class="t-note">Industry-taught, project-based programme. Covered user research, prototyping, design systems, UI, data analytics and UX ethics. Most coursework done in collaboration with real companies.</p>
+            <a class="t-link" href="https://hyperisland.com/en/programs/yh-courses/ux-design" target="_blank" rel="noopener">
+              About the programme
+              <svg viewBox="0 0 24 24"><path d="M5 19L19 5M9 5h10v10"/></svg>
+            </a>
           </div>
           <span class="t-arrow"></span>
         </li>
@@ -366,6 +450,10 @@
             <h3 class="t-role">MSc in Marketing</h3>
             <span class="t-place"><em class="name-em">University of Reykjavík</em></span>
             <p class="t-note">Consumer behaviour, brand strategy and data.</p>
+            <a class="t-link" href="https://www.ru.is/en/departments/dbe/markadsfraedi" target="_blank" rel="noopener">
+              About the degree
+              <svg viewBox="0 0 24 24"><path d="M5 19L19 5M9 5h10v10"/></svg>
+            </a>
           </div>
           <span class="t-arrow"></span>
         </li>
@@ -376,6 +464,10 @@
             <h3 class="t-role">BSc Business Administration &amp; Computer Science</h3>
             <span class="t-place"><em class="name-em">University of Reykjavík</em></span>
             <p class="t-note">Business with a technical edge. Named to the Dean's List, spring 2015.</p>
+            <a class="t-link" href="https://www.ru.is/en/departments/dbe/vidskiptafraedi-med-tolvunarfraedi-bsc" target="_blank" rel="noopener">
+              About the degree
+              <svg viewBox="0 0 24 24"><path d="M5 19L19 5M9 5h10v10"/></svg>
+            </a>
           </div>
           <span class="t-arrow"></span>
         </li>

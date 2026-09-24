@@ -132,39 +132,66 @@ function toggleAccordion(btn) {
   var buttons = document.querySelectorAll('[data-copy]');
   if (!buttons.length) return;
 
-  function write(text) {
-    /* the async API needs a secure context; fall back to a throwaway
-       textarea so this still works over plain http and in older browsers */
-    if (navigator.clipboard && window.isSecureContext) {
-      return navigator.clipboard.writeText(text);
-    }
-    return new Promise(function (resolve, reject) {
-      var ta = document.createElement('textarea');
-      ta.value = text;
-      ta.setAttribute('readonly', '');
-      ta.style.cssText = 'position:absolute;left:-9999px;top:0;';
-      document.body.appendChild(ta);
-      ta.select();
-      var ok = false;
-      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
-      document.body.removeChild(ta);
-      ok ? resolve() : reject();
-    });
+  /* Synchronous copy, tried FIRST rather than kept as a fallback. It
+     runs inside the click's user gesture and needs no permission, so it
+     works in contexts that refuse the async API outright (embedded and
+     in-app browsers commonly deny clipboard-write). Going the other way
+     round doesn't work: by the time a rejected writeText() settles, the
+     gesture is spent and execCommand is refused too. */
+  function copySync(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:1px;padding:0;border:0;opacity:0;';
+    document.body.appendChild(ta);
+    var sel = window.getSelection();
+    var prev = sel && sel.rangeCount ? sel.getRangeAt(0) : null;
+    ta.select();
+    try { ta.setSelectionRange(0, text.length); } catch (e) {}   /* iOS needs this */
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    document.body.removeChild(ta);
+    /* put the visitor's own selection back */
+    if (sel) { sel.removeAllRanges(); if (prev) sel.addRange(prev); }
+    return ok;
+  }
+
+  function selectNode(node) {
+    var sel = window.getSelection();
+    if (!sel) return;
+    var range = document.createRange();
+    range.selectNodeContents(node);
+    sel.removeAllRanges();
+    sel.addRange(range);
   }
 
   buttons.forEach(function (btn) {
+    var label  = btn.querySelector('[data-copy-text]') || btn;
     var status = btn.parentNode.querySelector('[role="status"]');
     var timer;
+
     btn.addEventListener('click', function () {
-      write(btn.dataset.copy).then(function () {
-        say('Copied to clipboard', true);
-      }, function () {
-        /* nothing was copied — say so rather than showing a false tick,
-           and leave the address on screen to be selected by hand */
-        say('Press ' + (/Mac|iP(hone|ad)/.test(navigator.platform) ? '⌘' : 'Ctrl') + '+C to copy', false);
-      });
+      var text = btn.dataset.copy;
+      if (copySync(text)) { report('Copied to clipboard', true); return; }
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(function () {
+          report('Copied to clipboard', true);
+        }, giveUp);
+      } else {
+        giveUp();
+      }
     });
-    function say(message, ok) {
+
+    function giveUp() {
+      /* Nothing could be written, so select the address before naming the
+         shortcut — telling someone to press Cmd+C with nothing selected
+         is worse than saying nothing at all. */
+      selectNode(label);
+      var mac = /Mac|iP(hone|ad|od)/.test(navigator.platform || navigator.userAgent);
+      report('Selected — press ' + (mac ? '\u2318' : 'Ctrl') + '+C to copy', false);
+    }
+
+    function report(message, ok) {
       clearTimeout(timer);
       btn.classList.toggle('copied', ok);
       if (status) {
@@ -174,7 +201,7 @@ function toggleAccordion(btn) {
       timer = setTimeout(function () {
         btn.classList.remove('copied');
         if (status) { status.classList.remove('on'); status.textContent = ''; }
-      }, 2400);
+      }, 2600);
     }
   });
 })();

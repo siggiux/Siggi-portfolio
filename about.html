@@ -284,20 +284,23 @@
     .cta-copy.copied .cta-ico--copy { opacity: 0; }
     .cta-copy.copied .cta-ico--done { opacity: 1; }
 
-    /* the mail block owns its own stacking context so the confirmation
-       can sit under the rule without pushing the row's layout around */
-    .cta-mail { position: relative; }
+    /* The confirmation sits in the flow, with its line always reserved:
+       absolutely positioned it overlapped the phone number as soon as
+       .cta-actions wrapped, and reserving the space means showing it
+       can't shift the row either. */
+    .cta-mail {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
     .cta-copy-status {
-      position: absolute;
-      top: 100%;
-      left: 0;
       margin-top: 12px;
+      min-height: 1.3em;
       font-size: var(--text-sm);
       color: var(--color-mute);
       opacity: 0;
       transition: opacity 0.2s var(--ease-out);
       pointer-events: none;
-      white-space: nowrap;
     }
     .cta-copy-status.on { opacity: 1; }
 
@@ -541,7 +544,7 @@
       <div class="cta-actions reveal" data-delay="2">
         <div class="cta-mail">
           <button type="button" class="cta-primary cta-copy" data-copy="sigurdurgudmundsson1@gmail.com" title="Copy email address">
-            <span>sigurdurgudmundsson1@gmail.com</span>
+            <span data-copy-text>sigurdurgudmundsson1@gmail.com</span>
             <span class="vh">, copy email address</span>
             <svg class="cta-ico cta-ico--copy" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M9 9h11v11H9z" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>

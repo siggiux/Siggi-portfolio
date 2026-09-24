@@ -123,3 +123,58 @@ function toggleAccordion(btn) {
   }, { rootMargin: '-20% 0px -70% 0px' });
   sections.forEach(function (s) { tocObserver.observe(s); });
 })();
+
+/* ── Copy to clipboard ── */
+(function () {
+  /* the contact address copies instead of opening a mail client — a
+     visitor on a machine with no mail app configured otherwise lands on
+     a dead link, and most people want the string, not a compose window */
+  var buttons = document.querySelectorAll('[data-copy]');
+  if (!buttons.length) return;
+
+  function write(text) {
+    /* the async API needs a secure context; fall back to a throwaway
+       textarea so this still works over plain http and in older browsers */
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text);
+    }
+    return new Promise(function (resolve, reject) {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:absolute;left:-9999px;top:0;';
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      document.body.removeChild(ta);
+      ok ? resolve() : reject();
+    });
+  }
+
+  buttons.forEach(function (btn) {
+    var status = btn.parentNode.querySelector('[role="status"]');
+    var timer;
+    btn.addEventListener('click', function () {
+      write(btn.dataset.copy).then(function () {
+        say('Copied to clipboard', true);
+      }, function () {
+        /* nothing was copied — say so rather than showing a false tick,
+           and leave the address on screen to be selected by hand */
+        say('Press ' + (/Mac|iP(hone|ad)/.test(navigator.platform) ? '⌘' : 'Ctrl') + '+C to copy', false);
+      });
+    });
+    function say(message, ok) {
+      clearTimeout(timer);
+      btn.classList.toggle('copied', ok);
+      if (status) {
+        status.textContent = message;
+        status.classList.add('on');
+      }
+      timer = setTimeout(function () {
+        btn.classList.remove('copied');
+        if (status) { status.classList.remove('on'); status.textContent = ''; }
+      }, 2400);
+    }
+  });
+})();
